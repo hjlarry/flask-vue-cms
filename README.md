@@ -7,6 +7,6 @@
 
 
 # Preview
-![效果图](https://github.com/hjlarry/flask-vue-cms/Screenshots/1.png)
-![效果图](https://github.com/hjlarry/flask-vue-cms/Screenshots/2.png)
-![效果图](https://github.com/hjlarry/flask-vue-cms/Screenshots/3.png)
+![效果图](https://github.com/hjlarry/flask-vue-cms/blob/master/Screenshots/1.png)
+![效果图](https://github.com/hjlarry/flask-vue-cms/blob/master/Screenshots/2.png)
+![效果图](https://github.com/hjlarry/flask-vue-cms/blob/master/Screenshots/3.png)
