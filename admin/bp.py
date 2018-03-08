@@ -6,6 +6,8 @@ import os
 
 from config import UPLOAD_FOLDER
 from utils import success, fail
+from models import OperationLog
+from ext import db
 
 admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
 
@@ -50,6 +52,16 @@ def verify_user(response):
     from .user import verify_token
     if request.path in ALLOWED_PATHS or request.method == 'OPTIONS':
         return response
-    elif 'Authorization' in request.headers and verify_token(request.headers['Authorization']):
-        return response
+    elif 'Authorization' in request.headers:
+        data = verify_token(request.headers['Authorization'])
+        if data:
+            add_operation_log(data, request)
+            return response
     return fail(200, 50014).to_response()
+
+
+def add_operation_log(data, request):
+    log = OperationLog(user_id=data['user_id'], path=request.full_path,
+                       ip=request.remote_addr, method=request.method, input=request.get_json())
+    db.session.add(log)
+    db.session.commit()

@@ -2,10 +2,9 @@ from flask import json
 from werkzeug.wrappers import Response
 import psutil
 import time
-import socket
 import netifaces
 import os
-from collections import namedtuple
+
 
 
 class ApiResult(object):

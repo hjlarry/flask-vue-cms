@@ -74,7 +74,7 @@ class BaseModel(db.Model):
 class Article(BaseModel):
     __tablename__ = 'articles'
     title = db.Column('title', db.String)
-    content = db.Column('content', db.String)
+    content = db.Column('content', db.Text)
     thumb_pic = db.Column('thumb_pic', db.String)
     order = db.Column('order', db.Integer)
     module_id = db.Column('module_id', db.Integer, db.ForeignKey('modules.id'))
@@ -110,6 +110,7 @@ class Admin(BaseModel):
     password = db.Column('password', db.String)
     name = db.Column('name', db.String)
     avatar = db.Column('avatar', db.String)
+    operations = db.relationship('OperationLog', backref='admin', lazy='dynamic')
     default_json_fields = ['id', 'username', 'name', 'avatar', 'updated_at']
 
     def generate_password(self, password):
@@ -117,4 +118,13 @@ class Admin(BaseModel):
 
     def verify_password(self, password):
         return check_password_hash(self.password, password)
+
+
+class OperationLog(BaseModel):
+    __tablename__ = 'admin_operation_log'
+    user_id = db.Column('user_id', db.Integer, db.ForeignKey('admin_users.id'))
+    path = db.Column('path', db.String)
+    method = db.Column('method', db.String(15))
+    ip = db.Column('ip', db.String(15))
+    input = db.Column('input', db.JSON)
 

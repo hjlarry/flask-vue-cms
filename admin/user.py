@@ -7,13 +7,13 @@ from .bp import admin_bp, allowed_file, secure_filename, CH_REGEX
 from models import Admin
 from utils import success, fail
 from redis_db import cache
-from config import EXPIRE_TIME, UPLOAD_FOLDER, SITE_URL
+from config import EXPIRE_TIME, UPLOAD_FOLDER
 from ext import db
 
 
-def generate_token(username):
+def generate_token(user_id):
     serializer = Serializer(current_app.config['SECRET_KEY'])
-    return serializer.dumps({'username': username})
+    return serializer.dumps({'user_id': user_id})
 
 
 def verify_token(token):
@@ -22,8 +22,8 @@ def verify_token(token):
         data = serializer.loads(token)
     except:
         return False
-    if 'username' in data and cache.get(data['username']):
-        cache.expire(data['username'], EXPIRE_TIME)
+    if 'user_id' in data and cache.get(data['user_id']):
+        cache.expire(data['user_id'], EXPIRE_TIME)
         return data
     return False
 
@@ -36,11 +36,11 @@ def login():
         return fail(401)
     user = Admin.query.filter_by(username=data['username']).first()
     if user and user.verify_password(data['password']):
-        token = generate_token(data['username']).decode()
+        token = generate_token(user.id).decode()
         res = {'data':
                    {'token': token}}
-        cache.set(data['username'], token)
-        cache.expire(data['username'], EXPIRE_TIME)
+        cache.set(user.id, token)
+        cache.expire(user.id, EXPIRE_TIME)
         return success(res)
     return fail(401)
 
@@ -48,7 +48,7 @@ def login():
 @admin_bp.route('/logout', methods=['POST'])
 def logout():
     data = verify_token(request.headers['Authorization'])
-    cache.delete(data['username'])
+    cache.delete(data['user_id'])
     return success()
 
 
@@ -56,9 +56,8 @@ def logout():
 def info():
     token = request.args.get('token')
     data = verify_token(token)
-    try:
-        user = Admin.query.filter_by(username=data['username']).first()
-    except:
+    user = Admin.query.get_or_404(data['user_id'])
+    if not user:
         return fail(401)
     res = {
         'data':{
