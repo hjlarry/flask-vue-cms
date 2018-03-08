@@ -49,6 +49,11 @@ def upload():
 
 @admin_bp.after_request
 def verify_user(response):
+    """
+    对这个蓝图下的请求进行权限验证，同时增加操作日志
+    :param response:  Flask Response Object
+    :return: response
+    """
     from .user import verify_token
     if request.path in ALLOWED_PATHS or request.method == 'OPTIONS':
         return response

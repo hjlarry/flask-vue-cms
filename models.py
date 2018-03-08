@@ -87,9 +87,7 @@ class Article(BaseModel):
 
     @hybrid_property
     def module_name(self):
-        if self.module:
-            return str(self.module)
-        return ''
+        return str(self.module) if self.module else ''
 
 
 class Module(BaseModel):
@@ -119,6 +117,9 @@ class Admin(BaseModel):
     def verify_password(self, password):
         return check_password_hash(self.password, password)
 
+    def __repr__(self):
+        return self.name
+
 
 class OperationLog(BaseModel):
     __tablename__ = 'admin_operation_log'
@@ -127,4 +128,13 @@ class OperationLog(BaseModel):
     method = db.Column('method', db.String(15))
     ip = db.Column('ip', db.String(15))
     input = db.Column('input', db.JSON)
+    default_json_fields = ['id', 'user', 'path', 'method', 'ip', 'input_summary', 'created_at']
+
+    @hybrid_property
+    def user(self):
+        return str(self.admin) if self.admin else ''
+
+    @hybrid_property
+    def input_summary(self):
+        return str(self.input)[:300] if self.input else ''
 

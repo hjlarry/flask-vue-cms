@@ -17,6 +17,11 @@ def generate_token(user_id):
 
 
 def verify_token(token):
+    """
+    解析出token以后看看redis里有没有，没有则需要再次登录，有则延长token在redis中的有效期
+    :param token:  str
+    :return:  解析出的dict if true else return False
+    """
     serializer = Serializer(current_app.config['SECRET_KEY'])
     try:
         data = serializer.loads(token)
@@ -30,6 +35,10 @@ def verify_token(token):
 
 @admin_bp.route('/login', methods=['POST'])
 def login():
+    """
+    登录验证成功后生成一个token存在redis中，设置了有效期，并返回
+    :return: Flask Response
+    """
     try:
         data = json.loads(request.data)
     except:
