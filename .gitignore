@@ -103,3 +103,18 @@ ENV/
 
 .DS_Store
 .idea
+
+admin_vue/node_modules/
+admin_vue/dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
