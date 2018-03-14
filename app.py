@@ -1,7 +1,7 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, Response
 from flask_sqlalchemy import get_debug_queries
 
-from ext import db
+from ext import db, swagger
 from utils import ApiResult, ApiException
 from api import api_bp
 from admin import admin_bp
@@ -10,7 +10,7 @@ import config
 
 
 class ApiFlask(Flask):
-    def make_response(self, rv):
+    def make_response(self, rv: dict or ApiResult) -> Response:
         if isinstance(rv, dict):
             if 'code' not in rv:
                 rv['code'] = 0
@@ -26,6 +26,7 @@ def create_app():
     app.config.from_object(config)
 
     db.init_app(app)
+    swagger.init_app(app)
     app.register_blueprint(api_bp)
     app.register_blueprint(admin_bp)
 
@@ -46,7 +47,7 @@ def after_request(response):
     for query in get_debug_queries():
         if query.duration > config.DATABASE_QUERY_TIMEOUT:
             app.logger.warning('SLOW QUERY: {}\nParameters: {}\nDuration: {}\nContext: {}\n'
-                .format(query.statement, query.parameters, query.duration, query.context))
+                               .format(query.statement, query.parameters, query.duration, query.context))
     return response
 
 
@@ -73,6 +74,8 @@ def error_handler(error):
 def index():
     return render_template('index.html')
 
+
+app.add_url_rule('/favicon.ico', 'favicon', lambda: app.send_static_file('favicon.ico'))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8100, debug=app.debug)

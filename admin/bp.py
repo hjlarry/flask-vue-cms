@@ -11,7 +11,6 @@ from ext import db
 
 admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
 
-
 CH_REGEX = re.compile(r'[\u4e00-\u9fff]+')
 ALLOWED_EXTENSIONS = frozenset(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 ALLOWED_PATHS = frozenset(['/admin/login', '/admin/info'])
@@ -23,6 +22,30 @@ def allowed_file(filename):
 
 @admin_bp.route('/upload', methods=['POST'])
 def upload():
+    """上传文件
+    ---
+    tags:
+    - 资讯
+    security:
+    - api_key: []
+    responses:
+      200:
+        description: 获取成功
+        schema:
+          type: object
+          properties:
+            code:
+                type: int
+            data:
+                type: array
+                $ref: '#/definitions/Module'
+            message:
+                type: string
+        examples:
+          code: 0
+          data: [{}, {}]
+          message: 'success'
+    """
     file = request.files['file']
     if file:
         now = time.time()
@@ -38,11 +61,11 @@ def upload():
         file.save(filepath)
 
         res = {'data':
-                   {
-                       'filename': filename,
-                        'fileurl': filepath
-                    }
-               }
+            {
+                'filename': filename,
+                'fileurl': filepath
+            }
+        }
         return success(res)
     return fail(400)
 

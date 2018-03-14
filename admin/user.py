@@ -35,9 +35,28 @@ def verify_token(token):
 
 @admin_bp.route('/login', methods=['POST'])
 def login():
-    """
-    登录验证成功后生成一个token存在redis中，设置了有效期，并返回
-    :return: Flask Response
+    """帐密登录
+    ---
+    tags:
+    - 登录
+    parameters:
+    - in: body
+      name: body
+      required: true
+      schema:
+        $ref: '#/parameters/user_login'
+    responses:
+      200:
+        examples:
+          code: 0
+          data: {'token': 'abcdefgh'}
+          message: 'success'
+      401:
+        examples:
+          code: 1
+          message: 'fail'
+    # 登录验证成功后生成一个token存在redis中，设置了有效期，并返回
+    # :return: Flask Response
     """
     try:
         data = json.loads(request.data)
@@ -56,6 +75,27 @@ def login():
 
 @admin_bp.route('/logout', methods=['POST'])
 def logout():
+    """登出
+    ---
+    tags:
+    - 登录
+    parameters:
+    - in: body
+      name: body
+      required: true
+      schema:
+        $ref: '#/parameters/user_login'
+    responses:
+      200:
+        examples:
+          code: 0
+          data: {'token': 'abcdefgh'}
+          message: 'success'
+      401:
+        examples:
+          code: 1
+          message: 'fail'
+    """
     data = verify_token(request.headers['Authorization'])
     cache.delete(data['user_id'])
     return success()
@@ -63,13 +103,37 @@ def logout():
 
 @admin_bp.route('/info')
 def info():
+    """获取用户信息
+    ---
+    tags:
+    - 用户
+    responses:
+      200:
+        description: 获取成功
+        schema:
+          type: object
+          properties:
+            code:
+                type: int
+            data:
+                type: array
+                $ref: '#/definitions/Module'
+            message:
+                type: string
+        examples:
+          code: 0
+          data: [{}, {}]
+          message: 'success'
+    """
     token = request.args.get('token')
     data = verify_token(token)
+    if not data:
+        return fail(401)
     user = Admin.query.get_or_404(data['user_id'])
     if not user:
         return fail(401)
     res = {
-        'data':{
+        'data': {
             'name': user.name,
             'avatar': user.avatar
         }
@@ -79,6 +143,30 @@ def info():
 
 @admin_bp.route('/user')
 def users():
+    """获取用户列表
+    ---
+    tags:
+    - 用户
+    security:
+    - api_key: []
+    responses:
+      200:
+        description: 获取成功
+        schema:
+          type: object
+          properties:
+            code:
+                type: int
+            data:
+                type: array
+                $ref: '#/definitions/Module'
+            message:
+                type: string
+        examples:
+          code: 0
+          data: [{}, {}]
+          message: 'success'
+    """
     current_page = request.args.get('page') or 1
     per_page = request.args.get('limit') or 10
     pagination = Admin.query.paginate(int(current_page), per_page=int(per_page))
@@ -100,6 +188,30 @@ def users():
 
 @admin_bp.route('/user/<int:id>')
 def get_user(id):
+    """获取单个用户
+    ---
+    tags:
+    - 用户
+    security:
+    - api_key: []
+    responses:
+      200:
+        description: 获取成功
+        schema:
+          type: object
+          properties:
+            code:
+                type: int
+            data:
+                type: array
+                $ref: '#/definitions/Module'
+            message:
+                type: string
+        examples:
+          code: 0
+          data: [{}, {}]
+          message: 'success'
+    """
     user = Admin.query.get_or_404(id)
     res = {
         'data': user.to_json()
@@ -109,6 +221,30 @@ def get_user(id):
 
 @admin_bp.route('/user/create', methods=['POST'])
 def create_user():
+    """创建用户
+    ---
+    tags:
+    - 用户
+    security:
+    - api_key: []
+    responses:
+      200:
+        description: 获取成功
+        schema:
+          type: object
+          properties:
+            code:
+                type: int
+            data:
+                type: array
+                $ref: '#/definitions/Module'
+            message:
+                type: string
+        examples:
+          code: 0
+          data: [{}, {}]
+          message: 'success'
+    """
     data = json.loads(request.data)
     user = Admin(username=data['username'], name=data['name'], avatar=data['avatar'])
     user.generate_password(data['password'])
@@ -119,10 +255,34 @@ def create_user():
 
 @admin_bp.route('/user/edit', methods=['POST'])
 def edit_user():
+    """编辑用户
+    ---
+    tags:
+    - 用户
+    security:
+    - api_key: []
+    responses:
+      200:
+        description: 获取成功
+        schema:
+          type: object
+          properties:
+            code:
+                type: int
+            data:
+                type: array
+                $ref: '#/definitions/Module'
+            message:
+                type: string
+        examples:
+          code: 0
+          data: [{}, {}]
+          message: 'success'
+    """
     data = json.loads(request.data)
     user = Admin.query.get_or_404(data['id'])
-    user.name=data['name']
-    user.avatar=data['avatar']
+    user.name = data['name']
+    user.avatar = data['avatar']
     if data['password']:
         user.generate_password(data['password'])
     db.session.add(user)
@@ -132,6 +292,30 @@ def edit_user():
 
 @admin_bp.route('/user/delete', methods=['POST'])
 def delete_user():
+    """删除用户
+    ---
+    tags:
+    - 用户
+    security:
+    - api_key: []
+    responses:
+      200:
+        description: 获取成功
+        schema:
+          type: object
+          properties:
+            code:
+                type: int
+            data:
+                type: array
+                $ref: '#/definitions/Module'
+            message:
+                type: string
+        examples:
+          code: 0
+          data: [{}, {}]
+          message: 'success'
+    """
     data = json.loads(request.data)
     user = Admin.query.get_or_404(data['id'])
     if user:
@@ -143,6 +327,30 @@ def delete_user():
 
 @admin_bp.route('/upload_avatar', methods=['POST'])
 def upload_avatar():
+    """上传头像
+    ---
+    tags:
+    - 用户
+    security:
+    - api_key: []
+    responses:
+      200:
+        description: 获取成功
+        schema:
+          type: object
+          properties:
+            code:
+                type: int
+            data:
+                type: array
+                $ref: '#/definitions/Module'
+            message:
+                type: string
+        examples:
+          code: 0
+          data: [{}, {}]
+          message: 'success'
+    """
     file = request.files['avatar']
     if file:
         now = time.time()
@@ -156,10 +364,10 @@ def upload_avatar():
         file.save(filepath)
 
         res = {'data':
-                   {
-                       'filename': filename,
-                        'fileurl': filepath
-                    }
-               }
+            {
+                'filename': filename,
+                'fileurl': filepath
+            }
+        }
         return success(res)
     return fail(400)

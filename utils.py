@@ -1,18 +1,18 @@
 from flask import json
 from werkzeug.wrappers import Response
+from collections import OrderedDict
 import psutil
 import time
 import netifaces
 import os
 
 
-
 class ApiResult(object):
-    def __init__(self, value, status=200):
+    def __init__(self, value: dict, status: int = 200):
         self.value = value
         self.status = status
 
-    def to_response(self):
+    def to_response(self) -> Response:
         return Response(json.dumps(self.value), status=self.status, mimetype='application/json')
 
 
@@ -26,7 +26,7 @@ class ApiException(Exception):
         return ApiResult(value, self.status)
 
 
-def success(res=None, status=200):
+def success(res: dict = None, status: int = 200) -> ApiResult:
     res = res or {}
     dct = {
         'message': 'success',
@@ -34,10 +34,16 @@ def success(res=None, status=200):
     }
     if isinstance(res, dict):
         dct.update(res)
+    # elif isinstance(res, bytes):
+    #
+    #     a = res.decode()
+    #     b = json.loads(a)
+    #     print(b)
+    #     dct.update(b)
     return ApiResult(dct, status)
 
 
-def fail(status=400, code=1):
+def fail(status: int = 400, code: int = 1) -> ApiResult:
     dct = {
         'message': 'fail',
         'code': code
@@ -45,11 +51,11 @@ def fail(status=400, code=1):
     return ApiResult(dct, status)
 
 
-def get_cpu():
+def get_cpu() -> OrderedDict:
     return psutil.cpu_times_percent(0)._asdict()
 
 
-def get_sysinfo():
+def get_sysinfo() -> dict:
     sysinfo = {
         'boot_time': time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(psutil.boot_time())),
         'load_avg(1m ago)': round(os.getloadavg()[0], 2),
@@ -60,11 +66,11 @@ def get_sysinfo():
     return sysinfo
 
 
-def get_memory():
+def get_memory() -> OrderedDict:
     return psutil.virtual_memory()._asdict()
 
 
-def get_network():
+def get_network() -> list:
     result = list()
     for key, value in psutil.net_if_addrs().items():
         for v in value:
@@ -75,7 +81,7 @@ def get_network():
     return result
 
 
-def get_disk(all_partitions=False):
+def get_disk(all_partitions=False) -> list:
     disks = []
     for dp in psutil.disk_partitions(all_partitions):
         usage = psutil.disk_usage(dp.mountpoint)
@@ -93,7 +99,8 @@ def get_disk(all_partitions=False):
 
     return disks
 
-def get_user():
+
+def get_user() -> list:
     result = list()
     for u in psutil.users():
         item = u._asdict()

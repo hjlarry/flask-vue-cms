@@ -6,7 +6,6 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 
 class BaseModel(db.Model):
-
     __abstract__ = True
 
     id = db.Column('id', db.Integer, primary_key=True)
@@ -115,7 +114,11 @@ class Admin(BaseModel):
         self.password = generate_password_hash(password)
 
     def verify_password(self, password):
-        return check_password_hash(self.password, password)
+        try:
+            result = check_password_hash(self.password, password)
+        except:
+            return False
+        return result
 
     def __repr__(self):
         return self.name
@@ -137,4 +140,3 @@ class OperationLog(BaseModel):
     @hybrid_property
     def input_summary(self):
         return str(self.input)[:300] if self.input else ''
-

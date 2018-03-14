@@ -1,0 +1,114 @@
+swagger: "2.0"
+info:
+  description: "这是一个简单的swagger编辑的API文档"
+  version: "1.0.0"
+  title: "Flask-vue-cms"
+  license:
+    name: "MIT"
+host: "localhost:8100"
+tags:
+- name: "登录"
+  description: "用于管理后台登录"
+- name: "用户"
+  description: "管理后台用户相关"
+- name: "资讯"
+  description: "后台资讯的增删改查"
+- name: "系统"
+  description: "系统信息处理"
+- name: "前台API"
+  description: "用于前台内容呈现"
+
+schemes:
+- "http"
+securityDefinitions:
+  api_key:
+    type: "apiKey"
+    name: "Authorization"
+    in: "header"
+
+definitions:
+  ApiResponse:
+    type: "object"
+    properties:
+      code:
+        type: "int"
+      message:
+        type: "string"
+  Module:
+    type: "object"
+    properties:
+      id:
+        type: "int"
+      order:
+        type: "int"
+      template_id:
+        type: "string"
+      title:
+        type: "string"
+      child:
+        type: "array"
+        items:
+          $ref: "#/definitions/Article"
+  Article:
+    type: "object"
+    properties:
+      id:
+        type: "int"
+      module_id:
+        type: "int"
+      module_name:
+        type: "string"
+      order:
+        type: "int"
+      summary:
+        type: "string"
+      thumb_pic:
+        type: "string"
+      title:
+        type: "string"
+      updated_at:
+        type: "string"
+        format: "2012-12-20 00:00:00"
+
+parameters:
+  current_page:
+    name: "page"
+    in: "query"
+    type: "int"
+    default: 1
+    description: "当前页"
+  search_word:
+    name: "word"
+    in: "path"
+    type: "string"
+    required: true
+    default: "热词"
+    description: "要搜索的关键词"
+  item_limit:
+    name: "limit"
+    in: "path"
+    type: "int"
+    default: 10
+    description: "要获取的item数量"
+  module_id:
+    name: "module"
+    in: "path"
+    type: "string"
+    enum:
+    - "all"
+    - "1"
+    - "2"
+    - "3"
+    description: "要获取哪个模块的内容"
+  user_login:
+    type: "object"
+    required:
+    - "username"
+    - "password"
+    properties:
+      username:
+        type: "string"
+        example: "aaaaa"
+      password:
+        type: "string"
+        example: "bbbbb"

@@ -8,6 +8,30 @@ from ext import db
 
 @admin_bp.route('/sysinfo')
 def sysinfo():
+    """获取系统信息
+    ---
+    tags:
+    - 系统
+    security:
+    - api_key: []
+    responses:
+      200:
+        description: 获取成功
+        schema:
+          type: object
+          properties:
+            code:
+                type: int
+            data:
+                type: array
+                $ref: '#/definitions/Module'
+            message:
+                type: string
+        examples:
+          code: 0
+          data: [{}, {}]
+          message: 'success'
+    """
     res = {
         'data': {
             'cpu': get_cpu(),
@@ -22,6 +46,30 @@ def sysinfo():
 
 @admin_bp.route('/operation_log')
 def operation_logs():
+    """获取操作日志
+    ---
+    tags:
+    - 系统
+    security:
+    - api_key: []
+    responses:
+      200:
+        description: 获取成功
+        schema:
+          type: object
+          properties:
+            code:
+                type: int
+            data:
+                type: array
+                $ref: '#/definitions/Module'
+            message:
+                type: string
+        examples:
+          code: 0
+          data: [{}, {}]
+          message: 'success'
+    """
     current_page = request.args.get('page') or 1
     per_page = request.args.get('limit') or 10
     path = request.args.get('path')
@@ -51,6 +99,30 @@ def operation_logs():
 
 @admin_bp.route('/operation_log/delete', methods=['POST'])
 def delete_operation_log():
+    """删除操作日志
+    ---
+    tags:
+    - 系统
+    security:
+    - api_key: []
+    responses:
+      200:
+        description: 获取成功
+        schema:
+          type: object
+          properties:
+            code:
+                type: int
+            data:
+                type: array
+                $ref: '#/definitions/Module'
+            message:
+                type: string
+        examples:
+          code: 0
+          data: [{}, {}]
+          message: 'success'
+    """
     data = json.loads(request.data)
     try:
         for item in data:
