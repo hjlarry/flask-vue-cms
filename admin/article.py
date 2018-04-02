@@ -3,7 +3,6 @@ from flask import request, json
 from .bp import admin_bp
 from models import Article, Module
 from utils import success, fail
-from ext import db
 
 
 @admin_bp.route('/article')
@@ -127,8 +126,7 @@ def create_article():
     data['module_id'] = None if not isinstance(data['module_id'], int) else data['module_id']
     article = Article(title=data['title'], content=data['content'],
                       order=data['order'], module_id=data['module_id'], thumb_pic=data['thumb_pic'])
-    db.session.add(article)
-    db.session.commit()
+    article.save()
     return success()
 
 
@@ -153,13 +151,7 @@ def edit_article():
     data = json.loads(request.data)
     data['module_id'] = None if not isinstance(data['module_id'], int) else data['module_id']
     article = Article.query.get_or_404(data['id'])
-    article.title = data['title']
-    article.content = data['content']
-    article.order = data['order']
-    article.module_id = data['module_id']
-    article.thumb_pic = data['thumb_pic']
-    db.session.add(article)
-    db.session.commit()
+    article.update(**data)
     return success()
 
 
@@ -173,9 +165,7 @@ def delete_article():
     - api_key: []
     responses:
       200:
-        description: 首页模块列表
-        schema:
-          $ref: '#/definitions/ApiResponse'
+        description: 删除成功
         examples:
           code: 0
           data: [{}, {}]
@@ -184,7 +174,6 @@ def delete_article():
     data = json.loads(request.data)
     article = Article.query.get_or_404(data['id'])
     if article:
-        db.session.delete(article)
-        db.session.commit()
+        article.delete()
         return success()
     return fail(400)

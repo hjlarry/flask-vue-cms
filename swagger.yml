@@ -70,6 +70,30 @@ definitions:
         type: "string"
         format: "2012-12-20 00:00:00"
 
+  ExpressionOffical:
+    type: "object"
+    properties:
+      id:
+        type: "int"
+      name:
+        type: "string"
+      tel:
+        type: "string"
+      phone_model:
+        type: "string"
+      destination:
+        type: "string"
+      departure_time:
+        type: "string"
+        format: "2012-12-20"
+      return_time:
+        type: "string"
+        format: "2012-12-20"
+      airport:
+        type: "string"
+      terminal:
+        type: "string"
+
 parameters:
   current_page:
     name: "page"
@@ -112,3 +136,39 @@ parameters:
       password:
         type: "string"
         example: "bbbbb"
+  add_expression_offical:
+    type: "object"
+    required:
+    - "name"
+    - "tel"
+    - "phone_model"
+    - "destination"
+    - "departure_time"
+    - "return_time"
+    - "airport"
+    - "terminal"
+    properties:
+      name:
+        type: "string"
+        example: "张三"
+      tel:
+        type: "string"
+        example: "13713765653"
+      phone_model:
+        type: "string"
+        example: "iPhone X"
+      destination:
+        type: "string"
+        example: "泰国"
+      departure_time:
+        type: "string"
+        example: "2012-12-20"
+      return_time:
+        type: "string"
+        example: "2012-12-20"
+      airport:
+        type: "string"
+        example: "上海虹桥"
+      terminal:
+        type: "string"
+        example: "T1"

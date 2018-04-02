@@ -1,7 +1,7 @@
 from flask import Blueprint, request, json
 
 from utils import success, ApiResult
-from models import Article, Module
+from models import Article, Module, ExpressionOffical
 from redis_db import cache
 from config import EXPIRE_TIME
 
@@ -89,3 +89,31 @@ def search(word: str) -> ApiResult:
         }
     }
     return success(res)
+
+
+@api_bp.route('/expression_offical', methods=['POST'])
+def expression_offical_add() -> ApiResult:
+    """ 添加体验官
+        ---
+        tags:
+        - 前台API
+        parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/parameters/add_expression_offical'
+        responses:
+          200:
+            description: 添加成功
+            examples:
+              code: 0
+              message: 'success'
+        """
+    data = json.loads(request.data)
+    expression_offical = ExpressionOffical(name=data['name'], tel=data['tel'],
+                                           phone_model=data['phone_model'], destination=data['destination'],
+                                           departure_time=data['departure_time'], return_time=data['return_time'],
+                                           airport=data['airport'], terminal=data['terminal'])
+    expression_offical.save()
+    return success()

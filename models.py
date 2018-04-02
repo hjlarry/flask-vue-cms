@@ -4,13 +4,16 @@ from sqlalchemy.ext.hybrid import hybrid_property
 from datetime import datetime
 from werkzeug.security import check_password_hash, generate_password_hash
 
+Column = db.Column
+relationship = db.relationship
+
 
 class BaseModel(db.Model):
     __abstract__ = True
 
-    id = db.Column('id', db.Integer, primary_key=True)
-    _created_at = db.Column('created_at', db.DateTime, default=datetime.now)
-    _updated_at = db.Column('updated_at', db.DateTime, default=datetime.now, onupdate=datetime.now)
+    id = Column('id', db.Integer, primary_key=True)
+    _created_at = Column('created_at', db.DateTime, default=datetime.now)
+    _updated_at = Column('updated_at', db.DateTime, default=datetime.now, onupdate=datetime.now)
     default_json_fields = []
 
     @hybrid_property
@@ -69,14 +72,41 @@ class BaseModel(db.Model):
         items = cls.query.order_by(order)[:num]
         return items
 
+    @classmethod
+    def create(cls, **kwargs):
+        """Create a new record and save it the database."""
+        instance = cls(**kwargs)
+        return instance.save()
+
+    def update(self, commit=True, **kwargs):
+        """部分属性例如hybrid_property不能setattr。"""
+        for attr, value in kwargs.items():
+            try:
+                setattr(self, attr, value)
+            except:
+                pass
+        return commit and self.save() or self
+
+    def save(self, commit=True):
+        """Save the record."""
+        db.session.add(self)
+        if commit:
+            db.session.commit()
+        return self
+
+    def delete(self, commit=True):
+        """Remove the record from the database."""
+        db.session.delete(self)
+        return commit and db.session.commit()
+
 
 class Article(BaseModel):
     __tablename__ = 'articles'
-    title = db.Column('title', db.String)
-    content = db.Column('content', db.Text)
-    thumb_pic = db.Column('thumb_pic', db.String)
-    order = db.Column('order', db.Integer)
-    module_id = db.Column('module_id', db.Integer, db.ForeignKey('modules.id'))
+    title = Column('title', db.String)
+    content = Column('content', db.Text)
+    thumb_pic = Column('thumb_pic', db.String)
+    order = Column('order', db.Integer)
+    module_id = Column('module_id', db.Integer, db.ForeignKey('modules.id'))
 
     default_json_fields = ['title', 'order', 'id', 'thumb_pic', 'summary', 'updated_at', 'module_name', 'module_id']
 
@@ -91,10 +121,10 @@ class Article(BaseModel):
 
 class Module(BaseModel):
     __tablename__ = 'modules'
-    order = db.Column('order', db.Integer)
-    title = db.Column('title', db.String)
-    template_id = db.Column('template_id', db.Integer)
-    child = db.relationship('Article', backref='module', lazy='dynamic')
+    order = Column('order', db.Integer)
+    title = Column('title', db.String)
+    template_id = Column('template_id', db.Integer)
+    child = relationship('Article', backref='module', lazy='dynamic')
     default_json_fields = ['order', 'template_id', 'id', 'child', 'title']
 
     def __repr__(self):
@@ -103,11 +133,11 @@ class Module(BaseModel):
 
 class Admin(BaseModel):
     __tablename__ = 'admin_users'
-    username = db.Column('username', db.String)
-    password = db.Column('password', db.String)
-    name = db.Column('name', db.String)
-    avatar = db.Column('avatar', db.String)
-    operations = db.relationship('OperationLog', backref='admin', lazy='dynamic')
+    username = Column('username', db.String)
+    password = Column('password', db.String)
+    name = Column('name', db.String)
+    avatar = Column('avatar', db.String)
+    operations = relationship('OperationLog', backref='admin', lazy='dynamic')
     default_json_fields = ['id', 'username', 'name', 'avatar', 'updated_at']
 
     def generate_password(self, password):
@@ -126,11 +156,11 @@ class Admin(BaseModel):
 
 class OperationLog(BaseModel):
     __tablename__ = 'admin_operation_log'
-    user_id = db.Column('user_id', db.Integer, db.ForeignKey('admin_users.id'))
-    path = db.Column('path', db.String)
-    method = db.Column('method', db.String(15))
-    ip = db.Column('ip', db.String(15))
-    input = db.Column('input', db.JSON)
+    user_id = Column('user_id', db.Integer, db.ForeignKey('admin_users.id'))
+    path = Column('path', db.String)
+    method = Column('method', db.String(15))
+    ip = Column('ip', db.String(15))
+    input = Column('input', db.JSON)
     default_json_fields = ['id', 'user', 'path', 'method', 'ip', 'input_summary', 'created_at']
 
     @hybrid_property
@@ -140,3 +170,15 @@ class OperationLog(BaseModel):
     @hybrid_property
     def input_summary(self):
         return str(self.input)[:300] if self.input else ''
+
+
+class ExpressionOffical(BaseModel):
+    __tablename__ = 'expression_offical'
+    name = Column('name', db.String)
+    tel = Column('tel', db.String)
+    phone_model = Column('phone_model', db.String)
+    destination = Column('destination', db.String)
+    departure_time = Column('departure_time', db.String)
+    return_time = Column('return_time', db.String)
+    airport = Column('airport', db.String)
+    terminal = Column('terminal', db.String)
