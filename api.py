@@ -110,9 +110,12 @@ def expression_offical_add() -> ApiResult:
               code: 0
               message: 'success'
         """
-    data = json.loads(request.data)
+
+    data = request.form
     try:
-        ExpressionOffical.create(**data)
+        ExpressionOffical.create(name=data['name'], tel=data['tel'], phone_model=data['phone_model'],
+                                 destination=data['destination'], departure_time=data['departure_time'],
+                                 return_time=data['return_time'], airport=data['airport'], terminal=data['terminal'])
     except:
         return fail()
     return success()
