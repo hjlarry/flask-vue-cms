@@ -1,6 +1,6 @@
 from flask import Blueprint, request, json
 
-from utils import success, ApiResult
+from utils import success, ApiResult, fail
 from models import Article, Module, ExpressionOffical
 from redis_db import cache
 from config import EXPIRE_TIME
@@ -111,9 +111,8 @@ def expression_offical_add() -> ApiResult:
               message: 'success'
         """
     data = json.loads(request.data)
-    expression_offical = ExpressionOffical(name=data['name'], tel=data['tel'],
-                                           phone_model=data['phone_model'], destination=data['destination'],
-                                           departure_time=data['departure_time'], return_time=data['return_time'],
-                                           airport=data['airport'], terminal=data['terminal'])
-    expression_offical.save()
+    try:
+        ExpressionOffical.create(**data)
+    except:
+        return fail()
     return success()
