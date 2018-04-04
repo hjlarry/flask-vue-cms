@@ -140,8 +140,9 @@ class Admin(BaseModel):
     operations = relationship('OperationLog', backref='admin', lazy='dynamic')
     default_json_fields = ['id', 'username', 'name', 'avatar', 'updated_at']
 
-    def generate_password(self, password):
-        self.password = generate_password_hash(password)
+    @staticmethod
+    def generate_password(password):
+        return generate_password_hash(password)
 
     def verify_password(self, password):
         try:

@@ -53,25 +53,25 @@ def home() -> ApiResult:
 @api_bp.route('/search/<string:word>')
 def search(word: str) -> ApiResult:
     """ 搜索接口
-        ---
-        tags:
-        - 前台API
-        parameters:
-          - $ref: '#/parameters/current_page'
-          - $ref: '#/parameters/search_word'
-        responses:
-          200:
-            description: 搜索结果
-            schema:
-              $ref: '#/definitions/Article'
-            examples:
-              code: 0
-              data: [{}, {}]
-              message: 'success'
-              meta:
-               current_page: 1
-               total: 10
-        """
+    ---
+    tags:
+    - 前台API
+    parameters:
+      - $ref: '#/parameters/current_page'
+      - $ref: '#/parameters/search_word'
+    responses:
+      200:
+        description: 搜索结果
+        schema:
+          $ref: '#/definitions/Article'
+        examples:
+          code: 0
+          data: [{}, {}]
+          message: 'success'
+          meta:
+           current_page: 1
+           total: 10
+    """
     current_page = request.args.get('page') or 1
     pagination = Article.query.filter(Article.title.like('%' + word + '%')).paginate(int(current_page), per_page=5)
     articles = pagination.items
@@ -94,28 +94,26 @@ def search(word: str) -> ApiResult:
 @api_bp.route('/expression_offical', methods=['POST'])
 def expression_offical_add() -> ApiResult:
     """ 添加体验官
-        ---
-        tags:
-        - 前台API
-        parameters:
-        - in: body
-          name: body
-          required: true
-          schema:
-            $ref: '#/parameters/add_expression_offical'
-        responses:
-          200:
-            description: 添加成功
-            examples:
-              code: 0
-              message: 'success'
-        """
+    ---
+    tags:
+    - 前台API
+    parameters:
+    - in: body
+      name: body
+      required: true
+      schema:
+        $ref: '#/parameters/add_expression_offical'
+    responses:
+      200:
+        description: 添加成功
+        examples:
+          code: 0
+          message: 'success'
+    """
 
     data = request.form
     try:
-        ExpressionOffical.create(name=data['name'], tel=data['tel'], phone_model=data['phone_model'],
-                                 destination=data['destination'], departure_time=data['departure_time'],
-                                 return_time=data['return_time'], airport=data['airport'], terminal=data['terminal'])
+        ExpressionOffical.create(**dict(data))
     except:
         return fail()
     return success()

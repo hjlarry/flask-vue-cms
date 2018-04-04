@@ -246,10 +246,8 @@ def create_user():
           message: 'success'
     """
     data = json.loads(request.data)
-    user = Admin(username=data['username'], name=data['name'], avatar=data['avatar'])
-    user.generate_password(data['password'])
-    db.session.add(user)
-    db.session.commit()
+    data['password'] = Admin.generate_password(data['password'])
+    Admin.create(**data)
     return success()
 
 
@@ -281,12 +279,9 @@ def edit_user():
     """
     data = json.loads(request.data)
     user = Admin.query.get_or_404(data['id'])
-    user.name = data['name']
-    user.avatar = data['avatar']
     if data['password']:
-        user.generate_password(data['password'])
-    db.session.add(user)
-    db.session.commit()
+        data['password'] = user.generate_password(data['password'])
+    user.update(**data)
     return success()
 
 
@@ -319,8 +314,7 @@ def delete_user():
     data = json.loads(request.data)
     user = Admin.query.get_or_404(data['id'])
     if user:
-        db.session.delete(user)
-        db.session.commit()
+        user.delete()
         return success()
     return fail(400)
 

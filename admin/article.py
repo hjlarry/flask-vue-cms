@@ -124,9 +124,7 @@ def create_article():
     """
     data = json.loads(request.data)
     data['module_id'] = None if not isinstance(data['module_id'], int) else data['module_id']
-    article = Article(title=data['title'], content=data['content'],
-                      order=data['order'], module_id=data['module_id'], thumb_pic=data['thumb_pic'])
-    article.save()
+    Article.create(**data)
     return success()
 
 
