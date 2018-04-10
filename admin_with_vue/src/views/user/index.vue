@@ -89,7 +89,7 @@ export default {
     },
     handleUpdate(row) {
       this.$router.push({
-        path: '/user/edit',
+        path: '/system/user_edit',
         query: { 'id': row.id }
       })
     },

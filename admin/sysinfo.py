@@ -61,37 +61,31 @@ def operation_logs():
             code:
                 type: int
             data:
-                type: array
-                $ref: '#/definitions/Module'
+                type: object
             message:
                 type: string
         examples:
           code: 0
-          data: [{}, {}]
+          data: {'items': [{},{},{}], 'total': 200}
           message: 'success'
     """
     current_page = request.args.get('page') or 1
     per_page = request.args.get('limit') or 10
     path = request.args.get('path')
     input = request.args.get('input')
+    query_result = OperationLog.query.filter(OperationLog.path.like('%' + path + '%')).filter(
+        OperationLog.input.like('%' + input + '%')).order_by(
+        OperationLog.id.desc())
     date = request.args.get('date')
-    zero = date + ' 00:00:00'
-    twenti_four = date + ' 23:59:59'
-    pagination = OperationLog.query.filter(OperationLog.path.like('%' + path + '%')).filter(
-        OperationLog.input.like('%' + input + '%')).filter(
-        OperationLog._created_at.between(zero, twenti_four)).order_by(
-        OperationLog.id.desc()).paginate(int(current_page), per_page=int(per_page))
-    users = pagination.items
-    total = pagination.total
-    result = []
-    for item in users:
-        item = item.to_json()
-        result.append(item)
-
+    if date:
+        zero, twenti_four = date + ' 00:00:00', date + ' 23:59:59'
+        query_result = query_result.filter(OperationLog._created_at.between(zero, twenti_four))
+    pagination = query_result.paginate(int(current_page), per_page=int(per_page))
+    result = [item.to_json() for item in pagination.items]
     res = {
         'data': {
             'items': result,
-            'total': total
+            'total': pagination.total
         }
     }
     return success(res)
@@ -107,20 +101,16 @@ def delete_operation_log():
     - api_key: []
     responses:
       200:
-        description: 获取成功
+        description: 删除成功
         schema:
           type: object
           properties:
             code:
                 type: int
-            data:
-                type: array
-                $ref: '#/definitions/Module'
             message:
                 type: string
         examples:
           code: 0
-          data: [{}, {}]
           message: 'success'
     """
     data = json.loads(request.data)

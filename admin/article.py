@@ -38,17 +38,11 @@ def articles():
         pagination = Article.query.filter_by(module_id=module).paginate(int(current_page), per_page=int(per_page))
     else:
         pagination = Article.query.paginate(int(current_page), per_page=int(per_page))
-    articles = pagination.items
-    total = pagination.total
-    result = []
-    for item in articles:
-        item = item.to_json()
-        result.append(item)
-
+    result = [item.to_json() for item in pagination.items]
     res = {
         'data': {
             'items': result,
-            'total': total
+            'total': pagination.total
         }
     }
     return success(res)

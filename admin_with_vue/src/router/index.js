@@ -78,7 +78,7 @@ export const constantRouterMap = [
   {
     path: '/system',
     component: Layout,
-    redirect: '/user/all',
+    redirect: '/system/user',
     name: 'system',
     meta: { title: '系统管理', icon: 'system' },
     children: [
@@ -89,7 +89,7 @@ export const constantRouterMap = [
         meta: { title: '系统用户管理', icon: 'user' }
       },
       {
-        path: 'create',
+        path: 'user_create',
         component: () => import('@/views/user/create'),
         name: 'user-create',
         meta: { title: '创建管理员', icon: 'user_add' }
@@ -101,7 +101,7 @@ export const constantRouterMap = [
         meta: { title: '操作日志', icon: 'log' }
       },
       {
-        path: 'edit',
+        path: 'user_edit',
         component: () => import('@/views/user/edit'),
         name: 'user-edit',
         hidden: true,

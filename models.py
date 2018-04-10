@@ -47,7 +47,7 @@ class BaseModel(db.Model):
         """
         :param num: int or str('all')
         :param child_num: int
-        :return: dict
+        :return: array
         """
         items = cls.get_item(num)
         return [item.to_json(child_num) for item in items]
@@ -74,21 +74,21 @@ class BaseModel(db.Model):
 
     @classmethod
     def create(cls, **kwargs):
-        """Create a new record and save it the database."""
+        """Create a new record and save it """
         instance = cls(**kwargs)
         return instance.save()
 
     def update(self, commit=True, **kwargs):
-        """部分属性例如hybrid_property不能setattr。"""
+        """Update an exist record and save it """
         for attr, value in kwargs.items():
-            try:
+            try:  # 部分属性无法setattr，例如hybird
                 setattr(self, attr, value)
             except:
                 pass
         return commit and self.save() or self
 
     def save(self, commit=True):
-        """Save the record."""
+        """Save the record to database."""
         db.session.add(self)
         if commit:
             db.session.commit()

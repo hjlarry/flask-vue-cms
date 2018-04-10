@@ -8,7 +8,6 @@ from models import Admin
 from utils import success, fail
 from redis_db import cache
 from config import EXPIRE_TIME, UPLOAD_FOLDER
-from ext import db
 
 
 def generate_token(user_id):
@@ -281,6 +280,8 @@ def edit_user():
     user = Admin.query.get_or_404(data['id'])
     if data['password']:
         data['password'] = user.generate_password(data['password'])
+    else:
+        del data['password']
     user.update(**data)
     return success()
 
