@@ -18,8 +18,8 @@ export function createArticle(data) {
 
 export function editArticle(data) {
   return request({
-    url: '/article/edit',
-    method: 'post',
+    url: '/article/edit/' + data.id,
+    method: 'put',
     data
   })
 }
@@ -38,10 +38,9 @@ export function fetchModule() {
   })
 }
 
-export function deleteArticle(data) {
+export function deleteArticle(id) {
   return request({
-    url: '/article/delete',
-    method: 'post',
-    data
+    url: '/article/delete/' + id,
+    method: 'delete'
   })
 }

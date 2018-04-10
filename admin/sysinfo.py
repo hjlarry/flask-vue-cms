@@ -91,9 +91,9 @@ def operation_logs():
     return success(res)
 
 
-@admin_bp.route('/operation_log/delete', methods=['POST'])
+@admin_bp.route('/operation_log/delete', methods=['DELETE'])
 def delete_operation_log():
-    """删除操作日志
+    """删除操作日志，可批量删除
     ---
     tags:
     - 系统

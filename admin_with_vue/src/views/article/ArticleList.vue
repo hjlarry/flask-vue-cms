@@ -109,9 +109,8 @@ export default {
     handleDelete(row) {
       const index = this.list.indexOf(row)
       const confirm = this.$confirm(`确定移除` + row.title + '?')
-      const del_data = { 'id': row.id }
       confirm.then(() => {
-        deleteArticle(del_data).then(() => {
+        deleteArticle(row.id).then(() => {
           this.$notify({
             title: '成功',
             message: '删除成功',

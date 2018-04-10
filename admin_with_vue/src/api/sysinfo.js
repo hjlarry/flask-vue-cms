@@ -18,7 +18,7 @@ export function fetchLogList(query) {
 export function deleteLog(data) {
   return request({
     url: '/operation_log/delete',
-    method: 'post',
+    method: 'delete',
     data
   })
 }

@@ -8,11 +8,10 @@ export function fetchList(query) {
   })
 }
 
-export function deleteUser(data) {
+export function deleteUser(id) {
   return request({
-    url: '/user/delete',
-    method: 'post',
-    data
+    url: '/user/delete/' + id,
+    method: 'delete'
   })
 }
 
@@ -26,8 +25,8 @@ export function createUser(data) {
 
 export function editUser(data) {
   return request({
-    url: '/user/edit',
-    method: 'post',
+    url: '/user/edit/' + data.id,
+    method: 'put',
     data
   })
 }

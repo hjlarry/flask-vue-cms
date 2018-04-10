@@ -169,17 +169,11 @@ def users():
     current_page = request.args.get('page') or 1
     per_page = request.args.get('limit') or 10
     pagination = Admin.query.paginate(int(current_page), per_page=int(per_page))
-    users = pagination.items
-    total = pagination.total
-    result = []
-    for item in users:
-        item = item.to_json()
-        result.append(item)
-
+    result = [item.to_json() for item in pagination.items]
     res = {
         'data': {
             'items': result,
-            'total': total
+            'total': pagination.total
         }
     }
     return success(res)
@@ -250,8 +244,8 @@ def create_user():
     return success()
 
 
-@admin_bp.route('/user/edit', methods=['POST'])
-def edit_user():
+@admin_bp.route('/user/edit/<int:id>', methods=['PUT'])
+def edit_user(id):
     """编辑用户
     ---
     tags:
@@ -277,7 +271,7 @@ def edit_user():
           message: 'success'
     """
     data = json.loads(request.data)
-    user = Admin.query.get_or_404(data['id'])
+    user = Admin.query.get_or_404(id)
     if data['password']:
         data['password'] = user.generate_password(data['password'])
     else:
@@ -286,8 +280,8 @@ def edit_user():
     return success()
 
 
-@admin_bp.route('/user/delete', methods=['POST'])
-def delete_user():
+@admin_bp.route('/user/delete/<int:id>', methods=['DELETE'])
+def delete_user(id):
     """删除用户
     ---
     tags:
@@ -312,8 +306,7 @@ def delete_user():
           data: [{}, {}]
           message: 'success'
     """
-    data = json.loads(request.data)
-    user = Admin.query.get_or_404(data['id'])
+    user = Admin.query.get_or_404(id)
     if user:
         user.delete()
         return success()

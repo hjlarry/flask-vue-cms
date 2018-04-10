@@ -122,8 +122,8 @@ def create_article():
     return success()
 
 
-@admin_bp.route('/article/edit', methods=['POST'])
-def edit_article():
+@admin_bp.route('/article/edit/<int:id>', methods=['PUT'])
+def edit_article(id):
     """编辑资讯
     ---
     tags:
@@ -142,13 +142,13 @@ def edit_article():
     """
     data = json.loads(request.data)
     data['module_id'] = None if not isinstance(data['module_id'], int) else data['module_id']
-    article = Article.query.get_or_404(data['id'])
+    article = Article.query.get_or_404(id)
     article.update(**data)
     return success()
 
 
-@admin_bp.route('/article/delete', methods=['POST'])
-def delete_article():
+@admin_bp.route('/article/delete/<int:id>', methods=['DELETE'])
+def delete_article(id):
     """删除资讯
     ---
     tags:
@@ -163,8 +163,7 @@ def delete_article():
           data: [{}, {}]
           message: 'success'
     """
-    data = json.loads(request.data)
-    article = Article.query.get_or_404(data['id'])
+    article = Article.query.get_or_404(id)
     if article:
         article.delete()
         return success()
