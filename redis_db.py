@@ -1,4 +1,4 @@
 import redis
-from config import REDIS_HOST, REDIS_PORT, REDIS_DB
+from config import Config
 
-cache = redis.StrictRedis(host=REDIS_HOST, port=REDIS_PORT, db=REDIS_DB)
+cache = redis.StrictRedis(host=Config.REDIS_HOST, port=Config.REDIS_PORT, db=Config.REDIS_DB)

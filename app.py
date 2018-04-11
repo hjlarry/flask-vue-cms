@@ -1,4 +1,4 @@
-from flask import Flask, render_template, Response
+from flask import Flask, render_template, Response, current_app
 from flask_sqlalchemy import get_debug_queries
 
 from ext import db, swagger
@@ -21,7 +21,7 @@ class ApiFlask(Flask):
         return Flask.make_response(self, rv)
 
 
-def create_app():
+def create_app(config):
     app = ApiFlask(__name__, static_folder=config.STATIC_FOLDER)
     app.config.from_object(config)
 
@@ -30,12 +30,10 @@ def create_app():
     app.register_blueprint(api_bp)
     app.register_blueprint(admin_bp)
 
-    # app.wsgi_app = DispatcherMiddleware(app.wsgi_app, {'/api': json_api})
-
     return app
 
 
-app = create_app()
+app = create_app(config.DevelopConfig)
 
 
 # For local test env
@@ -45,7 +43,7 @@ def after_request(response):
     response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
     response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
     for query in get_debug_queries():
-        if query.duration > config.DATABASE_QUERY_TIMEOUT:
+        if query.duration > current_app.config['DATABASE_QUERY_TIMEOUT']:
             app.logger.warning('SLOW QUERY: {}\nParameters: {}\nDuration: {}\nContext: {}\n'
                                .format(query.statement, query.parameters, query.duration, query.context))
     return response

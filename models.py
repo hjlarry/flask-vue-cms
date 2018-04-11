@@ -102,9 +102,9 @@ class BaseModel(db.Model):
 
 class Article(BaseModel):
     __tablename__ = 'articles'
-    title = Column('title', db.String)
+    title = Column('title', db.String(40))
     content = Column('content', db.Text)
-    thumb_pic = Column('thumb_pic', db.String)
+    thumb_pic = Column('thumb_pic', db.String(100))
     order = Column('order', db.Integer)
     module_id = Column('module_id', db.Integer, db.ForeignKey('modules.id'))
 
@@ -122,8 +122,8 @@ class Article(BaseModel):
 class Module(BaseModel):
     __tablename__ = 'modules'
     order = Column('order', db.Integer)
-    title = Column('title', db.String)
-    template_id = Column('template_id', db.Integer)
+    title = Column('title', db.String(40))
+    template_id = Column('template_id', db.String(40))
     child = relationship('Article', backref='module', lazy='dynamic')
     default_json_fields = ['order', 'template_id', 'id', 'child', 'title']
 
@@ -133,10 +133,10 @@ class Module(BaseModel):
 
 class Admin(BaseModel):
     __tablename__ = 'admin_users'
-    username = Column('username', db.String)
-    password = Column('password', db.String)
-    name = Column('name', db.String)
-    avatar = Column('avatar', db.String)
+    username = Column('username', db.String(40))
+    _password = Column('password', db.String(100))
+    name = Column('name', db.String(40))
+    avatar = Column('avatar', db.String(100))
     operations = relationship('OperationLog', backref='admin', lazy='dynamic')
     default_json_fields = ['id', 'username', 'name', 'avatar', 'updated_at']
 
@@ -151,6 +151,14 @@ class Admin(BaseModel):
             return False
         return result
 
+    @property
+    def password(self):
+        return self._password
+
+    @password.setter
+    def password(self, value):
+        self._password = generate_password_hash(value)
+
     def __repr__(self):
         return self.name
 
@@ -158,7 +166,7 @@ class Admin(BaseModel):
 class OperationLog(BaseModel):
     __tablename__ = 'admin_operation_log'
     user_id = Column('user_id', db.Integer, db.ForeignKey('admin_users.id'))
-    path = Column('path', db.String)
+    path = Column('path', db.String(40))
     method = Column('method', db.String(15))
     ip = Column('ip', db.String(15))
     input = Column('input', db.JSON)
@@ -175,11 +183,11 @@ class OperationLog(BaseModel):
 
 class ExpressionOffical(BaseModel):
     __tablename__ = 'expression_offical'
-    name = Column('name', db.String)
-    tel = Column('tel', db.String)
-    phone_model = Column('phone_model', db.String)
-    destination = Column('destination', db.String)
-    departure_time = Column('departure_time', db.String)
-    return_time = Column('return_time', db.String)
-    airport = Column('airport', db.String)
-    terminal = Column('terminal', db.String)
+    name = Column('name', db.String(40))
+    tel = Column('tel', db.String(40))
+    phone_model = Column('phone_model', db.String(40))
+    destination = Column('destination', db.String(40))
+    departure_time = Column('departure_time', db.String(40))
+    return_time = Column('return_time', db.String(40))
+    airport = Column('airport', db.String(40))
+    terminal = Column('terminal', db.String(40))

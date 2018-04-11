@@ -1,0 +1,17 @@
+[
+  "tests/test_api.py::TestFrontEnd::()::test_home",
+  "tests/test_api.py::TestLogin::()::test_log_in_can_return_200",
+  "tests/test_api.py::TestLogin::()::test_logout_can_return_200",
+  "tests/test_api.py::TestLogin::()::test_get_user",
+  "tests/test_config.py::test_production_config",
+  "tests/test_config.py::test_dev_config",
+  "tests/test_models.py::TestUser::()::test_get_by_id",
+  "tests/test_models.py::TestUser::()::test_created_at_defaults_to_datetime",
+  "tests/test_models.py::TestUser::()::test_password_is_nullable",
+  "tests/test_models.py::TestUser::()::test_factory",
+  "tests/test_models.py::TestUser::()::test_check_password",
+  "tests/test_models.py::TestArticle::()::test_get_by_id",
+  "tests/test_models.py::TestArticle::()::test_factory",
+  "tests/test_models.py::TestModule::()::test_get_by_id",
+  "tests/test_models.py::TestModule::()::test_add_article_with_module"
+]

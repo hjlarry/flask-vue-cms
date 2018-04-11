@@ -1,9 +1,8 @@
-from flask import Blueprint, request, json
+from flask import Blueprint, request, json, current_app
 
 from utils import success, ApiResult, fail
 from models import Article, Module, ExpressionOffical
 from redis_db import cache
-from config import EXPIRE_TIME
 
 api_bp = Blueprint('api', __name__, url_prefix='/api')
 
@@ -44,7 +43,7 @@ def home() -> ApiResult:
         }
 
         cache.set('home_json', json.dumps(res))
-        cache.expire('home_json', EXPIRE_TIME)
+        cache.expire('home_json', current_app.config['EXPIRE_TIME'])
     else:
         res = json.loads(res)
     return success(res)

@@ -1,13 +1,12 @@
-from itsdangerous import JSONWebSignatureSerializer as Serializer
-from flask import current_app, json, request
 import time
 import os
+from itsdangerous import JSONWebSignatureSerializer as Serializer
+from flask import current_app, json, request
 
 from .bp import admin_bp, allowed_file, secure_filename, CH_REGEX
 from models import Admin
 from utils import success, fail
 from redis_db import cache
-from config import EXPIRE_TIME, UPLOAD_FOLDER
 
 
 def generate_token(user_id):
@@ -27,7 +26,7 @@ def verify_token(token):
     except:
         return False
     if 'user_id' in data and cache.get(data['user_id']):
-        cache.expire(data['user_id'], EXPIRE_TIME)
+        cache.expire(data['user_id'], current_app.config['EXPIRE_TIME'])
         return data
     return False
 
@@ -67,7 +66,7 @@ def login():
         res = {'data':
                    {'token': token}}
         cache.set(user.id, token)
-        cache.expire(user.id, EXPIRE_TIME)
+        cache.expire(user.id, current_app.config['EXPIRE_TIME'])
         return success(res)
     return fail(401)
 
@@ -97,6 +96,7 @@ def logout():
     """
     data = verify_token(request.headers['Authorization'])
     cache.delete(data['user_id'])
+    print(11)
     return success()
 
 
@@ -239,7 +239,6 @@ def create_user():
           message: 'success'
     """
     data = json.loads(request.data)
-    data['password'] = Admin.generate_password(data['password'])
     Admin.create(**data)
     return success()
 
@@ -272,9 +271,7 @@ def edit_user(id):
     """
     data = json.loads(request.data)
     user = Admin.query.get_or_404(id)
-    if data['password']:
-        data['password'] = user.generate_password(data['password'])
-    else:
+    if not data['password']:
         del data['password']
     user.update(**data)
     return success()
@@ -347,7 +344,7 @@ def upload_avatar():
             return fail(415)
         if not CH_REGEX.search(filename):
             filename = secure_filename(filename)
-        UPLOAD_PATH = os.path.join(UPLOAD_FOLDER, 'avatar')
+        UPLOAD_PATH = os.path.join(current_app.config['UPLOAD_FOLDER'], 'avatar')
         filepath = os.path.join(UPLOAD_PATH, filename)
         file.save(filepath)
 

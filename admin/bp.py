@@ -1,10 +1,9 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, current_app
 from werkzeug.utils import secure_filename
 import re
 import time
 import os
 
-from config import UPLOAD_FOLDER
 from utils import success, fail
 from models import OperationLog
 from ext import db
@@ -55,7 +54,7 @@ def upload():
             return fail(415)
         if not CH_REGEX.search(filename):
             filename = secure_filename(filename)
-        UPLOAD_PATH = os.path.join(UPLOAD_FOLDER, date)
+        UPLOAD_PATH = os.path.join(current_app.config['UPLOAD_FOLDER'], date)
         os.makedirs(UPLOAD_PATH, exist_ok=True)
         filepath = os.path.join(UPLOAD_PATH, filename)
         file.save(filepath)
