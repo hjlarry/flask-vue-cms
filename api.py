@@ -2,7 +2,7 @@ from flask import Blueprint, request, json, current_app
 
 from utils import success, ApiResult, fail
 from models import Article, Module, ExpressionOffical
-from redis_db import cache
+from ext import cache
 
 api_bp = Blueprint('api', __name__, url_prefix='/api')
 

@@ -6,7 +6,7 @@ from flask import current_app, json, request
 from .bp import admin_bp, allowed_file, secure_filename, CH_REGEX
 from models import Admin
 from utils import success, fail
-from redis_db import cache
+from ext import cache
 
 
 def generate_token(user_id):
