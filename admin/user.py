@@ -271,6 +271,7 @@ def edit_user(id):
     """
     data = json.loads(request.data)
     user = Admin.query.get_or_404(id)
+    data['username'] = user.username
     if not data['password']:
         del data['password']
     user.update(**data)

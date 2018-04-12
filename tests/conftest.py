@@ -8,7 +8,7 @@ from app import create_app
 from ext import db as _db
 from config import TestConfig
 
-from .factories import UserFactory
+from .factories import UserFactory, ArticleFactory
 
 
 @pytest.fixture
@@ -56,6 +56,20 @@ def db(app):
 @pytest.fixture
 def user(db):
     """A user for the tests."""
-    user = UserFactory(password='myprecious')
+    user = UserFactory(username='test123', password='test123')
     db.session.commit()
     return user
+
+
+@pytest.fixture
+def get_token(testapp):
+    res = testapp.post_json('/admin/login', {'username': 'test123', 'password': 'test123'})
+    return dict(Authorization=res.json['data']['token'])
+
+
+@pytest.fixture
+def article(db):
+    """A user for the tests."""
+    article = ArticleFactory(title='sadsadasdastestss', content='shshhahhahs')
+    db.session.commit()
+    return article

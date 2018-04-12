@@ -1,6 +1,6 @@
 from flask import json
 from werkzeug.wrappers import Response
-from collections import OrderedDict
+from collections import OrderedDict, UserDict
 import psutil
 import time
 import netifaces
@@ -107,3 +107,21 @@ def get_user() -> list:
         item['started'] = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(item['started']))
         result.append(item)
     return result
+
+
+class CacheDict(UserDict):
+    """尝试一个redis的替代方案，但尚未有好的办法存储全局变量，尤其用gunicorn以后需要是跨进程的通信"""
+    def get(self, key, default=None):
+        """如果设置了过期时间则先判断有没有过期，否则判断有没有设置过期时间"""
+        if 't_' + key in self.data and self.data['t_' + key] < time.time():
+            return self.data[key]
+        elif key in self.data and 't_' + key not in self.data:
+            return self.data[key]
+        else:
+            return default
+
+    def set(self, key, value):
+        self.data[key] = value
+
+    def expire(self, key, expire):
+        self.set('t_' + key, time.time() + expire)
