@@ -1,6 +1,8 @@
 language: python
 python:
   - "3.6"
+services:
+  - redis-server
 addons:
   apt:
     sources:
