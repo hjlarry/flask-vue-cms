@@ -120,4 +120,4 @@ package-lock.json
 *.sln
 
 .pytest_cache/
-static/upload/
+static/upload/avatar/

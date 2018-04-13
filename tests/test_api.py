@@ -3,7 +3,7 @@ from werkzeug.exceptions import NotFound
 from webtest import Upload
 
 from .factories import UserFactory
-from models import Admin, Article, OperationLog
+from models import Admin, Article, OperationLog, Module
 
 
 class TestFrontEnd:
@@ -11,6 +11,8 @@ class TestFrontEnd:
 
     def test_home(self, testapp):
         """Homepage api"""
+        module = Module(title='test_module', order=1)
+        module.save()
         res = testapp.get('/api/home')
         assert res.status_code == 200
         assert res.content_type == 'application/json'
