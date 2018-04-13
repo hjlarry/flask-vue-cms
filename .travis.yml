@@ -1,11 +1,14 @@
 language: python
 python:
   - "3.6"
-
-# command to install dependencies
+services:
+  - mysql
+before_script:
+  - echo "USE mysql;\nUPDATE user SET password=PASSWORD('root') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -u root
+before_install:
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS test;'
 install:
   - pip install pipenv
-# command to run tests
 script:
   - pipenv install
   - pytest tests
