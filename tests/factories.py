@@ -4,7 +4,7 @@ from factory import Sequence
 from factory.alchemy import SQLAlchemyModelFactory
 
 from ext import db
-from models import Admin, Article
+from models import Admin, Article, Module
 
 
 class BaseFactory(SQLAlchemyModelFactory):
@@ -41,3 +41,14 @@ class ArticleFactory(BaseFactory):
     class Meta:
         """Factory configuration."""
         model = Article
+
+
+class ModuleFactory(BaseFactory):
+    """Module factory."""
+
+    title = Sequence(lambda n: 'Module{0}'.format(n))
+    order = Sequence(lambda n: n)
+
+    class Meta:
+        """Factory configuration."""
+        model = Module

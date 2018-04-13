@@ -8,7 +8,7 @@ from app import create_app
 from ext import db as _db
 from config import TestConfig
 
-from .factories import UserFactory, ArticleFactory
+from .factories import UserFactory, ArticleFactory, ModuleFactory
 
 
 @pytest.fixture
@@ -60,7 +60,14 @@ def get_token(testapp):
 
 @pytest.fixture
 def article(db):
-    """A user for the tests."""
+    """An article for the tests."""
     article = ArticleFactory(title='sadsadasdastestss', content='shshhahhahs')
     db.session.commit()
     return article
+
+@pytest.fixture
+def module(db):
+    """A module for the tests."""
+    module = ModuleFactory(title='sadsadasdastestss')
+    db.session.commit()
+    return module

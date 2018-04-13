@@ -9,10 +9,8 @@ from models import Admin, Article, OperationLog, Module
 class TestFrontEnd:
     """Front api"""
 
-    def test_home(self, testapp):
+    def test_home(self, module, testapp):
         """Homepage api"""
-        module = Module(title='test_module', order=1)
-        module.save()
         res = testapp.get('/api/home')
         assert res.status_code == 200
         assert res.content_type == 'application/json'
