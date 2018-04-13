@@ -3,7 +3,7 @@ from werkzeug.exceptions import NotFound
 from webtest import Upload
 
 from .factories import UserFactory
-from models import Admin
+from models import Admin, Article, OperationLog
 
 
 class TestFrontEnd:
@@ -97,3 +97,71 @@ class TestUser:
         assert res.status_code == 200
         assert res.json['code'] == 0
         assert 'fileurl' in res.json['data']
+
+
+class TestArticle:
+    """All about aricle api tests."""
+
+    def test_get_articlelist(self, article, testapp, get_token):
+        res = testapp.request('/admin/article', method='GET', headers=get_token)
+        assert res.status_code == 200
+        assert 'items' in res.json['data']
+
+    def test_get_modulelist(self, article, testapp, get_token):
+        res = testapp.request('/admin/module', method='GET', headers=get_token)
+        assert res.status_code == 200
+        assert res.json['code'] == 0
+
+    def test_get_one_article(self, article, testapp, get_token):
+        res = testapp.request('/admin/article/1', method='GET', headers=get_token)
+        assert res.status_code == 200
+        assert 'id' in res.json['data']
+
+    def test_create_article(self, article, testapp, get_token):
+        res = testapp.request('/admin/article/create', method='POST', headers=get_token,
+                              body=json.dumps(dict(title='testcreate', content='testcreate', module_id='')).encode())
+        assert res
+        assert res.status_code == 200
+        assert res.json['code'] == 0
+
+    def test_update_article(self, article, testapp, get_token):
+        res = testapp.request('/admin/article/edit/1', method='PUT', headers=get_token, body=json.dumps(
+            dict(title='testcreate22', content='testcreate22', module_id='')).encode())
+        assert res.status_code == 200
+        assert res.json['code'] == 0
+
+        # test the article has changed
+        article = Article.query.get_or_404(1)
+        assert article.title == 'testcreate22'
+        assert article.content == 'testcreate22'
+
+    def test_delete_article(self, article, testapp, get_token):
+        res = testapp.request('/admin/article/delete/1', method='DELETE', headers=get_token)
+        assert res.status_code == 200
+        assert res.json['code'] == 0
+
+
+class TestSystem:
+    """All about aricle api tests."""
+
+    def test_get_sysinfo(self, user, testapp, get_token):
+        res = testapp.request('/admin/sysinfo', method='GET', headers=get_token)
+        assert res.status_code == 200
+        assert 'cpu' in res.json['data']
+
+    def test_get_operation_log_list(self, user, testapp, get_token):
+        res = testapp.request('/admin/operation_log', method='GET', headers=get_token, status='*')
+        assert res
+        assert res.status_code == 200
+        assert res.json['code'] == 0
+        assert 'items' in res.json['data']
+
+    def test_delete_operation_log(self, user, testapp, get_token):
+        log1 = OperationLog(path='/test1')
+        log2 = OperationLog(path='/test2')
+        log1.save()
+        log2.save()
+        res = testapp.request('/admin/operation_log/delete', method='DELETE', headers=get_token, body=json.dumps(
+            [dict(id=log1.id), dict(id=log2.id)]).encode())
+        assert res.status_code == 200
+        assert res.json['code'] == 0

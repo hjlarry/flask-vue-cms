@@ -30,17 +30,6 @@ def testapp(app):
 
 
 @pytest.fixture
-def testapp_with_auth(app):
-    """A Webtest app with auth in http header."""
-    app = TestApp(app)
-    user = UserFactory(username='admin123', password='admin123')
-    user.save()
-    res = app.post_json('/admin/login', {'username': 'admin123', 'password': 'admin123'})
-    app.extra_environ.update({'Authorization': res.json['data']['token']})
-    return app
-
-
-@pytest.fixture
 def db(app):
     """A database for the tests."""
     _db.app = app
@@ -63,6 +52,8 @@ def user(db):
 
 @pytest.fixture
 def get_token(testapp):
+    user = UserFactory(username='test123', password='test123')
+    user.save()
     res = testapp.post_json('/admin/login', {'username': 'test123', 'password': 'test123'})
     return dict(Authorization=res.json['data']['token'])
 

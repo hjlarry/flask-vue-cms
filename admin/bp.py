@@ -89,6 +89,6 @@ def verify_user(response):
 
 def add_operation_log(data, request):
     log = OperationLog(user_id=data['user_id'], path=request.full_path,
-                       ip=request.remote_addr, method=request.method, input=request.get_json())
+                       ip=request.remote_addr, method=request.method, input=request.get_json(silent=True))
     db.session.add(log)
     db.session.commit()

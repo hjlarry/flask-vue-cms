@@ -1,0 +1,12 @@
+language: python
+python:
+  - "3.6"
+
+# command to install dependencies
+install:
+  - pip install pipenv
+# command to run tests
+script:
+  - pipenv install
+  - pipenv shell
+  - pytest tests

@@ -69,10 +69,10 @@ def operation_logs():
           data: {'items': [{},{},{}], 'total': 200}
           message: 'success'
     """
-    current_page = request.args.get('page') or 1
-    per_page = request.args.get('limit') or 10
-    path = request.args.get('path')
-    input = request.args.get('input')
+    current_page = request.args.get('page', 1)
+    per_page = request.args.get('limit', 10)
+    path = request.args.get('path', '')
+    input = request.args.get('input', '')
     query_result = OperationLog.query.filter(OperationLog.path.like('%' + path + '%')).filter(
         OperationLog.input.like('%' + input + '%')).order_by(
         OperationLog.id.desc())
