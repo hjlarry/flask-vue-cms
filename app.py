@@ -1,7 +1,7 @@
 from flask import Flask, render_template, Response, current_app
 from flask_sqlalchemy import get_debug_queries
 
-from ext import db, swagger
+from ext import db, swagger, sentry
 from utils import ApiResult, ApiException
 from api import api_bp
 from admin import admin_bp
@@ -27,6 +27,8 @@ def create_app(config):
 
     db.init_app(app)
     swagger.init_app(app)
+    sentry.init_app(app)
+
     app.register_blueprint(api_bp)
     app.register_blueprint(admin_bp)
 

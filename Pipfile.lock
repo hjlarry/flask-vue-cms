@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "308048b64428a127315b4a047d62bad92c1804cc30abc06113352ca55a053f87"
+            "sha256": "b13128a22303bd2d537f1bb06c868ef00dd9f0e92807bb241607aa5110319c1e"
         },
         "host-environment-markers": {
             "implementation_name": "cpython",
@@ -44,6 +44,12 @@
             ],
             "version": "==4.6.0"
         },
+        "blinker": {
+            "hashes": [
+                "sha256:471aee25f3992bd325afa3772f1063dbdbbca947a041b8b89466dc00d606f8b6"
+            ],
+            "version": "==1.4"
+        },
         "click": {
             "hashes": [
                 "sha256:29f99fc6125fbc931b758dc053b3114e55c77a6e4c6c3a2674a2dc986016381d",
@@ -66,10 +72,10 @@
         },
         "faker": {
             "hashes": [
-                "sha256:b06d0dc0166618298e668ced513ced7b10df34f3ad2045f22f1d7d88704e8e9c",
-                "sha256:9cc12b821f32ff45f6edfdc1ab7be3893b60b1224e952d68322a57e5b26a4a15"
+                "sha256:226d8fa67a8cf8b4007aab721f67639f130e9cfdc53a7095a2290ebb07a65c71",
+                "sha256:48fed4b4a191e2b42ad20c14115f1c6d36d338b80192075d7573f0f42d7fb321"
             ],
-            "version": "==0.8.12"
+            "version": "==0.8.13"
         },
         "flasgger": {
             "hashes": [
@@ -227,6 +233,13 @@
             ],
             "version": "==3.12"
         },
+        "raven": {
+            "hashes": [
+                "sha256:738a52019d01955d5b44b49d67c9f2f4cedb1b4f70d4fb0b493931174d00e044",
+                "sha256:92bf4c4819472ed20f1b9905eeeafe1bc6fe5f273d7c14506fdb8fb3a6ab2074"
+            ],
+            "version": "==6.6.0"
+        },
         "redis": {
             "hashes": [
                 "sha256:8a1900a9f2a0a44ecf6e8b5eb3e967a9909dfed219ad66df094f27f7d6f330fb",
@@ -263,10 +276,10 @@
         },
         "webob": {
             "hashes": [
-                "sha256:ae809c05b667c3457a2937cdb4a7c7f07e90f26c651a340d37fdd1d5cf1fed27",
-                "sha256:6fca7aa39bd2f6d2ff71f15a22223ff256c91f60b1ab52dac0ab38dc6ea9142f"
+                "sha256:1771899117c8851153f6f91e8b8a86236972aa8a1b6bd69ad0a36a9879ea2cd7",
+                "sha256:54f35073d2fdcddd7a98c2a1dedeede49739150737164a787220f30283139ba6"
             ],
-            "version": "==1.8.0"
+            "version": "==1.8.1"
         },
         "webtest": {
             "hashes": [

@@ -18,6 +18,8 @@ flasgger = "*"
 pytest = "*"
 webtest = "*"
 factory-boy = "*"
+raven = "*"
+blinker = "*"
 
 
 [dev-packages]
