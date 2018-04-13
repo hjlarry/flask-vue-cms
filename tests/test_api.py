@@ -46,7 +46,8 @@ class TestUser:
         assert res.json['code'] == 50014
 
     def test_get_userlist(self, user, testapp, get_token):
-        res = testapp.request('/admin/user', method='GET', headers=get_token)
+        res = testapp.request('/admin/user', method='GET', headers=get_token, status='*')
+        assert res
         assert res.status_code == 200
         assert 'items' in res.json['data']
 
