@@ -8,8 +8,12 @@
 
 
 # Preview
-![效果图](https://github.com/hjlarry/flask-vue-cms/blob/master/Screenshots/1.png)
-![效果图](https://github.com/hjlarry/flask-vue-cms/blob/master/Screenshots/2.png)
-![效果图](https://github.com/hjlarry/flask-vue-cms/blob/master/Screenshots/3.png)
-![效果图](https://github.com/hjlarry/flask-vue-cms/blob/master/Screenshots/4.png)
-![效果图](https://github.com/hjlarry/flask-vue-cms/blob/master/Screenshots/5.png)
+![效果图](Screenshots/1.png)
+![效果图](Screenshots/2.png)
+![效果图](Screenshots/3.png)
+![效果图](Screenshots/4.png)
+![效果图](Screenshots/5.png)
+
+
+# Usage
+* In Front-End, you can open dir `admin_with_vue` to develop , this is based on []
