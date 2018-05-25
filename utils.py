@@ -5,6 +5,7 @@ import psutil
 import time
 import netifaces
 import os
+import shelve
 
 
 class ApiResult(object):
@@ -109,19 +110,32 @@ def get_user() -> list:
     return result
 
 
-class CacheDict(UserDict):
-    """尝试一个redis的替代方案，但尚未有好的办法存储全局变量，尤其用gunicorn以后需要是跨进程的通信"""
+class CacheDict():
+    def __init__(self, db='cache.db'):
+        self.db = db
+
     def get(self, key, default=None):
-        """如果设置了过期时间则先判断有没有过期，否则判断有没有设置过期时间"""
-        if 't_' + key in self.data and self.data['t_' + key] < time.time():
-            return self.data[key]
-        elif key in self.data and 't_' + key not in self.data:
-            return self.data[key]
-        else:
-            return default
+        key = str(key)
+        with shelve.open(self.db) as db:
+            if not key in db:
+                return default
+            elif db[key].get('expires', 0) < time.time():
+                return default
+            return db[key]['value']
 
     def set(self, key, value):
-        self.data[key] = value
+        key = str(key)
+        with shelve.open(self.db) as db:
+            db[key] = {
+                'value': value
+            }
 
     def expire(self, key, expire):
-        self.set('t_' + key, time.time() + expire)
+        key = str(key)
+        with shelve.open(self.db, writeback=True) as db:
+            db[key]['expires'] = time.time() + expire
+
+    def delete(self, key):
+        key = str(key)
+        with shelve.open(self.db) as db:
+            del db[key]

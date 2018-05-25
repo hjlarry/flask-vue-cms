@@ -5,11 +5,13 @@ class Config:
     STATIC_FOLDER = 'static'
     STATIC_URL = SITE_URL + STATIC_FOLDER + '/'
     UPLOAD_FOLDER = STATIC_FOLDER + '/upload/'
+    SENTRY_URL = 'https://016ce4d019544bfc96e58a925e65c915:150f2c0e5567487298f633ae419bd290@sentry.io/1188584'
 
     SWAGGER = {
         'uiversion': 3
     }
 
+    REDIS = False
     REDIS_HOST = '127.0.0.1'
     REDIS_PORT = 6379
     REDIS_DB = 0
