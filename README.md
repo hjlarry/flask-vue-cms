@@ -16,4 +16,6 @@
 
 
 # Usage
-* In Front-End, you can open dir `admin_with_vue` to develop , this is based on []
+* In Front-End, the dir `admin_with_vue` is based on [vue-element-admin](https://github.com/PanJiaChen/vue-element-admin), you can follow to develop. When you run `npm run build`, need to copy `/admin_with_vue/dist` to `/static`
+* In `config.py` , You can choose Redis to cache or not, and edit db connection
+* When you run `python app.py` to start webserver, you also can see http://your host/apidocs/ to an Api doc, this is supported by [flasgger](https://github.com/rochacbruno/flasgger)
