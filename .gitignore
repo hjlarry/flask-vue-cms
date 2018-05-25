@@ -104,8 +104,8 @@ ENV/
 .DS_Store
 .idea
 
-admin_vue/node_modules/
-admin_vue/dist/
+admin_with_vue/node_modules/
+admin_with_vue/dist/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
