@@ -1,5 +1,6 @@
 # A Simple Content Manage System
 
+![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)
 ![buildstatus](https://travis-ci.org/hjlarry/flask-vue-cms.svg?branch=master)
 ![pyversions](https://img.shields.io/badge/python%20-3.6%2B-blue.svg)
 ![vueversions](https://img.shields.io/badge/Vue-2.9.3-4fc08d.svg)
