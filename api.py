@@ -42,8 +42,8 @@ def home() -> ApiResult:
             'data': result
         }
 
-        cache.set('home_json', json.dumps(res))
-        cache.expire('home_json', current_app.config['EXPIRE_TIME'])
+        cache.setex('home_json', current_app.config['EXPIRE_TIME'], json.dumps(res))
+
     else:
         res = json.loads(res)
     return success(res)

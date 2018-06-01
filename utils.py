@@ -139,3 +139,7 @@ class CacheDict():
         key = str(key)
         with shelve.open(self.db) as db:
             del db[key]
+
+    def setex(self, key, time, value):
+        self.set(key, value)
+        self.expire(key, time)

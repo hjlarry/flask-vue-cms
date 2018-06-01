@@ -65,8 +65,7 @@ def login():
         token = generate_token(user.id).decode()
         res = {'data':
                    {'token': token}}
-        cache.set(user.id, token)
-        cache.expire(user.id, current_app.config['EXPIRE_TIME'])
+        cache.setex(user.id, current_app.config['EXPIRE_TIME'], token)
         return success(res)
     return fail(401)
 

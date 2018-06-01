@@ -121,3 +121,4 @@ package-lock.json
 
 .pytest_cache/
 static/upload/
+cache.db

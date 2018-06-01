@@ -11,7 +11,7 @@ class Config:
         'uiversion': 3
     }
 
-    REDIS = False
+    REDIS = True
     REDIS_HOST = '127.0.0.1'
     REDIS_PORT = 6379
     REDIS_DB = 0
