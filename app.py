@@ -40,7 +40,7 @@ CONFIG = config.DevelopConfig if get_debug_flag() else config.ProdConfig
 app = create_app(CONFIG)
 
 # For local test env
-if current_app.config['ENV'] == 'dev':
+if get_debug_flag():
     @app.after_request
     def after_request(response):
         response.headers.add('Access-Control-Allow-Origin', '*')
