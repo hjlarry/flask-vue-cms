@@ -18,6 +18,7 @@ factory-boy = "*"
 raven = "*"
 blinker = "*"
 gunicorn = "*"
+fabric = "*"
 
 [dev-packages]
 

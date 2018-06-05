@@ -11,7 +11,7 @@ class Config:
         'uiversion': 3
     }
 
-    REDIS = True
+    REDIS = False
     REDIS_HOST = '127.0.0.1'
     REDIS_PORT = 6379
     REDIS_DB = 0
@@ -38,8 +38,9 @@ class TestConfig(Config):
     SQLALCHEMY_RECORD_QUERIES = True
     DATABASE_QUERY_TIMEOUT = 0.5
 
+
 class ProdConfig(Config):
     ENV = 'prod'
     DEBUG = False
-    SQLALCHEMY_DATABASE_URI = 'mysql://root:root@127.0.0.1:3306/test'
+    SQLALCHEMY_DATABASE_URI = 'mysql://flask:1234flask@127.0.0.1:3306/internation_freecard'
     SQLALCHEMY_TRACK_MODIFICATIONS = False

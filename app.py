@@ -1,4 +1,5 @@
 from flask import Flask, render_template, Response, current_app
+from flask.helpers import get_debug_flag
 from flask_sqlalchemy import get_debug_queries
 
 from ext import db, swagger, sentry
@@ -35,7 +36,8 @@ def create_app(config):
     return app
 
 
-app = create_app(config.DevelopConfig)
+CONFIG = config.DevelopConfig if get_debug_flag() else config.ProdConfig
+app = create_app(CONFIG)
 
 
 # For local test env
