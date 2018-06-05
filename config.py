@@ -42,5 +42,6 @@ class TestConfig(Config):
 class ProdConfig(Config):
     ENV = 'prod'
     DEBUG = False
+    SECRET_KEY = '\xfb\x12\xdf\xa1@i\xd6>V\xc0\xbb\x8fp\x16#Z\x0b\x81\xeb\x81'
     SQLALCHEMY_DATABASE_URI = 'mysql://flask:1234flask@127.0.0.1:3306/internation_freecard'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
