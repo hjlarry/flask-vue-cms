@@ -39,18 +39,18 @@ def create_app(config):
 CONFIG = config.DevelopConfig if get_debug_flag() else config.ProdConfig
 app = create_app(CONFIG)
 
-
 # For local test env
-@app.after_request
-def after_request(response):
-    response.headers.add('Access-Control-Allow-Origin', '*')
-    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
-    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
-    for query in get_debug_queries():
-        if query.duration > current_app.config['DATABASE_QUERY_TIMEOUT']:
-            app.logger.warning('SLOW QUERY: {}\nParameters: {}\nDuration: {}\nContext: {}\n'
-                               .format(query.statement, query.parameters, query.duration, query.context))
-    return response
+if current_app.config['ENV'] == 'dev':
+    @app.after_request
+    def after_request(response):
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+        response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+        for query in get_debug_queries():
+            if query.duration > current_app.config['DATABASE_QUERY_TIMEOUT']:
+                app.logger.warning('SLOW QUERY: {}\nParameters: {}\nDuration: {}\nContext: {}\n'
+                                   .format(query.statement, query.parameters, query.duration, query.context))
+        return response
 
 
 @app.errorhandler(ApiException)
