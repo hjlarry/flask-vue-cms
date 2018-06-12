@@ -72,6 +72,50 @@ def login():
     return fail(401)
 
 
+@admin_bp.route('/login_third')
+def github_login():
+    """github oauth登录
+        ---
+        tags:
+        - 登录
+        parameters:
+        - in: url
+          name: code
+          required: true
+        responses:
+          200:
+            examples:
+              code: 0
+              data: {'token': 'abcdefgh'}
+              message: 'success'
+          401:
+            examples:
+              code: 1
+              message: 'fail'
+        # 使用code和secret前往github获取到一个token，使用token能获取到用户信息，这里直接使用
+        # :return: Flask Response
+        """
+    code = request.args.get('code')
+    params = {
+        'code': code,
+        'client_id': GITHUB_CLIENTID,
+        'client_secret': GITHUB_CLIENTSECRET
+    }
+    res = requests.get(GITHUB_OAUTH_URL, params=params)
+    # res.text: access_token=5fb2fde682eeae364bf72eed9e84cc1fa5ba9e1a&scope=user%3Aemail&token_type=bearer
+    token = res.text.split('&')[0]
+    res = requests.get(GITHUB_USER_URL + token)
+    user = json.loads(res.content)
+    user = Admin.query.filter_by(username=user['login']).first()
+    if user:
+        token = generate_token(user.id).decode()
+        res = {'data':
+                   {'token': token}}
+        cache.setex(user.id, current_app.config['EXPIRE_TIME'], token)
+        return success(res)
+    return fail(401)
+
+
 @admin_bp.route('/logout', methods=['POST'])
 def logout():
     """登出
@@ -357,26 +401,3 @@ def upload_avatar():
         }
         return success(res)
     return fail(400)
-
-
-@admin_bp.route('/login_third')
-def github_login_callback():
-    code = request.args.get('code')
-    params = {
-        'code': code,
-        'client_id': GITHUB_CLIENTID,
-        'client_secret': GITHUB_CLIENTSECRET
-    }
-    res = requests.get(GITHUB_OAUTH_URL, params=params)
-    # res.text: access_token=5fb2fde682eeae364bf72eed9e84cc1fa5ba9e1a&scope=user%3Aemail&token_type=bearer
-    token = res.text.split('&')[0]
-    res = requests.get(GITHUB_USER_URL+token)
-    user = json.loads(res.content)
-    user = Admin.query.filter_by(username=user['login']).first()
-    if user:
-        token = generate_token(user.id).decode()
-        res = {'data':
-                   {'token': token}}
-        cache.setex(user.id, current_app.config['EXPIRE_TIME'], token)
-        return success(res)
-    return fail(401)
