@@ -7,7 +7,7 @@ const user = {
     name: '',
     avatar: '',
     roles: [],
-    party: ''
+    auth_type: ''
   },
 
   mutations: {
@@ -23,8 +23,8 @@ const user = {
     SET_ROLES: (state, roles) => {
       state.roles = roles
     },
-    SET_AUTH_TYPE: (state, party) => {
-      state.party = party
+    SET_CODE: (state, code) => {
+      state.code = code
     }
   },
 

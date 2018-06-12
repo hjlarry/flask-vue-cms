@@ -97,7 +97,6 @@ def logout():
     """
     data = verify_token(request.headers['Authorization'])
     cache.delete(data['user_id'])
-    print(11)
     return success()
 
 
@@ -360,7 +359,6 @@ def upload_avatar():
     return fail(400)
 
 
-@admin_bp.route('/login_callback')
 @admin_bp.route('/login_third')
 def github_login_callback():
     code = request.args.get('code')

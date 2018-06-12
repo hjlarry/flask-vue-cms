@@ -37,7 +37,7 @@ def create_app(config):
 
 
 CONFIG = config.DevelopConfig if get_debug_flag() else config.ProdConfig
-app = create_app(config.DevelopConfig)
+app = create_app(CONFIG)
 
 # For local test env
 if config.ALLOW_CORS:

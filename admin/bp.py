@@ -12,7 +12,7 @@ admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
 
 CH_REGEX = re.compile(r'[\u4e00-\u9fff]+')
 ALLOWED_EXTENSIONS = frozenset(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
-ALLOWED_PATHS = frozenset(['/admin/login', '/admin/info', '/admin/login_callback'])
+ALLOWED_PATHS = frozenset(['/admin/login', '/admin/info', '/admin/login_third'])
 
 
 def allowed_file(filename):

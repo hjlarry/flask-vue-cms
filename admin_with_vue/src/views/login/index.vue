@@ -40,6 +40,7 @@
 <script>
 
 import SocialSign from './socialsign'
+import { getQueryObject } from '@/utils/index'
 
 export default {
   name: 'login',
@@ -90,31 +91,28 @@ export default {
         }
       })
     },
-    afterQRScan() {
-    //   const hash = window.location.hash.slice(1)
-    //   console.log(hash)
-    //   const hashObj = getQueryObject(hash)
-    //   const originUrl = window.location.origin
-    //   history.replaceState({}, '', originUrl)
-    //   const codeMap = {
-    //     github: 'code',
-    //     tencent: 'code'
-    //   }
-    //   const codeName = hashObj[codeMap[this.auth_type]]
-    //   if (!codeName) {
-    //     alert('第三方登录失败')
-    //   } else {
-    //     this.$store.dispatch('LoginByThirdparty', codeName).then(() => {
-    //       this.$router.push({ path: '/' })
-    //     })
-    //   }
+    afterThirdLogin() {
+      const hash = window.location.hash.slice(1)
+      console.log(hash)
+      const hashObj = getQueryObject(hash)
+      const originUrl = window.location.origin
+      history.replaceState({}, '', originUrl)
+      const codeName = hashObj['code']
+      if (!codeName) {
+        alert('第三方登录失败')
+      } else {
+        this.$store.dispatch('LoginByThirdparty', codeName).then(() => {
+          this.$router.push({ path: '/' })
+          this.showDialog = false
+        })
+      }
     }
   },
   created() {
-    // window.addEventListener('hashchange', this.afterQRScan)
+    window.addEventListener('hashchange', this.afterThirdLogin)
   },
   destroyed() {
-    // window.removeEventListener('hashchange', this.afterQRScan)
+    window.removeEventListener('hashchange', this.afterThirdLogin)
   }
 }
 </script>
