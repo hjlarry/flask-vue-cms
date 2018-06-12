@@ -1,3 +1,13 @@
+SENTRY_URL = 'https://016ce4d019544bfc96e58a925e65c915:150f2c0e5567487298f633ae419bd290@sentry.io/1188584'
+
+GITHUB_OAUTH_URL = 'https://github.com/login/oauth/access_token'
+GITHUB_USER_URL = 'https://api.github.com/user?'
+GITHUB_CLIENTID = '9f24e95ba9507c804669'
+GITHUB_CLIENTSECRET = '6b09f3cb99b0e8d4df8793450cd2cfc32e587896'
+
+ALLOW_CORS = True
+
+
 class Config:
     DEBUG = False
 
@@ -5,7 +15,6 @@ class Config:
     STATIC_FOLDER = 'static'
     STATIC_URL = SITE_URL + STATIC_FOLDER + '/'
     UPLOAD_FOLDER = STATIC_FOLDER + '/upload/'
-    SENTRY_URL = 'https://016ce4d019544bfc96e58a925e65c915:150f2c0e5567487298f633ae419bd290@sentry.io/1188584'
 
     SWAGGER = {
         'uiversion': 3

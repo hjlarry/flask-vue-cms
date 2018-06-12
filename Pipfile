@@ -19,6 +19,7 @@ raven = "*"
 blinker = "*"
 gunicorn = "*"
 fabric = "*"
+requests = "*"
 
 [dev-packages]
 

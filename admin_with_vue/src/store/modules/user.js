@@ -1,4 +1,4 @@
-import { login, logout, getInfo } from '@/api/login'
+import { login, logout, getInfo, loginByThirdparty } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 
 const user = {
@@ -6,7 +6,8 @@ const user = {
     token: getToken(),
     name: '',
     avatar: '',
-    roles: []
+    roles: [],
+    party: ''
   },
 
   mutations: {
@@ -21,6 +22,9 @@ const user = {
     },
     SET_ROLES: (state, roles) => {
       state.roles = roles
+    },
+    SET_AUTH_TYPE: (state, party) => {
+      state.party = party
     }
   },
 
@@ -33,6 +37,20 @@ const user = {
           const data = response.data
           setToken(data.token)
           commit('SET_TOKEN', data.token)
+          resolve()
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+
+    // 第三方验证登录
+    LoginByThirdparty({ commit, state }, code) {
+      return new Promise((resolve, reject) => {
+        commit('SET_CODE', code)
+        loginByThirdparty(state.code).then(response => {
+          commit('SET_TOKEN', response.data.token)
+          setToken(response.data.token)
           resolve()
         }).catch(error => {
           reject(error)

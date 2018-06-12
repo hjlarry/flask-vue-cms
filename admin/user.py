@@ -1,5 +1,6 @@
 import time
 import os
+import requests
 from itsdangerous import JSONWebSignatureSerializer as Serializer
 from flask import current_app, json, request
 
@@ -7,6 +8,7 @@ from .bp import admin_bp, allowed_file, secure_filename, CH_REGEX
 from models import Admin
 from utils import success, fail
 from ext import cache
+from config import GITHUB_CLIENTID, GITHUB_CLIENTSECRET, GITHUB_OAUTH_URL, GITHUB_USER_URL
 
 
 def generate_token(user_id):
@@ -356,3 +358,27 @@ def upload_avatar():
         }
         return success(res)
     return fail(400)
+
+
+@admin_bp.route('/login_callback')
+@admin_bp.route('/login_third')
+def github_login_callback():
+    code = request.args.get('code')
+    params = {
+        'code': code,
+        'client_id': GITHUB_CLIENTID,
+        'client_secret': GITHUB_CLIENTSECRET
+    }
+    res = requests.get(GITHUB_OAUTH_URL, params=params)
+    # res.text: access_token=5fb2fde682eeae364bf72eed9e84cc1fa5ba9e1a&scope=user%3Aemail&token_type=bearer
+    token = res.text.split('&')[0]
+    res = requests.get(GITHUB_USER_URL+token)
+    user = json.loads(res.content)
+    user = Admin.query.filter_by(username=user['login']).first()
+    if user:
+        token = generate_token(user.id).decode()
+        res = {'data':
+                   {'token': token}}
+        cache.setex(user.id, current_app.config['EXPIRE_TIME'], token)
+        return success(res)
+    return fail(401)

@@ -37,10 +37,10 @@ def create_app(config):
 
 
 CONFIG = config.DevelopConfig if get_debug_flag() else config.ProdConfig
-app = create_app(CONFIG)
+app = create_app(config.DevelopConfig)
 
 # For local test env
-if get_debug_flag():
+if config.ALLOW_CORS:
     @app.after_request
     def after_request(response):
         response.headers.add('Access-Control-Allow-Origin', '*')

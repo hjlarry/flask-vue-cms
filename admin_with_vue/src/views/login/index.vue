@@ -2,7 +2,7 @@
   <div class="login-container">
     <el-form autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left" label-width="0px"
       class="card-box login-form">
-      <h3 class="title">vue-element-admin</h3>
+      <h3 class="title">flask-vue-cms</h3>
       <el-form-item prop="username">
         <span class="svg-container svg-container_login">
           <svg-icon icon-class="user" />
@@ -22,14 +22,28 @@
           Sign in
         </el-button>
       </el-form-item>
+      <el-form-item>
+        <el-button style="width:100%;" type="primary" @click="showDialog=true">Social Login</el-button>
+      </el-form-item>
     </el-form>
+
+    <el-dialog :visible.sync="showDialog" append-to-body>
+      Third-party Login
+      <br/>
+      <br/>
+      <br/>
+      <social-sign />
+    </el-dialog>
   </div>
 </template>
 
 <script>
 
+import SocialSign from './socialsign'
+
 export default {
   name: 'login',
+  components: { SocialSign },
   data() {
     const validatePass = (rule, value, callback) => {
       if (value.length < 3) {
@@ -48,7 +62,8 @@ export default {
         password: [{ required: true, trigger: 'blur', validator: validatePass }]
       },
       loading: false,
-      pwdType: 'password'
+      pwdType: 'password',
+      showDialog: false
     }
   },
   methods: {
@@ -74,7 +89,32 @@ export default {
           return false
         }
       })
+    },
+    afterQRScan() {
+    //   const hash = window.location.hash.slice(1)
+    //   console.log(hash)
+    //   const hashObj = getQueryObject(hash)
+    //   const originUrl = window.location.origin
+    //   history.replaceState({}, '', originUrl)
+    //   const codeMap = {
+    //     github: 'code',
+    //     tencent: 'code'
+    //   }
+    //   const codeName = hashObj[codeMap[this.auth_type]]
+    //   if (!codeName) {
+    //     alert('第三方登录失败')
+    //   } else {
+    //     this.$store.dispatch('LoginByThirdparty', codeName).then(() => {
+    //       this.$router.push({ path: '/' })
+    //     })
+    //   }
     }
+  },
+  created() {
+    // window.addEventListener('hashchange', this.afterQRScan)
+  },
+  destroyed() {
+    // window.removeEventListener('hashchange', this.afterQRScan)
   }
 }
 </script>
@@ -153,10 +193,6 @@ export default {
       cursor: pointer;
       user-select:none;
     }
-    .thirdparty-button{
-      position: absolute;
-      right: 35px;
-      bottom: 28px;
-    }
+
   }
 </style>

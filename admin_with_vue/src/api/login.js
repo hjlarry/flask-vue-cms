@@ -10,6 +10,13 @@ export function login(username, password) {
     }
   })
 }
+export function loginByThirdparty(code) {
+  return request({
+    url: '/login_third',
+    method: 'get',
+    params: { code }
+  })
+}
 
 export function getInfo(token) {
   return request({
