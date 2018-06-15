@@ -96,6 +96,8 @@ def github_login():
         # :return: Flask Response
         """
     code = request.args.get('code')
+    if not code:
+        return fail(401)
     params = {
         'code': code,
         'client_id': GITHUB_CLIENTID,
@@ -107,13 +109,13 @@ def github_login():
     res = requests.get(GITHUB_USER_URL + token)
     user = json.loads(res.content)
     user = Admin.query.filter_by(username=user['login']).first()
-    if user:
-        token = generate_token(user.id).decode()
-        res = {'data':
-                   {'token': token}}
-        cache.setex(user.id, current_app.config['EXPIRE_TIME'], token)
-        return success(res)
-    return fail(401)
+    if not user:
+        return fail(401)
+    token = generate_token(user.id).decode()
+    res = {'data':
+               {'token': token}}
+    cache.setex(user.id, current_app.config['EXPIRE_TIME'], token)
+    return success(res)
 
 
 @admin_bp.route('/logout', methods=['POST'])

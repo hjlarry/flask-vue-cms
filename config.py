@@ -25,6 +25,7 @@ class Config:
     REDIS_PORT = 6379
     REDIS_DB = 0
     EXPIRE_TIME = 36000
+    FREEZER_IGNORE_MIMETYPE_WARNINGS = True
 
 
 class DevelopConfig(Config):

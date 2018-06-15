@@ -2,11 +2,10 @@ from flask import Flask, render_template, Response, current_app
 from flask.helpers import get_debug_flag
 from flask_sqlalchemy import get_debug_queries
 
-from ext import db, swagger, sentry
+from ext import db, swagger, sentry, freezer
 from utils import ApiResult, ApiException
 from api import api_bp
 from admin import admin_bp
-
 import config
 
 
@@ -29,6 +28,7 @@ def create_app(config):
     db.init_app(app)
     swagger.init_app(app)
     sentry.init_app(app)
+    freezer.init_app(app)
 
     app.register_blueprint(api_bp)
     app.register_blueprint(admin_bp)
@@ -36,8 +36,8 @@ def create_app(config):
     return app
 
 
-CONFIG = config.DevelopConfig if get_debug_flag() else config.ProdConfig
-app = create_app(CONFIG)
+current_config = config.DevelopConfig if get_debug_flag() else config.ProdConfig
+app = create_app(current_config)
 
 # For local test env
 if config.ALLOW_CORS:
@@ -80,4 +80,6 @@ def index():
 app.add_url_rule('/favicon.ico', 'favicon', lambda: app.send_static_file('favicon.ico'))
 
 if __name__ == '__main__':
+    # This command will raise MissingURLGeneratorWarning, it`s doesn`t matter.
+    # freezer.freeze()
     app.run(host='0.0.0.0', port=8100, debug=app.debug)

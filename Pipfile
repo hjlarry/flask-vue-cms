@@ -20,6 +20,7 @@ blinker = "*"
 gunicorn = "*"
 fabric = "*"
 requests = "*"
+frozen-flask = "*"
 
 [dev-packages]
 

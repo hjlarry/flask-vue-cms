@@ -2,7 +2,7 @@ from flask import Blueprint, request, json, current_app
 
 from utils import success, ApiResult, fail
 from models import Article, Module, ExpressionOffical
-from ext import cache
+from ext import cache, freezer
 
 api_bp = Blueprint('api', __name__, url_prefix='/api')
 
@@ -116,3 +116,12 @@ def expression_offical_add() -> ApiResult:
     except:
         return fail()
     return success()
+
+
+@freezer.register_generator
+def home():
+    """
+    generate a static json file
+    :return:
+    """
+    yield '/api/home'
