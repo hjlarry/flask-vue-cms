@@ -4,8 +4,8 @@ from flasgger import Swagger
 from flask_frozen import Freezer
 from raven.contrib.flask import Sentry
 
-from config import SENTRY_URL, Config
-from utils import CacheDict
+from flask_server.config import SENTRY_URL, Config
+from flask_server.utils import CacheDict
 
 db = SQLAlchemy()
 freezer = Freezer(with_no_argument_rules=False, log_url_for=False)

@@ -1,4 +1,4 @@
-from ext import db
+from flask_server.ext import db
 
 from sqlalchemy.ext.hybrid import hybrid_property
 from datetime import datetime

@@ -3,7 +3,7 @@ from werkzeug.exceptions import NotFound
 from webtest import Upload
 
 from .factories import UserFactory
-from models import Admin, Article, OperationLog, Module
+from flask_server.models import Admin, Article, OperationLog
 
 
 class TestFrontEnd:

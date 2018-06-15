@@ -21,4 +21,5 @@ install:
   - pip install pipenv
 script:
   - pipenv install
+  - cd flask_server
   - pytest tests

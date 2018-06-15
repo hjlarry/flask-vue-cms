@@ -2,11 +2,11 @@ from flask import Flask, render_template, Response, current_app
 from flask.helpers import get_debug_flag
 from flask_sqlalchemy import get_debug_queries
 
-from ext import db, swagger, sentry, freezer
-from utils import ApiResult, ApiException
-from api import api_bp
-from admin import admin_bp
-import config
+from flask_server.ext import db, swagger, sentry, freezer
+from flask_server.utils import ApiResult, ApiException
+from flask_server.api import api_bp
+from flask_server.admin import admin_bp
+from flask_server import config
 
 
 class ApiFlask(Flask):
@@ -82,4 +82,4 @@ app.add_url_rule('/favicon.ico', 'favicon', lambda: app.send_static_file('favico
 if __name__ == '__main__':
     # This command will raise MissingURLGeneratorWarning, it`s doesn`t matter.
     # freezer.freeze()
-    app.run(host='0.0.0.0', port=8100, debug=app.debug)
+    app.run(host='0.0.0.0', port=8100, debug=True)

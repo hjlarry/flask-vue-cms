@@ -4,7 +4,7 @@ import datetime as dt
 
 import pytest
 
-from models import Admin, Article, Module
+from flask_server.models import Admin, Article, Module
 
 from .factories import UserFactory, ArticleFactory
 

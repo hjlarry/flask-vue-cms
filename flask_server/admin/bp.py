@@ -4,9 +4,9 @@ import re
 import time
 import os
 
-from utils import success, fail
-from models import OperationLog
-from ext import db
+from flask_server.utils import success, fail
+from flask_server.models import OperationLog
+from flask_server.ext import db
 
 admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
 

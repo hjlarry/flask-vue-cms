@@ -1,8 +1,8 @@
 from flask import request, json
 
 from .bp import admin_bp
-from models import Article, Module
-from utils import success, fail
+from flask_server.models import Article, Module
+from flask_server.utils import success, fail
 
 
 @admin_bp.route('/article')

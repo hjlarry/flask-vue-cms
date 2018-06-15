@@ -3,8 +3,8 @@
 from factory import Sequence
 from factory.alchemy import SQLAlchemyModelFactory
 
-from ext import db
-from models import Admin, Article, Module
+from flask_server.ext import db
+from flask_server.models import Admin, Article, Module
 
 
 class BaseFactory(SQLAlchemyModelFactory):

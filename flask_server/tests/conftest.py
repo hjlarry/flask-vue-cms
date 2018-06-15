@@ -4,9 +4,9 @@
 import pytest
 from webtest import TestApp
 
-from app import create_app
-from ext import db as _db
-from config import TestConfig
+from flask_server.app import create_app
+from flask_server.ext import db as _db
+from flask_server.config import TestConfig
 
 from .factories import UserFactory, ArticleFactory, ModuleFactory
 

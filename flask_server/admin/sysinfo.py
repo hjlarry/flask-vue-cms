@@ -1,9 +1,9 @@
 from flask import request, json
 
 from .bp import admin_bp
-from utils import success, fail, get_cpu, get_sysinfo, get_memory, get_disk, get_user
-from models import OperationLog
-from ext import db
+from flask_server.utils import success, fail, get_cpu, get_sysinfo, get_memory, get_disk, get_user
+from flask_server.models import OperationLog
+from flask_server.ext import db
 
 
 @admin_bp.route('/sysinfo')

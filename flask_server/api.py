@@ -1,8 +1,8 @@
 from flask import Blueprint, request, json, current_app
 
-from utils import success, ApiResult, fail
-from models import Article, Module, ExpressionOffical
-from ext import cache, freezer
+from flask_server.utils import success, ApiResult, fail
+from flask_server.models import Article, Module, ExpressionOffical
+from flask_server.ext import cache, freezer
 
 api_bp = Blueprint('api', __name__, url_prefix='/api')
 

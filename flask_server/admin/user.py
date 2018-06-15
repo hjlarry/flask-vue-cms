@@ -5,10 +5,10 @@ from itsdangerous import JSONWebSignatureSerializer as Serializer
 from flask import current_app, json, request
 
 from .bp import admin_bp, allowed_file, secure_filename, CH_REGEX
-from models import Admin
-from utils import success, fail
-from ext import cache
-from config import GITHUB_CLIENTID, GITHUB_CLIENTSECRET, GITHUB_OAUTH_URL, GITHUB_USER_URL
+from flask_server.models import Admin
+from flask_server.utils import success, fail
+from flask_server.ext import cache
+from flask_server.config import GITHUB_CLIENTID, GITHUB_CLIENTSECRET, GITHUB_OAUTH_URL, GITHUB_USER_URL
 
 
 def generate_token(user_id):

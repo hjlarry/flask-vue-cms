@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Test configs."""
-from app import create_app
-from config import DevelopConfig, ProdConfig
+from flask_server.app import create_app
+from flask_server.config import DevelopConfig, ProdConfig
 
 
 def test_production_config():
