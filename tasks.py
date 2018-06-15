@@ -5,7 +5,8 @@ from flask_sqlalchemy import get_debug_queries
 from flask import current_app
 
 from flask_server.app import create_app
-from flask_server.config import DevelopConfig
+from flask_server.config import DevelopConfig, ProdConfig
+from flask_server.ext import freezer
 
 try:
     from fabfile import HOST, PORT, USERNAME, PASSWORD
@@ -13,6 +14,7 @@ except ModuleNotFoundError:
     HOST, PORT, USERNAME, PASSWORD = '', '', '', ''
 connect = Connection(HOST, user=USERNAME, port=PORT, connect_kwargs={'password': PASSWORD})
 DEPLOY_DIR = '/home/www/flask-vue-cms'
+prod_app = create_app(ProdConfig)
 
 
 @task
@@ -55,3 +57,16 @@ def rundev(c):
     t2 = multiprocessing.Process(target=run_vue)
     t1.start()
     t2.start()
+
+
+@task
+def test(c):
+    c.run('cd flask_server && pytest tests')
+
+
+@task
+def freeze(c):
+    """
+    会触发一个MissingURLGeneratorWarning的警告，因为只让部分路由生成静态页面了，忽略警告即可。
+    """
+    freezer.freeze()
