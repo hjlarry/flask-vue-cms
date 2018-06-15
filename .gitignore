@@ -120,6 +120,6 @@ package-lock.json
 *.sln
 
 .pytest_cache/
-static/upload/
+flask_server/static/upload/
 cache.db
 fabfile.py
