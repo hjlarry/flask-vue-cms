@@ -21,6 +21,7 @@ gunicorn = "*"
 fabric = "*"
 requests = "*"
 frozen-flask = "*"
+flask-migrate = "*"
 
 [dev-packages]
 

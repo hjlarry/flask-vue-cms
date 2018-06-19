@@ -1,3 +1,6 @@
+import os
+
+
 SENTRY_URL = 'https://016ce4d019544bfc96e58a925e65c915:150f2c0e5567487298f633ae419bd290@sentry.io/1188584'
 
 GITHUB_OAUTH_URL = 'https://github.com/login/oauth/access_token'
@@ -14,7 +17,8 @@ class Config:
     SITE_URL = 'http://localhost:8100/'
     STATIC_FOLDER = 'static'
     STATIC_URL = SITE_URL + STATIC_FOLDER + '/'
-    UPLOAD_FOLDER = STATIC_FOLDER + '/upload/'
+    HERE = os.path.abspath(os.path.dirname(__file__))
+    UPLOAD_FOLDER = os.path.join(HERE, STATIC_FOLDER, 'upload')
 
     SWAGGER = {
         'uiversion': 3

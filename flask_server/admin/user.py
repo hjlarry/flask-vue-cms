@@ -391,8 +391,7 @@ def upload_avatar():
             return fail(415)
         if not CH_REGEX.search(filename):
             filename = secure_filename(filename)
-        UPLOAD_PATH = os.path.join(current_app.config['UPLOAD_FOLDER'], 'avatar')
-        filepath = os.path.join(UPLOAD_PATH, filename)
+        filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
         file.save(filepath)
 
         res = {'data':

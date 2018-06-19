@@ -123,3 +123,4 @@ package-lock.json
 flask_server/static/upload/
 cache.db
 fabfile.py
+flask_server/migrations/

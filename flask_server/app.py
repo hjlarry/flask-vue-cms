@@ -19,19 +19,20 @@ class ApiFlask(Flask):
         return Flask.make_response(self, rv)
 
 
-def create_app(config):
-    app = ApiFlask(__name__, static_folder='static')
-    app.config.from_object(config)
-
+def register_ext(app):
     db.init_app(app)
     swagger.init_app(app)
     sentry.init_app(app)
     freezer.init_app(app)
     migrate.init_app(app)
 
+
+def register_blueprint(app):
     app.register_blueprint(api_bp)
     app.register_blueprint(admin_bp)
 
+
+def register_errorhandler(app):
     @app.errorhandler(ApiException)
     def api_error_handler(error):
         return error.to_result()
@@ -49,6 +50,15 @@ def create_app(config):
         value = {'message': msg, 'code': 1}
         return ApiResult(value, status)
 
+
+def create_app(config):
+    app = ApiFlask(__name__, static_folder='static')
+    app.config.from_object(config)
+
+    register_ext(app)
+    register_blueprint(app)
+    register_errorhandler(app)
+
     @app.route('/')
     def index():
         return render_template('index.html')
@@ -57,5 +67,5 @@ def create_app(config):
 
     return app
 
-
+# only for flask migrate commands run
 app = create_app(DevelopConfig)

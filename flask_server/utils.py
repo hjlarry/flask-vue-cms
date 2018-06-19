@@ -1,6 +1,6 @@
 from flask import json
 from werkzeug.wrappers import Response
-from collections import OrderedDict, UserDict
+from collections import OrderedDict
 import psutil
 import time
 import netifaces
