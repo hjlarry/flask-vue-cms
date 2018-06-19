@@ -26,18 +26,8 @@ def deploy(c):
 
 
 @task
-def db_init(c):
-    c.run('cd flask_server && flask db init')
-
-
-@task
-def db_migrate(c):
-    c.run('cd flask_server && flask db migrate')
-
-
-@task
-def db_upgrade(c):
-    c.run('cd flask_server && flask db upgrade')
+def db(c, action):
+    c.run('cd flask_server && flask db ' + action)
 
 
 @task

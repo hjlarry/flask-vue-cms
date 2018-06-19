@@ -19,11 +19,15 @@
 # How to use
 * `python3 install pipenv`
 * `pipenv install && pipenv shell`
-*  edit `/flask_server/config.py` 
-* `invoke rundev` can run develop environment both front-end and back-end
-* `invoke test` can run unittests
-*  edit `tasks.py`, and then `invoke deploy` can deploy product environment
-* `invoke freeze` to freeze static files
+*  modify `/flask_server/config.py` 
+* `invoke db init`: run flask-migrate db init
+* `invoke db migrate`: run flask-migrate db migrate
+* `invoke db upgrade`: run flask-migrate db upgrade
+* `invoke create-admin`: create an administrator with username and password both `admin`, you can add `--username=what --password=what` params
+* `invoke rundev`: run develop environment both front-end and back-end
+* `invoke test`: run unittests
+* `invoke deploy`: you should edit `tasks.py` first, and then can deploy product environment
+* `invoke freeze`: to freeze static files
 
 
 # Instruction
