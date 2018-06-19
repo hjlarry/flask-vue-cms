@@ -1,4 +1,5 @@
-from flask import Flask, render_template, Response
+from flask import Flask, render_template, Response, current_app
+from flask_sqlalchemy import get_debug_queries
 
 from flask_server.ext import db, swagger, sentry, freezer, migrate
 from flask_server.utils import ApiResult, ApiException
@@ -51,7 +52,7 @@ def register_errorhandler(app):
         return ApiResult(value, status)
 
 
-def create_app(config):
+def create_app(config=DevelopConfig):
     app = ApiFlask(__name__, static_folder='static')
     app.config.from_object(config)
 
@@ -63,9 +64,22 @@ def create_app(config):
     def index():
         return render_template('index.html')
 
+    if config is DevelopConfig:
+        @app.after_request
+        def after_request(response):
+            response.headers.add('Access-Control-Allow-Origin', '*')
+            response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+            response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+            for query in get_debug_queries():
+                if query.duration > current_app.config['DATABASE_QUERY_TIMEOUT']:
+                    app.logger.warning('SLOW QUERY: {}\nParameters: {}\nDuration: {}\nContext: {}\n'
+                                       .format(query.statement, query.parameters, query.duration, query.context))
+            return response
+
     app.add_url_rule('/favicon.ico', 'favicon', lambda: app.send_static_file('favicon.ico'))
 
     return app
 
+
 # only for flask migrate commands run
-app = create_app(DevelopConfig)
+app = create_app()
