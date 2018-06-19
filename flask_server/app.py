@@ -1,9 +1,10 @@
 from flask import Flask, render_template, Response
 
-from flask_server.ext import db, swagger, sentry, freezer
+from flask_server.ext import db, swagger, sentry, freezer, migrate
 from flask_server.utils import ApiResult, ApiException
 from flask_server.api import api_bp
 from flask_server.admin import admin_bp
+from flask_server.config import DevelopConfig
 
 
 class ApiFlask(Flask):
@@ -19,13 +20,14 @@ class ApiFlask(Flask):
 
 
 def create_app(config):
-    app = ApiFlask(__name__, static_folder=config.STATIC_FOLDER)
+    app = ApiFlask(__name__, static_folder='static')
     app.config.from_object(config)
 
     db.init_app(app)
     swagger.init_app(app)
     sentry.init_app(app)
     freezer.init_app(app)
+    migrate.init_app(app)
 
     app.register_blueprint(api_bp)
     app.register_blueprint(admin_bp)
@@ -54,3 +56,6 @@ def create_app(config):
     app.add_url_rule('/favicon.ico', 'favicon', lambda: app.send_static_file('favicon.ico'))
 
     return app
+
+
+app = create_app(DevelopConfig)
