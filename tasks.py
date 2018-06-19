@@ -26,18 +26,23 @@ def deploy(c):
 
 
 @task
-def dbinit(c):
+def db_init(c):
     c.run('cd flask_server && flask db init')
 
 
 @task
-def dbmigrate(c):
+def db_migrate(c):
     c.run('cd flask_server && flask db migrate')
 
 
 @task
-def dbupgrade(c):
+def db_upgrade(c):
     c.run('cd flask_server && flask db upgrade')
+
+
+@task
+def create_admin(c, username='admin', password='admin'):
+    c.run('cd flask_server && flask create_admin --username ' + username + ' --password ' + password)
 
 
 @task

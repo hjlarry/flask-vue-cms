@@ -1,11 +1,14 @@
 from flask import Flask, render_template, Response, current_app
 from flask_sqlalchemy import get_debug_queries
+from flask.cli import with_appcontext
+import click
 
 from flask_server.ext import db, swagger, sentry, freezer, migrate
 from flask_server.utils import ApiResult, ApiException
 from flask_server.api import api_bp
 from flask_server.admin import admin_bp
 from flask_server.config import DevelopConfig
+from flask_server.models import Admin
 
 
 class ApiFlask(Flask):
@@ -18,6 +21,18 @@ class ApiFlask(Flask):
         if isinstance(rv, ApiResult):
             return rv.to_response()
         return Flask.make_response(self, rv)
+
+
+@click.command()
+@click.option('--username', default='admin')
+@click.option('--password', default='admin')
+@with_appcontext
+def create_admin(username, password):
+    try:
+        Admin.create(username=username, password=password)
+        print('success')
+    except Exception as e:
+        print(e)
 
 
 def register_ext(app):
@@ -59,6 +74,7 @@ def create_app(config=DevelopConfig):
     register_ext(app)
     register_blueprint(app)
     register_errorhandler(app)
+    app.cli.add_command(create_admin)
 
     @app.route('/')
     def index():
@@ -81,5 +97,4 @@ def create_app(config=DevelopConfig):
     return app
 
 
-# only for flask migrate commands run
 app = create_app()
