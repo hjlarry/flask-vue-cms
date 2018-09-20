@@ -113,7 +113,8 @@ def expression_offical_add() -> ApiResult:
     data = request.form
     try:
         ExpressionOffical.create(**dict(data))
-    except:
+    except Exception as e:
+        current_app.logger.exception(e)
         return fail()
     return success()
 
