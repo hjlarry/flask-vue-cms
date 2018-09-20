@@ -80,17 +80,17 @@ def create_app(config=DevelopConfig):
     def index():
         return render_template('index.html')
 
-    if config is DevelopConfig:
-        @app.after_request
-        def after_request(response):
-            response.headers.add('Access-Control-Allow-Origin', '*')
-            response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
-            response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
-            for query in get_debug_queries():
-                if query.duration > current_app.config['DATABASE_QUERY_TIMEOUT']:
-                    app.logger.warning('SLOW QUERY: {}\nParameters: {}\nDuration: {}\nContext: {}\n'
-                                       .format(query.statement, query.parameters, query.duration, query.context))
-            return response
+
+    @app.after_request
+    def after_request(response):
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+        response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+        for query in get_debug_queries():
+            if query.duration > current_app.config['DATABASE_QUERY_TIMEOUT']:
+                app.logger.warning('SLOW QUERY: {}\nParameters: {}\nDuration: {}\nContext: {}\n'
+                                   .format(query.statement, query.parameters, query.duration, query.context))
+        return response
 
     app.add_url_rule('/favicon.ico', 'favicon', lambda: app.send_static_file('favicon.ico'))
 
