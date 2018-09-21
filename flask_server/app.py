@@ -3,6 +3,7 @@ from flask_sqlalchemy import get_debug_queries
 from flask.cli import with_appcontext
 import click
 import logging
+from logging.handlers import RotatingFileHandler
 
 from flask_server.ext import db, swagger, sentry, freezer, migrate
 from flask_server.utils import ApiResult, ApiException
@@ -68,20 +69,33 @@ def register_errorhandler(app):
         return ApiResult(value, status)
 
 
+def register_logger(app):
+    # Formatter
+    formatter = logging.Formatter(
+        '%(asctime)s %(levelname)s %(process)d %(thread)d '
+        '%(pathname)s %(lineno)s %(message)s')
 
-class InfoFilter(logging.Filter):
-    def filter(self, record):
-        """only use INFO
-        筛选, 只需要 INFO 级别的log
-        :param record:
-        :return:
-        """
-        if logging.INFO <= record.levelno < logging.ERROR:
-            # 已经是INFO级别了
-            # 然后利用父类, 返回 1
-            return super().filter(record)
-        else:
-            return 0
+    class InfoFilter(logging.Filter):
+        def filter(self, record):
+            if logging.INFO <= record.levelno < logging.ERROR:
+                return super().filter(record)
+            else:
+                return 0
+
+    # FileHandler Info
+    file_handler_info = RotatingFileHandler(filename='info.log')
+    file_handler_info.setFormatter(formatter)
+    file_handler_info.setLevel(logging.INFO)
+    info_filter = InfoFilter()
+    file_handler_info.addFilter(info_filter)
+
+    # FileHandler Error
+    file_handler_error = RotatingFileHandler(filename='error.log')
+    file_handler_error.setFormatter(formatter)
+    file_handler_error.setLevel(logging.ERROR)
+
+    app.logger.addHandler(file_handler_error)
+    app.logger.addHandler(file_handler_info)
 
 
 def create_app(config=DevelopConfig):
@@ -92,32 +106,11 @@ def create_app(config=DevelopConfig):
     register_blueprint(app)
     register_errorhandler(app)
     app.cli.add_command(create_admin)
-
-
-    from logging.handlers import RotatingFileHandler
-    # Formatter
-    formatter = logging.Formatter(
-        '%(asctime)s %(levelname)s %(process)d %(thread)d '
-        '%(pathname)s %(lineno)s %(message)s')
-
-    # FileHandler Info
-    file_handler_info = RotatingFileHandler(filename='abc.log')
-    file_handler_info.setFormatter(formatter)
-    file_handler_info.setLevel(logging.INFO)
-    info_filter = InfoFilter()
-    file_handler_info.addFilter(info_filter)
-    app.logger.addHandler(file_handler_info)
-
-    # FileHandler Error
-    file_handler_error = RotatingFileHandler(filename='error.log')
-    file_handler_error.setFormatter(formatter)
-    file_handler_error.setLevel(logging.ERROR)
-    app.logger.addHandler(file_handler_error)
+    register_logger(app)
 
     @app.route('/')
     def index():
         return render_template('index.html')
-
 
     @app.after_request
     def after_request(response):
