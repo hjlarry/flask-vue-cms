@@ -13,7 +13,7 @@
 
       <el-form-item prop="username">
         <span class="svg-container svg-container_login">
-          <svg-icon icon-class="user" />
+          <svg-icon icon="user" />
         </span>
         <el-input
           name="username"
@@ -25,7 +25,7 @@
       </el-form-item>
       <el-form-item prop="password">
         <span class="svg-container">
-          <svg-icon icon-class="password"></svg-icon>
+          <svg-icon icon="password"></svg-icon>
         </span>
         <el-input
           name="password"
@@ -34,9 +34,7 @@
           autoComplete="on"
           placeholder="password"
         ></el-input>
-        <span class="show-pwd" @click="showPwd"
-          ><svg-icon icon-class="eye"
-        /></span>
+        <span class="show-pwd" @click="showPwd"><svg-icon icon="eye" /></span>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" style="width: 100%" :loading="loading">
@@ -120,7 +118,6 @@ $cursor: #fff;
       input {
         background: transparent;
         border: 0px;
-        -webkit-appearance: none;
         border-radius: 0px;
         padding: 12px 5px 12px 15px;
         color: $light_gray;
