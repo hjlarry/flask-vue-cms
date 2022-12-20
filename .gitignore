@@ -121,6 +121,6 @@ package-lock.json
 
 .pytest_cache/
 flask_server/static/upload/
-cache.db
+cache.db.*
 fabfile.py
 flask_server/migrations/
