@@ -1,7 +1,7 @@
 import time
 import os
 import requests
-from itsdangerous import JSONWebSignatureSerializer as Serializer
+from authlib.jose import jwt, JoseError
 from flask import current_app, json, request
 
 from .bp import admin_bp, allowed_file, secure_filename, CH_REGEX
@@ -12,8 +12,10 @@ from flask_server.config import GITHUB_CLIENTID, GITHUB_CLIENTSECRET, GITHUB_OAU
 
 
 def generate_token(user_id):
-    serializer = Serializer(current_app.config['SECRET_KEY'])
-    return serializer.dumps({'user_id': user_id})
+    header = {'alg': 'HS256', }
+    payload = {'user_id': user_id}
+    key = current_app.config['SECRET_KEY']
+    return jwt.encode(header, payload, key)
 
 
 def verify_token(token):
@@ -22,9 +24,9 @@ def verify_token(token):
     :param token:  str
     :return:  解析出的dict if true else return False
     """
-    serializer = Serializer(current_app.config['SECRET_KEY'])
+    key = current_app.config['SECRET_KEY']
     try:
-        data = serializer.loads(token)
+        data = jwt.decode(token, key)
     except:
         return False
     if 'user_id' in data and cache.get(data['user_id']):
@@ -214,7 +216,7 @@ def users():
     """
     current_page = request.args.get('page') or 1
     per_page = request.args.get('limit') or 10
-    pagination = Admin.query.paginate(int(current_page), per_page=int(per_page))
+    pagination = Admin.query.paginate(page=int(current_page), per_page=int(per_page))
     result = [item.to_json() for item in pagination.items]
     res = {
         'data': {

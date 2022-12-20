@@ -80,7 +80,7 @@ def operation_logs():
     if date:
         zero, twenti_four = date + ' 00:00:00', date + ' 23:59:59'
         query_result = query_result.filter(OperationLog._created_at.between(zero, twenti_four))
-    pagination = query_result.paginate(int(current_page), per_page=int(per_page))
+    pagination = query_result.paginate(page=int(current_page), per_page=int(per_page))
     result = [item.to_json() for item in pagination.items]
     res = {
         'data': {

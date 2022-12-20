@@ -31,8 +31,8 @@ def db(c, action):
 
 
 @task
-def create_admin(c, username='admin', password='admin'):
-    c.run('cd flask_server && flask create_admin --username ' + username + ' --password ' + password)
+def createAdmin(c, username='admin', password='admin'):
+    c.run('cd flask_server && flask create-admin --username ' + username + ' --password ' + password)
 
 
 @task

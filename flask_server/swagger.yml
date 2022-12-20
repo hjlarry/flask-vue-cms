@@ -5,21 +5,21 @@ info:
   title: "Flask-vue-cms"
   license:
     name: "MIT"
-host: "localhost:8100"
+host: "localhost:5000"
 tags:
-- name: "登录"
-  description: "用于管理后台登录"
-- name: "用户"
-  description: "管理后台用户相关"
-- name: "资讯"
-  description: "后台资讯的增删改查"
-- name: "系统"
-  description: "系统信息处理"
-- name: "前台API"
-  description: "用于前台内容呈现"
+  - name: "登录"
+    description: "用于管理后台登录"
+  - name: "用户"
+    description: "管理后台用户相关"
+  - name: "资讯"
+    description: "后台资讯的增删改查"
+  - name: "系统"
+    description: "系统信息处理"
+  - name: "前台API"
+    description: "用于前台内容呈现"
 
 schemes:
-- "http"
+  - "http"
 securityDefinitions:
   api_key:
     type: "apiKey"
@@ -119,16 +119,16 @@ parameters:
     in: "path"
     type: "string"
     enum:
-    - "all"
-    - "1"
-    - "2"
-    - "3"
+      - "all"
+      - "1"
+      - "2"
+      - "3"
     description: "要获取哪个模块的内容"
   user_login:
     type: "object"
     required:
-    - "username"
-    - "password"
+      - "username"
+      - "password"
     properties:
       username:
         type: "string"
@@ -139,14 +139,14 @@ parameters:
   add_expression_offical:
     type: "object"
     required:
-    - "name"
-    - "tel"
-    - "phone_model"
-    - "destination"
-    - "departure_time"
-    - "return_time"
-    - "airport"
-    - "terminal"
+      - "name"
+      - "tel"
+      - "phone_model"
+      - "destination"
+      - "departure_time"
+      - "return_time"
+      - "airport"
+      - "terminal"
     properties:
       name:
         type: "string"

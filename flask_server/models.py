@@ -64,7 +64,7 @@ class BaseModel(db.Model):
         else:
             order = 'updated_at'
 
-        if num is 'all':
+        if num == 'all':
             items = cls.query.order_by(order).all()
             return items
         elif num is None:
@@ -133,8 +133,8 @@ class Module(BaseModel):
 
 class Admin(BaseModel):
     __tablename__ = 'admin_users'
-    username = Column('username', db.String(40))
-    _password = Column('password', db.String(100))
+    username = Column('username', db.String(40), unique=True)
+    _password = Column('password', db.String(255))
     name = Column('name', db.String(40))
     avatar = Column('avatar', db.String(100))
     operations = relationship('OperationLog', backref='admin', lazy='dynamic')
@@ -160,13 +160,13 @@ class Admin(BaseModel):
         self._password = generate_password_hash(value)
 
     def __repr__(self):
-        return self.name
+        return self.name or self.username
 
 
 class OperationLog(BaseModel):
     __tablename__ = 'admin_operation_log'
     user_id = Column('user_id', db.Integer, db.ForeignKey('admin_users.id'))
-    path = Column('path', db.String(40))
+    path = Column('path', db.String(255))
     method = Column('method', db.String(15))
     ip = Column('ip', db.String(15))
     input = Column('input', db.JSON)

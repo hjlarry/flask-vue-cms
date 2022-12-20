@@ -72,7 +72,7 @@ def search(word: str) -> ApiResult:
            total: 10
     """
     current_page = request.args.get('page') or 1
-    pagination = Article.query.filter(Article.title.like('%' + word + '%')).paginate(int(current_page), per_page=5)
+    pagination = Article.query.filter(Article.title.like('%' + word + '%')).paginate(page=int(current_page), per_page=5)
     articles = pagination.items
     total = pagination.total
     result = []

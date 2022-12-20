@@ -35,9 +35,9 @@ def articles():
     per_page = request.args.get('limit') or 10
     module = request.args.get('module')
     if module and not module == 'all':
-        pagination = Article.query.filter_by(module_id=module).paginate(int(current_page), per_page=int(per_page))
+        pagination = Article.query.filter_by(module_id=module).paginate(page=int(current_page), per_page=int(per_page))
     else:
-        pagination = Article.query.paginate(int(current_page), per_page=int(per_page))
+        pagination = Article.query.paginate(page=int(current_page), per_page=int(per_page))
     result = [item.to_json() for item in pagination.items]
     res = {
         'data': {

@@ -3,7 +3,7 @@ from werkzeug.wrappers import Response
 from collections import OrderedDict
 import psutil
 import time
-import netifaces
+# import netifaces
 import os
 import shelve
 
@@ -59,9 +59,9 @@ def get_cpu() -> OrderedDict:
 def get_sysinfo() -> dict:
     sysinfo = {
         'boot_time': time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(psutil.boot_time())),
-        'load_avg(1m ago)': round(os.getloadavg()[0], 2),
-        'load_avg(5m ago)': round(os.getloadavg()[1], 2),
-        'load_avg(15m ago)': round(os.getloadavg()[2], 2),
+        # 'load_avg(1m ago)': round(os.getloadavg()[0], 2),
+        # 'load_avg(5m ago)': round(os.getloadavg()[1], 2),
+        # 'load_avg(15m ago)': round(os.getloadavg()[2], 2),
         'num_cpu': psutil.cpu_count()
     }
     return sysinfo
@@ -77,7 +77,7 @@ def get_network() -> list:
         for v in value:
             item = v._asdict()
             item.update({'Interface': key})
-            item['family'] = netifaces.address_families[item['family']]
+            # item['family'] = netifaces.address_families[item['family']]
             result.append(item)
     return result
 
