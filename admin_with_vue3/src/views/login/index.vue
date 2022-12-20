@@ -4,7 +4,7 @@
       autoComplete="on"
       :model="loginForm"
       :rules="loginRules"
-      ref="loginForm"
+      ref="loginFormRef"
       label-position="left"
       label-width="0px"
       class="card-box login-form"
@@ -34,10 +34,12 @@
           autoComplete="on"
           placeholder="password"
         ></el-input>
-        <span class="show-pwd" @click="showPwd"><svg-icon icon="eye" /></span>
+        <span class="show-pwd" @click="showPwd">
+          <svg-icon :icon="pwdType === 'password' ? 'eye' : 'eye-open'" />
+        </span>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" style="width: 100%" :loading="loading">
+        <el-button type="primary" style="width: 100%" @click="handleLogin">
           Sign in
         </el-button>
       </el-form-item>
@@ -45,41 +47,55 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'login',
-  data() {
-    const validatePass = (rule, value, callback) => {
-      if (value.length < 3) {
-        callback(new Error('密码不能小于3位'))
-      } else {
-        callback()
-      }
-    }
-    return {
-      loginForm: {
-        username: 'admin',
-        password: 'admin'
-      },
-      loginRules: {
-        username: [{ required: true, trigger: 'blur' }],
-        password: [{ required: true, trigger: 'blur', validator: validatePass }]
-      },
-      loading: false,
-      pwdType: 'password',
-      showDialog: false
-    }
-  },
-  methods: {
-    showPwd() {
-      if (this.pwdType === 'password') {
-        this.pwdType = ''
-      } else {
-        this.pwdType = 'password'
-      }
-    },
-    handleLogin() {}
+<script setup>
+import { ref } from 'vue'
+import { useStore } from 'vuex'
+import router from '@/router'
+
+const loginForm = ref({
+  username: 'admin',
+  password: 'admin'
+})
+
+const validatePass = (rule, value, callback) => {
+  if (value.length < 3) {
+    callback(new Error('密码不能小于3位'))
+  } else {
+    callback()
   }
+}
+const loginRules = ref({
+  username: [{ required: true, trigger: 'blur', message: '请输入用户名' }],
+  password: [{ required: true, trigger: 'blur', validator: validatePass }]
+})
+
+const pwdType = ref('password')
+const showPwd = () => {
+  if (pwdType.value === 'password') {
+    pwdType.value = ''
+  } else {
+    pwdType.value = 'password'
+  }
+}
+
+const loading = ref(false)
+const loginFormRef = ref(null)
+const store = useStore()
+const handleLogin = () => {
+  loginFormRef.value.validate((valid) => {
+    if (!valid) return
+    loading.value = true
+    store
+      .dispatch('user/login', loginForm.value)
+      .then(() => {
+        loading.value = false
+        router.push('/')
+      })
+      .catch((error) => {
+        console.log(error)
+        loading.value = false
+      })
+  })
 }
 </script>
 
