@@ -29,5 +29,14 @@ module.exports = {
         symbolId: 'icon-[name]'
       })
       .end()
+  },
+  css: {
+    loaderOptions: {
+      css: {
+        modules: {
+          mode: 'icss'
+        }
+      }
+    }
   }
 }
