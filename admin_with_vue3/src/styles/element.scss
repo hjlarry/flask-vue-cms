@@ -1,0 +1,65 @@
+// 重置 element-plus 的css
+.horizontal-collapse-transition {
+  transition: 0s width ease-in-out, 0s padding-left ease-in-out,
+  0s padding-right ease-in-out;
+}
+
+.scrollbar-wrapper {
+  overflow-x: hidden !important;
+}
+
+.el-scrollbar__bar.is-vertical {
+  right: 0;
+}
+
+.el-scrollbar {
+  height: 100%;
+}
+
+.has-logo {
+  .el-scrollbar {
+    height: calc(100% - 50px);
+  }
+}
+
+.is-horizontal {
+  display: none;
+}
+
+a {
+  display: inline-block;
+  width: 100%;
+  overflow: hidden;
+}
+
+.svg-icon {
+  margin-right: 16px;
+}
+
+// 在 menu 收起时，取消 margin-left
+.el-menu--collapse {
+  .svg-icon {
+    margin-right: 0;
+  }
+}
+
+.sub-el-icon {
+  margin-right: 12px;
+  margin-left: -2px;
+}
+
+.el-menu {
+  border: none;
+  height: 100%;
+  width: 100% !important;
+}
+
+.is-active > .el-submenu__title {
+  color: $subMenuActiveText !important;
+}
+
+.nest-menu .el-submenu > .el-submenu__title,
+.el-submenu .el-menu-item {
+  min-width: $sideBarWidth !important;
+}
+
