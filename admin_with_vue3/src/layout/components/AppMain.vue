@@ -1,5 +1,7 @@
 <template>
-  <div class="app-main">App Main</div>
+  <div class="app-main">
+    <router-view></router-view>
+  </div>
 </template>
 
 <style scoped>
