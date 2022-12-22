@@ -6,15 +6,15 @@ export default {
   namespaced: true,
   state: () => ({
     token: getItem(TOKEN),
-    userinfo: {}
+    userInfo: {}
   }),
   mutations: {
     setToken(state, token) {
       state.token = token
       setItem(TOKEN, token)
     },
-    setUserInfo(state, userinfo) {
-      state.userinfo = userinfo
+    setUserInfo(state, userInfo) {
+      state.userInfo = userInfo
     }
   },
   actions: {

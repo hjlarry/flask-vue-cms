@@ -5,3 +5,5 @@ const getters = {
     return JSON.stringify(state.user.userInfo) !== '{}'
   }
 }
+
+export default getters
