@@ -56,6 +56,9 @@ service.interceptors.response.use(
   },
   (error) => {
     console.log('err' + error) // for debug
+    if (error.response && error.response.status === 401) {
+      store.dispatch('user/logout')
+    }
     ElMessage({
       message: error.message,
       type: 'error',

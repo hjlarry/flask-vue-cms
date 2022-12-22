@@ -24,6 +24,16 @@
   </div>
 </template>
 
+<script setup>
+import { useStore } from 'vuex'
+
+const store = useStore()
+const handleLogout = () => {
+  store.dispatch('user/logout')
+}
+
+</script>
+
 <style lang="scss" scoped>
 .navbar{
   display: flex;

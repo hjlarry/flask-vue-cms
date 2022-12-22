@@ -1,6 +1,7 @@
 import { login, getInfo } from '@/api/login'
-import { getItem, setItem } from '@/utils/storage'
+import { getItem, setItem, clear } from '@/utils/storage'
 import { TOKEN } from '@/constant'
+import router from '@/router'
 
 export default {
   namespaced: true,
@@ -36,6 +37,12 @@ export default {
       const response = await getInfo(context.state.token)
       this.commit('user/setUserInfo', response.data)
       return response.data
+    },
+    logout(context) {
+      this.commit('user/setToken', '')
+      this.commit('user/setUserInfo', {})
+      clear()
+      router.push('/login')
     }
   }
 }
