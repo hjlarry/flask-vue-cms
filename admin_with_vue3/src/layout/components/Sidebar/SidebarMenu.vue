@@ -17,9 +17,12 @@
 
 <script setup>
 import { useRouter } from 'vue-router'
+import { filterRoutes, genMenus } from '@/utils/route'
+import { computed } from 'vue'
 
-const route = useRouter()
-console.log(route.getRoutes())
+const router = useRouter()
+const routes = computed(() => genMenus(filterRoutes(router.getRoutes())))
+console.log(genMenus(routes.value), 222)
 </script>
 
 <style scoped>
