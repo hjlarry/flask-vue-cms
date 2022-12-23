@@ -45,7 +45,8 @@ export function genMenus(routes, basePath = '') {
       path: routePath,
       children: []
     }
-    if (fRoute.meta.title) {
+    // 如果没有icon，也不会放到menu里去
+    if (fRoute.meta.title && fRoute.meta.icon) {
       result.push(fRoute)
     }
     if (route.children) {
