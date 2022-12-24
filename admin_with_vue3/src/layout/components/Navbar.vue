@@ -1,7 +1,8 @@
 <template>
   <div class='navbar'>
     <div class='navbar-left'>
-        <hambuger class='hambuger-container'/>
+      <hambuger class='hambuger-container' />
+      <breadcrumb />
     </div>
     <div class='right-menu'>
       <el-dropdown trigger='click' class='avatar-container'>
@@ -30,6 +31,7 @@
 <script setup>
 import { useStore } from 'vuex'
 import Hambuger from '@/components/Hambuger/index.vue'
+import Breadcrumb from '@/components/Breadcrumb/index.vue'
 
 const store = useStore()
 const handleLogout = () => {
@@ -42,12 +44,18 @@ const handleLogout = () => {
 .navbar {
   display: flex;
   padding: 10px;
-  .hambuger-container{
-    line-height: 46px;
-    cursor: pointer;
-    transition: background 0.5s;
-    &:hover{
-      background: rgba(0,0,0,0.1);
+
+  .navbar-left {
+    display: flex;
+    align-items: center;
+
+    .hambuger-container {
+      cursor: pointer;
+      transition: background 0.5s;
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.1);
+      }
     }
   }
 

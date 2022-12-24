@@ -1,8 +1,12 @@
 <template>
   <div>
     <div class='logo-container'>
-      <el-avatar :size='logoHeight' shape='square' src='https://avatar.52pojie.cn/data/avatar/001/15/47/76_avatar_small.jpg' />
-      <h1 class='logo-title' v-if='$store.getters.sidebarOpened'>My-Admin</h1>
+      <el-avatar :size='logoHeight' shape='square'
+                 src='https://avatar.52pojie.cn/data/avatar/001/15/47/76_avatar_small.jpg' />
+      <transition name='fade'>
+        <h1 class='logo-title' v-if='$store.getters.sidebarOpened'>My-Admin</h1>
+      </transition>
+
     </div>
     <el-scrollbar>
       <sidebar-menu></sidebar-menu>
@@ -29,7 +33,7 @@ const itemHeight = logoHeight + 'px'
     font-size: 16px;
     color: #fff;
     white-space: nowrap;
-    line-height: v-bind(itemHeight) ;
+    line-height: v-bind(itemHeight);
   }
 }
 
