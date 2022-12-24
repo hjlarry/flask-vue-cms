@@ -2,7 +2,7 @@
     .main-container{
         margin-left: $sideBarWidth;
         position: relative;
-        transition: margin-left 0.3s;
+        transition: margin-left $sideBarDuration;
     }
 
     .sidebar-container{
@@ -12,7 +12,7 @@
         top: 0;
         bottom: 0;
         left: 0;
-        transition: width 0.3s;
+        transition: width $sideBarDuration;
     }
 
     .fix-header{

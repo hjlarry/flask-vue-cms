@@ -1,11 +1,12 @@
 <template>
-  <div class="app-wrapper">
+  <div class='app-wrapper'
+       :class="[$store.getters.sidebarOpened ? 'default' : 'hide-sidebar']">
     <sidebar
-      class="sidebar-container"
-      :style="{ backgroundColor: variables.menuBg }"
+      class='sidebar-container'
+      :style='{ backgroundColor: variables.menuBg }'
     />
-    <div class="main-container">
-      <div class="fix-header">
+    <div class='main-container'>
+      <div class='fix-header'>
         <navbar />
       </div>
       <app-main />
@@ -19,3 +20,22 @@ import Sidebar from './components/Sidebar'
 import AppMain from './components/AppMain'
 import variables from '@/styles/variables.scss'
 </script>
+
+<style lang='scss' scoped>
+@import '~@/styles/variables.scss';
+
+.hide-sidebar {
+  .sidebar-container {
+    width: #{ $hideSideBarWidth } !important;
+  }
+
+  .main-container {
+    margin-left: #{ $hideSideBarWidth } !important;
+  }
+
+  .fix-header {
+    width: calc(100% - #{ $hideSideBarWidth }) !important;
+    transition: width #{$sideBarDuration};
+  }
+}
+</style>
