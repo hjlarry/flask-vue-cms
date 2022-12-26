@@ -18,10 +18,10 @@
         <template #dropdown>
           <el-dropdown-menu class='user-dropdown'>
             <router-link to='/'>
-              <el-dropdown-item>首页</el-dropdown-item>
+              <el-dropdown-item>{{ $t('msg.navBar.home')}} </el-dropdown-item>
             </router-link>
-            <el-dropdown-item><a target='_blank' href='http://www.baidu.com'>其他页面</a></el-dropdown-item>
-            <el-dropdown-item @click='handleLogout' divided>退出登录</el-dropdown-item>
+            <el-dropdown-item><a target='_blank' href='http://www.baidu.com'>{{ $t('msg.navBar.otherPage')}}</a></el-dropdown-item>
+            <el-dropdown-item @click='handleLogout' divided>{{ $t('msg.navBar.logout')}}</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
@@ -79,7 +79,7 @@ const handleLogout = () => {
 }
 
 .user-dropdown {
-  width: 100px;
+  width: 120px;
   text-align: center;
 }
 

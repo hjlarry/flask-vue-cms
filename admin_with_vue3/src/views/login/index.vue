@@ -1,48 +1,53 @@
 <template>
-  <div class="login-container">
+  <div class='login-container'>
     <el-form
-      autoComplete="on"
-      :model="loginForm"
-      :rules="loginRules"
-      ref="loginFormRef"
-      label-position="left"
-      label-width="0px"
-      class="card-box login-form"
+      autoComplete='on'
+      :model='loginForm'
+      :rules='loginRules'
+      ref='loginFormRef'
+      label-position='left'
+      label-width='0px'
+      class='card-box login-form'
     >
-      <div class="title-container"><h3 class="title">flask-vue-cms</h3></div>
+      <div class='title-container'>
+        <h3 class='title'>flask-vue-cms</h3>
+        <lang-select class='lang-select'></lang-select>
+      </div>
 
-      <el-form-item prop="username">
-        <span class="svg-container svg-container_login">
-          <svg-icon icon="user" />
+      <el-form-item prop='username'>
+        <span class='svg-container svg-container_login'>
+          <svg-icon icon='user' />
         </span>
         <el-input
-          name="username"
-          type="text"
-          v-model="loginForm.username"
-          autoComplete="on"
-          placeholder="username"
+          name='username'
+          type='text'
+          v-model='loginForm.username'
+          autoComplete='on'
+          placeholder='username'
         />
       </el-form-item>
-      <el-form-item prop="password">
-        <span class="svg-container">
-          <svg-icon icon="password"></svg-icon>
+      <el-form-item prop='password'>
+        <span class='svg-container'>
+          <svg-icon icon='password'></svg-icon>
         </span>
         <el-input
-          name="password"
-          :type="pwdType"
-          v-model="loginForm.password"
-          autoComplete="on"
-          placeholder="password"
+          name='password'
+          :type='pwdType'
+          v-model='loginForm.password'
+          autoComplete='on'
+          placeholder='password'
         ></el-input>
-        <span class="show-pwd" @click="showPwd">
+        <span class='show-pwd' @click='showPwd'>
           <svg-icon :icon="pwdType === 'password' ? 'eye' : 'eye-open'" />
         </span>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" style="width: 100%" @click="handleLogin">
-          Sign in
+        <el-button type='primary' style='width: 100%' @click='handleLogin'>
+          {{ $t('msg.login.loginBtn') }}
         </el-button>
       </el-form-item>
+
+      <div class='tips' v-html='$t("msg.login.desc")'></div>
     </el-form>
   </div>
 </template>
@@ -51,22 +56,34 @@
 import { ref } from 'vue'
 import { useStore } from 'vuex'
 import router from '@/router'
+import LangSelect from '@/components/LangSelect/index.vue'
+import { useI18n } from 'vue-i18n'
 
 const loginForm = ref({
   username: 'admin',
   password: 'admin'
 })
 
+const i18n = useI18n()
+
 const validatePass = (rule, value, callback) => {
   if (value.length < 3) {
-    callback(new Error('密码不能小于3位'))
+    callback(new Error(i18n.t('msg.login.passwordRule')))
   } else {
     callback()
   }
 }
 const loginRules = ref({
-  username: [{ required: true, trigger: 'blur', message: '请输入用户名' }],
-  password: [{ required: true, trigger: 'blur', validator: validatePass }]
+  username: [{
+    required: true,
+    trigger: 'blur',
+    message: i18n.t('msg.login.usernameRule')
+  }],
+  password: [{
+    required: true,
+    trigger: 'blur',
+    validator: validatePass
+  }]
 })
 
 const pwdType = ref('password')
@@ -99,7 +116,7 @@ const handleLogin = () => {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang='scss' scoped>
 $bg: #2d3a4b;
 $dark_gray: #889aa4;
 $light_gray: #eee;
@@ -159,6 +176,13 @@ $cursor: #fff;
       margin: 0px auto 40px auto;
       text-align: center;
       font-weight: bold;
+    }
+
+    :deep(.lang-select) {
+      font-size: 26px;
+      position: absolute;
+      right: 0;
+      top:0;
     }
   }
 

@@ -2,15 +2,18 @@ import { createI18n } from 'vue-i18n'
 import { getItem } from '@/utils/storage'
 import { LANG } from '@/constant'
 
+import myCn from './lang/zh'
+import myEn from './lang/en'
+
 const messages = {
   en: {
     msg: {
-      hello: 'Hello world'
+      ...myEn
     }
   },
   cn: {
     msg: {
-      hello: '你好，世界'
+      ...myCn
     }
   }
 }
@@ -25,5 +28,9 @@ const i18n = createI18n({
   locale,
   messages
 })
+
+export function generateRouteTitle(title) {
+  return i18n.global.t('msg.route.' + title)
+}
 
 export default i18n

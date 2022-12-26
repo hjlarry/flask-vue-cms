@@ -1,6 +1,6 @@
 <template>
   <el-dropdown trigger='click' class='lang-select' @command='SwitchLang'>
-    <el-tooltip content='国际化'>
+    <el-tooltip :content='$t("msg.navBar.lang")'>
       <svg-icon icon='language'></svg-icon>
     </el-tooltip>
 
@@ -32,7 +32,7 @@ const i18n = useI18n()
 function SwitchLang(command) {
   store.commit('app/setLanguage', command)
   i18n.locale.value = command
-  ElMessage.success('切换语言成功')
+  ElMessage.success(i18n.t('msg.toast.switchLangSuccess'))
 }
 
 </script>

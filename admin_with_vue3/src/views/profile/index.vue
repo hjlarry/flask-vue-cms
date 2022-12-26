@@ -1,6 +1,6 @@
 <template>
   <div class=''>
-    {{ $t('msg.hello') }}
+    {{ $t('msg.route.profile') }}
   </div>
   <el-pagination
     v-model:current-page='currentPage1'
