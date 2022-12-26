@@ -11,14 +11,15 @@
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { filterRoutes, genMenus } from '@/utils/route'
 import { computed } from 'vue'
 import SidebarItem from './SidebarItem.vue'
 
 const router = useRouter()
 const routes = computed(() => genMenus(filterRoutes(router.getRoutes())))
-const activeMenu = router.currentRoute.value.path
+const route = useRoute()
+const activeMenu = computed(() => route.path)
 </script>
 
 <style scoped>

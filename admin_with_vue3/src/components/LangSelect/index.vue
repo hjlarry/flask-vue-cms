@@ -1,0 +1,42 @@
+<template>
+  <el-dropdown trigger='click' class='lang-select' @command='SwitchLang'>
+    <el-tooltip content='国际化'>
+      <svg-icon icon='language'></svg-icon>
+    </el-tooltip>
+
+    <template #dropdown>
+      <el-dropdown-menu>
+        <el-dropdown-item command='en' :disabled='lang === "en"'>
+          English
+        </el-dropdown-item>
+        <el-dropdown-item command='cn' :disabled='lang === "cn"'>
+          中文
+        </el-dropdown-item>
+      </el-dropdown-menu>
+    </template>
+  </el-dropdown>
+
+</template>
+
+<script setup>
+import SvgIcon from '@/components/SvgIcon'
+import { computed } from 'vue'
+import { useStore } from 'vuex'
+import { useI18n } from 'vue-i18n'
+import { ElMessage } from 'element-plus'
+
+const store = useStore()
+const lang = computed(() => store.getters.lang)
+const i18n = useI18n()
+
+function SwitchLang(command) {
+  store.commit('app/setLanguage', command)
+  i18n.locale.value = command
+  ElMessage.success('切换语言成功')
+}
+
+</script>
+
+<style scoped>
+
+</style>

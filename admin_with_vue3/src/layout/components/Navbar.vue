@@ -5,6 +5,7 @@
       <breadcrumb />
     </div>
     <div class='right-menu'>
+      <lang-select class='right-menu-item'></lang-select>
       <el-dropdown trigger='click' class='avatar-container'>
         <div class='avatar-wrapper'>
           <el-avatar
@@ -32,6 +33,7 @@
 import { useStore } from 'vuex'
 import Hambuger from '@/components/Hambuger/index.vue'
 import Breadcrumb from '@/components/Breadcrumb/index.vue'
+import LangSelect from '@/components/LangSelect/index.vue'
 
 const store = useStore()
 const handleLogout = () => {
@@ -63,6 +65,12 @@ const handleLogout = () => {
     margin-left: auto;
     display: flex;
     align-items: center;
+
+    :deep(.right-menu-item) {
+      font-size: 24px;
+      cursor: pointer;
+      color: #5a5e66;
+    }
 
     :deep(.avatar-container) {
       cursor: pointer;

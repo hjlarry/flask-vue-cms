@@ -1,9 +1,19 @@
 <template>
-  <div class="">个人中心</div>
+  <div class=''>
+    {{ $t('msg.hello') }}
+  </div>
+  <el-pagination
+    v-model:current-page='currentPage1'
+    :page-size='100'
+    layout='total, prev, pager, next'
+    :total='1000'
+  />
 </template>
 
 <script setup>
-import {} from 'vue'
+import { ref } from 'vue'
+
+const currentPage1 = ref(5)
 </script>
 
-<style lang="scss" scoped></style>
+<style lang='scss' scoped></style>
