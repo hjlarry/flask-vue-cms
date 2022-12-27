@@ -1,6 +1,8 @@
 <template>
   <div>
-    <svg-icon icon='change-theme' @click='openDialog'></svg-icon>
+    <el-tooltip :content='$t("msg.navBar.themeChange")'>
+      <svg-icon icon='change-theme' @click='openDialog'></svg-icon>
+    </el-tooltip>
     <select-color v-model='dialogVisible'></select-color>
   </div>
 

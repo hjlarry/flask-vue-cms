@@ -8,14 +8,16 @@
     </div>
 
     <template #footer>
-      <el-button @click='closed'>{{ $t('msg.universal.cancel')}}</el-button>
-      <el-button type='primary'>{{ $t('msg.universal.confirm')}}</el-button>
+      <el-button @click='closed'>{{ $t('msg.universal.cancel') }}</el-button>
+      <el-button type='primary' @click='submitTheme'>{{ $t('msg.universal.confirm') }}</el-button>
     </template>
   </el-dialog>
 </template>
 
 <script setup>
 import { ref, defineProps, defineEmits } from 'vue'
+import { useStore } from 'vuex'
+import { genNewStyle, writeNewStyle } from '@/utils/theme'
 
 defineProps({
   modelValue: {
@@ -24,6 +26,7 @@ defineProps({
   }
 })
 const emits = defineEmits(['update:modelValue'])
+
 function closed() {
   emits('update:modelValue', false)
 }
@@ -44,7 +47,15 @@ const predefineColors = [
   'hsla(209, 100%, 56%, 0.73)',
   '#c7158577'
 ]
-const mColor = ref('#00ff00')
+const store = useStore()
+const mColor = ref(store.getters.mainColor)
+
+async function submitTheme() {
+  const style = await genNewStyle(mColor.value)
+  writeNewStyle(style)
+  store.commit('theme/setColor', mColor.value)
+  closed()
+}
 </script>
 
 <style scoped>
