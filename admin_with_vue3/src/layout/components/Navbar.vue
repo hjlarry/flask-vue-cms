@@ -5,6 +5,7 @@
       <breadcrumb />
     </div>
     <div class='right-menu'>
+      <theme-select class='right-menu-item'></theme-select>
       <lang-select class='right-menu-item'></lang-select>
       <el-dropdown trigger='click' class='avatar-container'>
         <div class='avatar-wrapper'>
@@ -34,6 +35,7 @@ import { useStore } from 'vuex'
 import Hambuger from '@/components/Hambuger/index.vue'
 import Breadcrumb from '@/components/Breadcrumb/index.vue'
 import LangSelect from '@/components/LangSelect/index.vue'
+import ThemeSelect from '@/components/ThemeSelect/index.vue'
 
 const store = useStore()
 const handleLogout = () => {
