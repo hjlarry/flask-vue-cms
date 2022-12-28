@@ -31,7 +31,7 @@ async function getOriginStyle() {
   return data
 }
 
-function genNewColor(primary) {
+export function genNewColor(primary) {
   if (!primary) return
   const colors = { primary }
   Object.keys(formula).forEach(key => {

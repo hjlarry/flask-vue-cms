@@ -3,7 +3,7 @@
        :class="[$store.getters.sidebarOpened ? 'default' : 'hide-sidebar']">
     <sidebar
       class='sidebar-container'
-      :style='{ backgroundColor: variables.menuBg }'
+      :style='{ backgroundColor: $store.getters.cssVar.menuBg }'
     />
     <div class='main-container'>
       <div class='fix-header'>
@@ -18,7 +18,6 @@
 import Navbar from './components/Navbar'
 import Sidebar from './components/Sidebar'
 import AppMain from './components/AppMain'
-import variables from '@/styles/variables.scss'
 </script>
 
 <style lang='scss' scoped>
