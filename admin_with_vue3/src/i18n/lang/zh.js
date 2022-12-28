@@ -51,7 +51,7 @@ export default {
   navBar: {
     themeChange: '主题修改',
     headerSearch: '页面搜索',
-    screenfull: '全屏替换',
+    screenfull: '全屏',
     lang: '国际化',
     guide: '功能引导',
     home: '首页',

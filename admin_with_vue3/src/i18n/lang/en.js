@@ -51,7 +51,7 @@ export default {
   navBar: {
     themeChange: 'Theme Modification',
     headerSearch: 'Page Search',
-    screenfull: 'Full Screen Replacement',
+    screenfull: 'Full Screen',
     lang: 'Globalization',
     guide: 'Function Guide',
     home: 'Home',

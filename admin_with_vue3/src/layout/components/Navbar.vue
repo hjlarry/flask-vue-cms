@@ -5,6 +5,7 @@
       <breadcrumb />
     </div>
     <div class='right-menu'>
+      <screen-full class='right-menu-item'></screen-full>
       <theme-select class='right-menu-item'></theme-select>
       <lang-select class='right-menu-item'></lang-select>
       <el-dropdown trigger='click' class='avatar-container'>
@@ -36,6 +37,7 @@ import Hambuger from '@/components/Hambuger/index.vue'
 import Breadcrumb from '@/components/Breadcrumb/index.vue'
 import LangSelect from '@/components/LangSelect/index.vue'
 import ThemeSelect from '@/components/ThemeSelect/index.vue'
+import ScreenFull from '@/components/ScreenFull/index.vue'
 
 const store = useStore()
 const handleLogout = () => {
