@@ -5,6 +5,7 @@
       <breadcrumb />
     </div>
     <div class='right-menu'>
+      <header-search class='right-menu-item'></header-search>
       <screen-full class='right-menu-item'></screen-full>
       <theme-select class='right-menu-item'></theme-select>
       <lang-select class='right-menu-item'></lang-select>
@@ -38,6 +39,7 @@ import Breadcrumb from '@/components/Breadcrumb/index.vue'
 import LangSelect from '@/components/LangSelect/index.vue'
 import ThemeSelect from '@/components/ThemeSelect/index.vue'
 import ScreenFull from '@/components/ScreenFull/index.vue'
+import HeaderSearch from '@/components/HeaderSearch/index.vue'
 
 const store = useStore()
 const handleLogout = () => {

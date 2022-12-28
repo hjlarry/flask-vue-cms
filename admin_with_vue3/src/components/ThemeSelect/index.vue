@@ -10,7 +10,7 @@
 
 <script setup>
 import SvgIcon from '@/components/SvgIcon'
-import SelectColor from './components/SelectColor.vue'
+import SelectColor from './SelectColor.vue'
 import { ref } from 'vue'
 
 const dialogVisible = ref(false)
