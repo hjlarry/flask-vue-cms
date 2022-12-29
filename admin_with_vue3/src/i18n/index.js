@@ -1,4 +1,6 @@
 import { createI18n } from 'vue-i18n'
+import { watch } from 'vue'
+import store from '@/store'
 import { getItem } from '@/utils/storage'
 import { LANG } from '@/constant'
 
@@ -31,6 +33,15 @@ const i18n = createI18n({
 
 export function generateRouteTitle(title) {
   return i18n.global.t('msg.route.' + title)
+}
+
+export function watchSwitchLang(...cbs) {
+  watch(
+    () => store.getters.lang,
+    () => {
+      cbs.forEach(cb => cb(store.getters.lang))
+    }
+  )
 }
 
 export default i18n

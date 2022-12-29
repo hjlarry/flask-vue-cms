@@ -1,6 +1,6 @@
 <template>
   <div class='header-search' :class='{show:isShow}'>
-    <svg-icon icon='search' class='search-icon' @click='toggleShowSearch'></svg-icon>
+    <svg-icon icon='search' class='search-icon' @click.stop='toggleShowSearch'></svg-icon>
     <el-select
       filterable
       remote
@@ -13,10 +13,10 @@
       @change='onSelectChange'
     >
       <el-option
-        v-for='item in 5'
-        :key='item'
-        :label='item'
-        :value='item'>
+        v-for='option in searchResults'
+        :key='option.item.path'
+        :label='option.item.title.join(">")'
+        :value='option.item'>
       </el-option>
     </el-select>
   </div>
@@ -24,27 +24,62 @@
 
 <script setup>
 import SvgIcon from '@/components/SvgIcon'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
+import Fuse from 'fuse.js'
+import { genRoutes, fuseConfig } from './searchData'
+import { filterRoutes } from '@/utils/route'
+import { watchSwitchLang } from '@/i18n'
 
 const isShow = ref(false)
 const searchWords = ref('')
 const searchInputRef = ref(null)
+const searchResults = ref([])
+const router = useRouter()
+const searchData = genRoutes(filterRoutes(router.getRoutes()))
+let fuse
+
+function initFuse(data) {
+  fuse = new Fuse(data, fuseConfig)
+}
+initFuse(searchData)
 
 function toggleShowSearch() {
   isShow.value = !isShow.value
-  if (isShow.value) {
-    searchInputRef.value.focus()
+  searchInputRef.value.focus()
+}
+
+function onClose() {
+  isShow.value = false
+  searchResults.value = []
+  searchWords.value = ''
+}
+
+watch(isShow, val => {
+  if (val) {
+    document.body.addEventListener('click', onClose)
+  } else {
+    document.body.removeEventListener('click', onClose)
+  }
+})
+
+function onSearch(searchWords) {
+  if (searchWords !== '') {
+    searchResults.value = fuse.search(searchWords)
+  } else {
+    searchResults.value = []
   }
 }
 
-function onSearch() {
-  console.log(searchWords.value)
+// 选中回调
+function onSelectChange(val) {
+  router.push(val.path)
+  onClose()
 }
 
-// 选中回调
-function onSelectChange() {
-  console.log(searchWords.value)
-}
+watchSwitchLang(() => {
+  initFuse(genRoutes(filterRoutes(router.getRoutes())))
+})
 </script>
 
 <style lang='scss' scoped>
