@@ -1,5 +1,5 @@
 <template>
-  <svg-icon :icon='icon' />
+  <el-icon><svg-icon :icon='icon' /></el-icon>
   <span>{{ generateRouteTitle(title) }}</span>
 </template>
 

@@ -20,9 +20,7 @@
         </div>
         <template #dropdown>
           <el-dropdown-menu class='user-dropdown'>
-            <router-link to='/'>
-              <el-dropdown-item>{{ $t('msg.navBar.home')}} </el-dropdown-item>
-            </router-link>
+            <el-dropdown-item><router-link to='/'>{{ $t('msg.navBar.home')}} </router-link></el-dropdown-item>
             <el-dropdown-item><a target='_blank' href='http://www.baidu.com'>{{ $t('msg.navBar.otherPage')}}</a></el-dropdown-item>
             <el-dropdown-item @click='handleLogout' divided>{{ $t('msg.navBar.logout')}}</el-dropdown-item>
           </el-dropdown-menu>
@@ -76,6 +74,7 @@ const handleLogout = () => {
       font-size: 24px;
       cursor: pointer;
       color: #5a5e66;
+      margin-right: 16px;
     }
 
     :deep(.avatar-container) {
@@ -84,9 +83,8 @@ const handleLogout = () => {
   }
 }
 
-.user-dropdown {
-  width: 120px;
-  text-align: center;
+.user-dropdown a{
+  margin:0 auto;
 }
 
 </style>

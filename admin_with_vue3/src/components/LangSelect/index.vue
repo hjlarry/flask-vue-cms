@@ -1,8 +1,10 @@
 <template>
   <el-dropdown trigger='click' class='lang-select' @command='SwitchLang'>
-    <el-tooltip :content='$t("msg.navBar.lang")'>
-      <svg-icon icon='language'></svg-icon>
-    </el-tooltip>
+      <span>
+        <el-tooltip :content='$t("msg.navBar.lang")'>
+          <svg-icon icon='language'></svg-icon>
+        </el-tooltip>
+      </span>
 
     <template #dropdown>
       <el-dropdown-menu>
@@ -15,7 +17,6 @@
       </el-dropdown-menu>
     </template>
   </el-dropdown>
-
 </template>
 
 <script setup>

@@ -4,36 +4,19 @@
   0s padding-right ease-in-out;
 }
 
-.scrollbar-wrapper {
-  overflow-x: hidden !important;
-}
-
-.el-scrollbar__bar.is-vertical {
-  right: 0;
-}
-
-.el-scrollbar {
-  height: 100%;
-}
-
 .has-logo {
   .el-scrollbar {
     height: calc(100% - 50px);
   }
 }
 
-.is-horizontal {
-  display: none;
-}
+
 
 a {
   display: inline-block;
   overflow: hidden;
 }
 
-.svg-icon {
-  margin-right: 16px;
-}
 
 // 在 menu 收起时，取消 margin-left
 .el-menu--collapse {

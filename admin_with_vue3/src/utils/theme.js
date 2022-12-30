@@ -5,7 +5,7 @@ import formula from '@/constant/formula.json'
 
 async function getOriginStyle() {
   const version = require('element-plus/package.json').version
-  const url = `https://unpkg.com/element-plus@${version}/lib/theme-chalk/index.css`
+  const url = `https://unpkg.com/element-plus@${version}/dist/index.css`
   let { data } = await axios.get(url)
   const colorMap = {
     '#3a8ee6': 'shade-1',

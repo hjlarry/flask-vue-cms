@@ -42,6 +42,7 @@ let fuse
 function initFuse(data) {
   fuse = new Fuse(data, fuseConfig)
 }
+
 initFuse(searchData)
 
 function toggleShowSearch() {
@@ -86,12 +87,10 @@ watchSwitchLang(() => {
 .header-search {
   .search-icon {
     vertical-align: middle;
-    margin-right: 10px;
   }
 
   .header-search-input {
     transition: width 0.2s;
-    margin-right: 10px;
     width: 0;
     overflow: hidden;
     vertical-align: middle;
@@ -106,6 +105,7 @@ watchSwitchLang(() => {
   &.show {
     .header-search-input {
       width: 200px;
+      margin-left: 10px;
     }
   }
 }
