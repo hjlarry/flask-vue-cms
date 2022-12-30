@@ -11,20 +11,23 @@
       }'
           v-for='(tag, index) in $store.getters.tagsViewList'
           :key='tag.fullPath'
-          :to='tag.fullPath'>
+          :to='tag.fullPath'
+          @contextmenu.prevent='openMenu($event, index)'
+        >
           {{ tag.title }}
-          <i class='el-icon-close' v-show='isActive(tag)' @click.prevent='onCloseClick(index)'></i>
+          <svg-icon icon='close' class='icon-close' v-show='isActive(tag)' @click.prevent='onCloseClick(index)'></svg-icon>
         </router-link>
       </div>
     </el-scrollbar>
-    <context-menu :index='selectIndex'></context-menu>
+    <context-menu :index='selectIndex' v-show='isShow' :style='menuPos'></context-menu>
   </div>
 </template>
 
 <script setup>
 import { useRoute } from 'vue-router'
 import ContextMenu from './ContextMenu.vue'
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
+import SvgIcon from '@/components/SvgIcon'
 
 const route = useRoute()
 
@@ -38,6 +41,16 @@ function onCloseClick(index) {
 }
 
 const selectIndex = ref(0)
+const isShow = ref(false)
+const menuPos = reactive({ left: 0, top: 0 })
+
+function openMenu(event, index) {
+  const { clientX, clientY } = event
+  menuPos.left = clientX + 'px'
+  menuPos.top = clientY + 'px'
+  selectIndex.value = index
+  isShow.value = true
+}
 
 </script>
 
@@ -88,15 +101,16 @@ const selectIndex = ref(0)
         }
       }
 
-      .el-icon-close {
-        width: 16px;
-        height: 16px;
+      .icon-close {
+        width: 10px;
+        height: 10px;
         border-radius: 50%;
         vertical-align: 2px;
         line-height: 10px;
         text-align: center;
         transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
         transform-origin: 100% 50%;
+        margin-left: 2px;
 
         &:hover {
           color: #fff;

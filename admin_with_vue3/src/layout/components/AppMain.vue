@@ -9,7 +9,7 @@
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 import { watch } from 'vue'
-import { generateRouteTitle } from '@/i18n'
+import { generateRouteTitle, watchSwitchLang } from '@/i18n'
 import { shouldInTagsView } from '@/utils/tags'
 
 const route = useRoute()
@@ -45,9 +45,20 @@ watch(route, (to, from) => {
     name,
     title: getTitle(to)
   })
-  console.log(store.getters.tagsViewList, 123)
 }, {
   immediate: true
+})
+
+watchSwitchLang(() => {
+  store.getters.tagsViewList.forEach((route, index) => {
+    store.commit('app/changeTagsView', {
+      index,
+      tag: {
+        ...route,
+        title: getTitle(route)
+      }
+    })
+  })
 })
 
 </script>
