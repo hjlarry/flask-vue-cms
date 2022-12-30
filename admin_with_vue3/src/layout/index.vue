@@ -8,6 +8,7 @@
     <div class='main-container'>
       <div class='fix-header'>
         <navbar />
+        <tags-view></tags-view>
       </div>
       <app-main />
     </div>
@@ -18,6 +19,7 @@
 import Navbar from './components/Navbar'
 import Sidebar from './components/Sidebar'
 import AppMain from './components/AppMain'
+import TagsView from '@/components/TagsView/index.vue'
 </script>
 
 <style lang='scss' scoped>
