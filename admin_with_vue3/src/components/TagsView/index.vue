@@ -15,7 +15,8 @@
           @contextmenu.prevent='openMenu($event, index)'
         >
           {{ tag.title }}
-          <svg-icon icon='close' class='icon-close' v-show='isActive(tag)' @click.prevent='onCloseClick(index)'></svg-icon>
+          <svg-icon icon='close' class='icon-close' v-show='isShowCloseIcon(tag)'
+                    @click.prevent='onCloseClick(index)'></svg-icon>
         </router-link>
       </div>
     </el-scrollbar>
@@ -24,10 +25,11 @@
 </template>
 
 <script setup>
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import ContextMenu from './ContextMenu.vue'
-import { reactive, ref } from 'vue'
+import { reactive, ref, watch } from 'vue'
 import SvgIcon from '@/components/SvgIcon'
+import { useStore } from 'vuex'
 
 const route = useRoute()
 
@@ -35,22 +37,49 @@ function isActive(tag) {
   return tag.path === route.path
 }
 
+function isShowCloseIcon(tag) {
+  return isActive(tag) && store.getters.tagsViewList.length > 1
+}
+
+const store = useStore()
+const router = useRouter()
 function onCloseClick(index) {
-  // $store.commit('app/deleteTag', index)
-  console.log(index)
+  store.commit('app/removeTagsView', {
+    index: index,
+    type: 'index'
+  })
+  router.push(store.getters.tagsViewList[0].fullPath)
 }
 
 const selectIndex = ref(0)
 const isShow = ref(false)
-const menuPos = reactive({ left: 0, top: 0 })
+const menuPos = reactive({
+  left: 0,
+  top: 0
+})
 
 function openMenu(event, index) {
-  const { clientX, clientY } = event
+  const {
+    clientX,
+    clientY
+  } = event
   menuPos.left = clientX + 'px'
   menuPos.top = clientY + 'px'
   selectIndex.value = index
   isShow.value = true
 }
+
+function closeMenu() {
+  isShow.value = false
+}
+
+watch(isShow, val => {
+  if (val) {
+    document.body.addEventListener('click', closeMenu)
+  } else {
+    document.body.removeEventListener('click', closeMenu)
+  }
+})
 
 </script>
 

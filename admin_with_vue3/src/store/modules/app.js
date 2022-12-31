@@ -29,6 +29,16 @@ export default {
     }) {
       state.tagsView[index] = tag
       setItem(TAGS_VIEW, state.tagsView)
+    },
+    removeTagsView(state, payload) {
+      if (payload.type === 'other') {
+        state.tagsView = [state.tagsView[payload.index]]
+      } else if (payload.type === 'right') {
+        state.tagsView = state.tagsView.slice(0, payload.index + 1)
+      } else if (payload.type === 'index') {
+        state.tagsView.splice(payload.index, 1)
+      }
+      setItem(TAGS_VIEW, state.tagsView)
     }
   },
   actions: {}

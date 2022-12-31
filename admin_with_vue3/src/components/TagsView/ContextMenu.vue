@@ -2,29 +2,42 @@
   <ul class='context-menu-container'>
     <li @click='onRefreshClick'>{{ $t('msg.tagsView.refresh') }}</li>
     <li @click='onCloseRight'>{{ $t('msg.tagsView.closeRight') }}</li>
-    <li @click='onCloseAll'>{{ $t('msg.tagsView.closeOther') }}</li>
+    <li @click='onCloseOther'>{{ $t('msg.tagsView.closeOther') }}</li>
   </ul>
 </template>
 
 <script setup>
-// eslint-disable-next-line no-undef
-defineProps({
+import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
+
+const props = defineProps({
   index: {
     type: Number,
     required: true
   }
 })
 
+const router = useRouter()
+const store = useStore()
 function onRefreshClick() {
-
+  router.go(0)
 }
 
 function onCloseRight() {
-
+  store.commit('app/removeTagsView', {
+    index: props.index,
+    type: 'right'
+  })
+  const last = store.getters.tagsViewList.length - 1
+  router.push(store.getters.tagsViewList[last].fullPath)
 }
 
-function onCloseAll() {
-
+function onCloseOther() {
+  store.commit('app/removeTagsView', {
+    index: props.index,
+    type: 'other'
+  })
+  router.push(store.getters.tagsViewList[0].fullPath)
 }
 
 </script>
