@@ -1,6 +1,12 @@
 <template>
   <div class='app-main'>
-    <router-view></router-view>
+    <router-view v-slot='{Component, route}'>
+      <transition name='fade-transform' mode='out-in'>
+        <keep-alive>
+          <component :is='Component' :key='route.path'></component>
+        </keep-alive>
+      </transition>
+    </router-view>
   </div>
 </template>
 
@@ -65,10 +71,10 @@ watchSwitchLang(() => {
 
 <style scoped>
 .app-main {
-  min-height: calc(100vh - 60px);
+  min-height: calc(100vh - 93px);
   width: 100%;
   overflow: hidden;
-  padding: 95px 20px 20px 20px;
+  padding: 104px 20px 20px 20px;
   box-sizing: border-box;
 }
 </style>
