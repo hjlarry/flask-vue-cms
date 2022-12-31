@@ -15,7 +15,7 @@
 </template>
 
 <script setup>
-import { ref, defineProps, defineEmits } from 'vue'
+import { ref } from 'vue'
 import { useStore } from 'vuex'
 import { genNewStyle, writeNewStyle } from '@/utils/theme'
 
