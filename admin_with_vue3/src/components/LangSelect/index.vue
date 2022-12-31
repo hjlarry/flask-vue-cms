@@ -2,7 +2,7 @@
   <el-dropdown trigger='click' class='lang-select' @command='SwitchLang'>
       <span>
         <el-tooltip :content='$t("msg.navBar.lang")'>
-          <svg-icon icon='language'></svg-icon>
+          <svg-icon id='guide-lang' icon='language'></svg-icon>
         </el-tooltip>
       </span>
 

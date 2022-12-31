@@ -1,6 +1,6 @@
 <template>
   <div class='hambuger-container' @click='toggerClick'>
-    <svg-icon class='hambuger' :icon='icon' />
+    <svg-icon id='guide-hamburger' class='hambuger' :icon='icon' />
   </div>
 </template>
 

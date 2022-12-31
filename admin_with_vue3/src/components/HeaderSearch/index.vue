@@ -1,6 +1,6 @@
 <template>
   <div class='header-search' :class='{show:isShow}'>
-    <svg-icon icon='search' class='search-icon' @click.stop='toggleShowSearch'></svg-icon>
+    <svg-icon id='guide-search' icon='search' class='search-icon' @click.stop='toggleShowSearch'></svg-icon>
     <el-select
       filterable
       remote
