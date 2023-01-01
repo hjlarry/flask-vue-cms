@@ -1,75 +1,44 @@
 <template>
   <div>
-    <div class=''>
-      {{ $t('msg.route.profile') }}
-    </div>
-    <el-pagination
-      v-model:current-page='currentPage1'
-      :page-size='100'
-      layout='total, prev, pager, next'
-      :total='1000'
-    />
-    <el-row>
-      <el-button>Default</el-button>
-      <el-button type='primary'>Primary</el-button>
-      <el-button type='success'>Success</el-button>
-      <el-button type='info'>Info</el-button>
-      <el-button type='warning'>Warning</el-button>
-      <el-button type='danger'>Danger</el-button>
-    </el-row>
-
-    <el-scrollbar>
-      <div class='scrollbar-flex-content'>
-        <p v-for='item in 50' :key='item' class='scrollbar-demo-item'>
-          {{ item }}
-        </p>
-      </div>
-    </el-scrollbar>
-
-    <el-dropdown trigger='click'>
-
-      <span>
-        <el-tooltip :content='$t("msg.navBar.lang")'>
-        Dropdown List
-        </el-tooltip>
-      </span>
-
-      <template #dropdown>
-        <el-dropdown-menu>
-          <el-dropdown-item>Action 1</el-dropdown-item>
-          <el-dropdown-item>Action 2</el-dropdown-item>
-          <el-dropdown-item>Action 3</el-dropdown-item>
-          <el-dropdown-item disabled>Action 4</el-dropdown-item>
-          <el-dropdown-item divided>Action 5</el-dropdown-item>
-        </el-dropdown-menu>
-      </template>
-    </el-dropdown>
+    <el-container>
+      <el-main>
+        <el-row>
+          <el-col :span='6'>
+            <ProjectCard class='user-container' />
+          </el-col>
+          <el-col :span='18'>
+            <el-card>
+              <el-tabs v-model='activeName'>
+                <el-tab-pane :label='$t("msg.profile.feature")' name='feature'>
+                  <Feature></Feature>
+                </el-tab-pane>
+                <el-tab-pane :label='$t("msg.profile.chapter")' name='chapter'>
+                  <Chapter></Chapter>
+                </el-tab-pane>
+                <el-tab-pane :label='$t("msg.profile.author")' name='author'>
+                  <Author></Author>
+                </el-tab-pane>
+              </el-tabs>
+            </el-card>
+          </el-col>
+        </el-row>
+      </el-main>
+    </el-container>
   </div>
 </template>
 
 <script setup>
+import ProjectCard from './components/ProjectCard.vue'
+import Author from './components/Author.vue'
+import Feature from './components/Feature.vue'
+import Chapter from './components/Chapter.vue'
 import { ref } from 'vue'
 
-const currentPage1 = ref(5)
+const activeName = ref('feature')
 </script>
 
 <style lang='scss' scoped>
-.scrollbar-flex-content {
-  display: flex;
+.user-container{
+  margin-right:20px;
 }
-
-.scrollbar-demo-item {
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100px;
-  height: 50px;
-  margin: 10px;
-  text-align: center;
-  border-radius: 4px;
-  background: var(--el-color-danger-light-9);
-  color: var(--el-color-danger);
-}
-
 </style>
