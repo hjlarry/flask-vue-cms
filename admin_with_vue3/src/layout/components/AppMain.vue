@@ -1,17 +1,14 @@
 <template>
-  <div class='app-main'>
-    <router-view v-slot='{Component, route}'>
-      <transition name='fade-transform' mode='out-in'>
-        <keep-alive>
-          <component :is='Component' :key='route.path'></component>
-        </keep-alive>
+  <div class="app-main">
+    <router-view v-slot="{ Component, route }">
+      <transition name="fade-transform" mode="out-in">
+        <component :is="Component" :key="route.path"></component>
       </transition>
     </router-view>
   </div>
 </template>
 
 <script setup>
-
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 import { watch } from 'vue'
@@ -32,28 +29,25 @@ function getTitle(route) {
   return title
 }
 
-watch(route, (to, from) => {
-  if (!shouldInTagsView(to.path)) return
-  const {
-    fullPath,
-    path,
-    query,
-    params,
-    meta,
-    name
-  } = to
-  store.commit('app/addTag', {
-    fullPath,
-    path,
-    query,
-    params,
-    meta,
-    name,
-    title: getTitle(to)
-  })
-}, {
-  immediate: true
-})
+watch(
+  route,
+  (to, from) => {
+    if (!shouldInTagsView(to.path)) return
+    const { fullPath, path, query, params, meta, name } = to
+    store.commit('app/addTag', {
+      fullPath,
+      path,
+      query,
+      params,
+      meta,
+      name,
+      title: getTitle(to)
+    })
+  },
+  {
+    immediate: true
+  }
+)
 
 watchSwitchLang(() => {
   store.getters.tagsViewList.forEach((route, index) => {
@@ -66,7 +60,6 @@ watchSwitchLang(() => {
     })
   })
 })
-
 </script>
 
 <style scoped>
