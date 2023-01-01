@@ -8,13 +8,20 @@ from .bp import admin_bp, allowed_file, secure_filename, CH_REGEX
 from flask_server.models import Admin
 from flask_server.utils import success, fail
 from flask_server.ext import cache
-from flask_server.config import GITHUB_CLIENTID, GITHUB_CLIENTSECRET, GITHUB_OAUTH_URL, GITHUB_USER_URL
+from flask_server.config import (
+    GITHUB_CLIENTID,
+    GITHUB_CLIENTSECRET,
+    GITHUB_OAUTH_URL,
+    GITHUB_USER_URL,
+)
 
 
 def generate_token(user_id):
-    header = {'alg': 'HS256', }
-    payload = {'user_id': user_id}
-    key = current_app.config['SECRET_KEY']
+    header = {
+        "alg": "HS256",
+    }
+    payload = {"user_id": user_id}
+    key = current_app.config["SECRET_KEY"]
     return jwt.encode(header, payload, key)
 
 
@@ -24,18 +31,18 @@ def verify_token(token):
     :param token:  str
     :return:  解析出的dict if true else return False
     """
-    key = current_app.config['SECRET_KEY']
+    key = current_app.config["SECRET_KEY"]
     try:
         data = jwt.decode(token, key)
     except:
         return False
-    if 'user_id' in data and cache.get(data['user_id']):
-        cache.expire(data['user_id'], current_app.config['EXPIRE_TIME'])
+    if "user_id" in data and cache.get(data["user_id"]):
+        cache.expire(data["user_id"], current_app.config["EXPIRE_TIME"])
         return data
     return False
 
 
-@admin_bp.route('/login', methods=['POST'])
+@admin_bp.route("/login", methods=["POST"])
 def login():
     """帐密登录
     ---
@@ -64,63 +71,61 @@ def login():
         data = json.loads(request.data)
     except:
         return fail(401)
-    user = Admin.query.filter_by(username=data['username']).first()
-    if user and user.verify_password(data['password']):
+    user = Admin.query.filter_by(username=data["username"]).first()
+    if user and user.verify_password(data["password"]):
         token = generate_token(user.id).decode()
-        res = {'data':
-                   {'token': token}}
-        cache.setex(user.id, current_app.config['EXPIRE_TIME'], token)
+        res = {"data": {"token": token}}
+        cache.setex(user.id, current_app.config["EXPIRE_TIME"], token)
         return success(res)
     return fail(401)
 
 
-@admin_bp.route('/login_third')
+@admin_bp.route("/login_third")
 def github_login():
     """github oauth登录
-        ---
-        tags:
-        - 登录
-        parameters:
-        - in: url
-          name: code
-          required: true
-        responses:
-          200:
-            examples:
-              code: 0
-              data: {'token': 'abcdefgh'}
-              message: 'success'
-          401:
-            examples:
-              code: 1
-              message: 'fail'
-        # 使用code和secret前往github获取到一个token，使用token能获取到用户信息，这里直接使用
-        # :return: Flask Response
-        """
-    code = request.args.get('code')
+    ---
+    tags:
+    - 登录
+    parameters:
+    - in: url
+      name: code
+      required: true
+    responses:
+      200:
+        examples:
+          code: 0
+          data: {'token': 'abcdefgh'}
+          message: 'success'
+      401:
+        examples:
+          code: 1
+          message: 'fail'
+    # 使用code和secret前往github获取到一个token，使用token能获取到用户信息，这里直接使用
+    # :return: Flask Response
+    """
+    code = request.args.get("code")
     if not code:
         return fail(401)
     params = {
-        'code': code,
-        'client_id': GITHUB_CLIENTID,
-        'client_secret': GITHUB_CLIENTSECRET
+        "code": code,
+        "client_id": GITHUB_CLIENTID,
+        "client_secret": GITHUB_CLIENTSECRET,
     }
     res = requests.get(GITHUB_OAUTH_URL, params=params)
     # res.text: access_token=5fb2fde682eeae364bf72eed9e84cc1fa5ba9e1a&scope=user%3Aemail&token_type=bearer
-    token = res.text.split('&')[0]
+    token = res.text.split("&")[0]
     res = requests.get(GITHUB_USER_URL + token)
     user = json.loads(res.content)
-    user = Admin.query.filter_by(username=user['login']).first()
+    user = Admin.query.filter_by(username=user["login"]).first()
     if not user:
         return fail(401)
     token = generate_token(user.id).decode()
-    res = {'data':
-               {'token': token}}
-    cache.setex(user.id, current_app.config['EXPIRE_TIME'], token)
+    res = {"data": {"token": token}}
+    cache.setex(user.id, current_app.config["EXPIRE_TIME"], token)
     return success(res)
 
 
-@admin_bp.route('/logout', methods=['POST'])
+@admin_bp.route("/logout", methods=["POST"])
 def logout():
     """登出
     ---
@@ -143,12 +148,12 @@ def logout():
           code: 1
           message: 'fail'
     """
-    data = verify_token(request.headers['Authorization'])
-    cache.delete(data['user_id'])
+    data = verify_token(request.headers["Authorization"])
+    cache.delete(data["user_id"])
     return success()
 
 
-@admin_bp.route('/info')
+@admin_bp.route("/info")
 def info():
     """获取用户信息
     ---
@@ -172,23 +177,18 @@ def info():
           data: [{}, {}]
           message: 'success'
     """
-    token = request.args.get('token')
+    token = request.args.get("token")
     data = verify_token(token)
     if not data:
         return fail(401)
-    user = Admin.query.get_or_404(data['user_id'])
+    user = Admin.query.get_or_404(data["user_id"])
     if not user:
         return fail(401)
-    res = {
-        'data': {
-            'name': user.name,
-            'avatar': user.avatar
-        }
-    }
+    res = {"data": {"name": user.name, "avatar": user.avatar}}
     return success(res)
 
 
-@admin_bp.route('/user')
+@admin_bp.route("/user")
 def users():
     """获取用户列表
     ---
@@ -214,20 +214,15 @@ def users():
           data: [{}, {}]
           message: 'success'
     """
-    current_page = request.args.get('page') or 1
-    per_page = request.args.get('limit') or 10
+    current_page = request.args.get("page") or 1
+    per_page = request.args.get("limit") or 10
     pagination = Admin.query.paginate(page=int(current_page), per_page=int(per_page))
     result = [item.to_json() for item in pagination.items]
-    res = {
-        'data': {
-            'items': result,
-            'total': pagination.total
-        }
-    }
+    res = {"data": {"items": result, "total": pagination.total}}
     return success(res)
 
 
-@admin_bp.route('/user/<int:id>')
+@admin_bp.route("/user/<int:id>")
 def get_user(id):
     """获取单个用户
     ---
@@ -254,13 +249,11 @@ def get_user(id):
           message: 'success'
     """
     user = Admin.query.get_or_404(id)
-    res = {
-        'data': user.to_json()
-    }
+    res = {"data": user.to_json()}
     return success(res)
 
 
-@admin_bp.route('/user/create', methods=['POST'])
+@admin_bp.route("/user/create", methods=["POST"])
 def create_user():
     """创建用户
     ---
@@ -291,7 +284,7 @@ def create_user():
     return success()
 
 
-@admin_bp.route('/user/edit/<int:id>', methods=['PUT'])
+@admin_bp.route("/user/edit/<int:id>", methods=["PUT"])
 def edit_user(id):
     """编辑用户
     ---
@@ -319,14 +312,14 @@ def edit_user(id):
     """
     data = json.loads(request.data)
     user = Admin.query.get_or_404(id)
-    data['username'] = user.username
-    if not data['password']:
-        del data['password']
+    data["username"] = user.username
+    if not data["password"]:
+        del data["password"]
     user.update(**data)
     return success()
 
 
-@admin_bp.route('/user/delete/<int:id>', methods=['DELETE'])
+@admin_bp.route("/user/delete/<int:id>", methods=["DELETE"])
 def delete_user(id):
     """删除用户
     ---
@@ -359,7 +352,7 @@ def delete_user(id):
     return fail(400)
 
 
-@admin_bp.route('/upload_avatar', methods=['POST'])
+@admin_bp.route("/upload_avatar", methods=["POST"])
 def upload_avatar():
     """上传头像
     ---
@@ -385,7 +378,7 @@ def upload_avatar():
           data: [{}, {}]
           message: 'success'
     """
-    file = request.files['avatar']
+    file = request.files["avatar"]
     if file:
         now = time.time()
         filename = str(int(now)) + file.filename
@@ -393,14 +386,39 @@ def upload_avatar():
             return fail(415)
         if not CH_REGEX.search(filename):
             filename = secure_filename(filename)
-        filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+        filepath = os.path.join(current_app.config["UPLOAD_FOLDER"], filename)
         file.save(filepath)
 
-        res = {'data':
-            {
-                'filename': filename,
-                'fileurl': filepath
-            }
-        }
+        res = {"data": {"filename": filename, "fileurl": filepath}}
         return success(res)
     return fail(400)
+
+
+@admin_bp.route("/user/feature")
+def get_feature():
+    data = [
+        {
+            "title": "Vue3 + 全家桶",
+            "percentage": 100,
+            "content": '项目基于最新的<a target="_blank" href="https://v3.cn.vuejs.org/guide/introduction.html">vue3</a>全家桶进行开发，全面使用最新的的<a target="_blank" href="https://github.com/vuejs/rfcs/blob/master/active-rfcs/0040-script-setup.md">RFC script setup</a>语法标准，为你带来不一样的 vue3 开发体验',
+        },
+        {
+            "title": "Element-Plus",
+            "percentage": 100,
+            "content": '<a target="_blank" href="https://element-plus.org/#/zh-CN">Element Plus</a>，一套为开发者、设计师和产品经理准备的基于 Vue 3.0 的桌面端组件库。是 Element UI 的官方 vue 3 兼容版本',
+        },
+    ]
+    if request.headers.get("Accept-Language") == "en":
+        data = [
+            {
+                "title": "Vue3 + whole",
+                "percentage": 100,
+                "content": "some thing",
+            },
+            {
+                "title": "Element-Plus",
+                "percentage": 100,
+                "content": '<a target="_blank" href="https://element-plus.org/#/zh-CN">Element Plus</a>，Other thing',
+            },
+        ]
+    return success({"data": data})

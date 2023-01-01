@@ -12,6 +12,7 @@ service.interceptors.request.use(
     if (store.getters.token) {
       config.headers.Authorization = store.getters.token
     }
+    config.headers['Accept-Language'] = store.getters.lang
     return config
   },
   (error) => {
