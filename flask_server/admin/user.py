@@ -422,3 +422,14 @@ def get_feature():
             },
         ]
     return success({"data": data})
+
+
+@admin_bp.route("/user/chapter")
+def get_chapter():
+    data = [
+        {"content": "课程导读", "timestamp": "第一章", "id": 1},
+        {"content": " 标准化大厂编程规范解决方案之ESLint + Git Hooks ", "timestamp": "第二章", "id": 2},
+        {"content": "项目架构解决方案之搭建登录基础架构", "timestamp": "第三章", "id": 3},
+        {"content": "项目架构解决方案之搭建Layout基础架构", "timestamp": "第四章", "id": 4},
+    ]
+    return success({"data": data})

@@ -6,3 +6,10 @@ export const getFeature = () => {
     method: 'get'
   })
 }
+
+export const getChapter = () => {
+  return request({
+    url: '/user/chapter',
+    method: 'get'
+  })
+}
