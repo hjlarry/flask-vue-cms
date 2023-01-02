@@ -1,15 +1,22 @@
 <template>
-  <el-dialog :title='$t("msg.theme.themeColorChange")' width='22%' :model-value='modelValue' center>
-    <div class='center'>
-      <el-color-picker
-        v-model='mColor'
-        :predefine='predefineColors'>
+  <el-dialog
+    :title="$t('msg.theme.themeColorChange')"
+    width="22%"
+    :model-value="dialogVisable"
+    center
+    destroy-on-close
+    append-to-body
+  >
+    <div class="center">
+      <el-color-picker v-model="mColor" :predefine="predefineColors">
       </el-color-picker>
     </div>
 
     <template #footer>
-      <el-button @click='closed'>{{ $t('msg.universal.cancel') }}</el-button>
-      <el-button type='primary' @click='submitTheme'>{{ $t('msg.universal.confirm') }}</el-button>
+      <el-button @click="closed">{{ $t('msg.universal.cancel') }}</el-button>
+      <el-button type="primary" @click="submitTheme">{{
+        $t('msg.universal.confirm')
+      }}</el-button>
     </template>
   </el-dialog>
 </template>
@@ -20,15 +27,15 @@ import { useStore } from 'vuex'
 import { genNewStyle, writeNewStyle } from '@/utils/theme'
 
 defineProps({
-  modelValue: {
+  dialogVisable: {
     type: Boolean,
     required: true
   }
 })
-const emits = defineEmits(['update:modelValue'])
+const emits = defineEmits(['update:dialogVisable'])
 
 function closed() {
-  emits('update:modelValue', false)
+  emits('update:dialogVisable', false)
 }
 
 const predefineColors = [
