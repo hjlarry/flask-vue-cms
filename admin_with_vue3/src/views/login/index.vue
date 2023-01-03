@@ -1,53 +1,53 @@
 <template>
-  <div class='login-container'>
+  <div class="login-container">
     <el-form
-      autoComplete='on'
-      :model='loginForm'
-      :rules='loginRules'
-      ref='loginFormRef'
-      label-position='left'
-      label-width='0px'
-      class='card-box login-form'
+      autoComplete="on"
+      :model="loginForm"
+      :rules="loginRules"
+      ref="loginFormRef"
+      label-position="left"
+      label-width="0px"
+      class="card-box login-form"
     >
-      <div class='title-container'>
-        <h3 class='title'>flask-vue-cms</h3>
-        <lang-select class='lang-select'></lang-select>
+      <div class="title-container">
+        <h3 class="title">flask-vue-cms</h3>
+        <lang-select class="lang-select"></lang-select>
       </div>
 
-      <el-form-item prop='username'>
-        <span class='svg-container svg-container_login'>
-          <svg-icon icon='user' />
+      <el-form-item prop="username">
+        <span class="svg-container svg-container_login">
+          <svg-icon icon="user" />
         </span>
         <el-input
-          name='username'
-          type='text'
-          v-model='loginForm.username'
-          autoComplete='on'
-          placeholder='username'
+          name="username"
+          type="text"
+          v-model="loginForm.username"
+          autoComplete="on"
+          placeholder="username"
         />
       </el-form-item>
-      <el-form-item prop='password'>
-        <span class='svg-container'>
-          <svg-icon icon='password'></svg-icon>
+      <el-form-item prop="password">
+        <span class="svg-container">
+          <svg-icon icon="password"></svg-icon>
         </span>
         <el-input
-          name='password'
-          :type='pwdType'
-          v-model='loginForm.password'
-          autoComplete='on'
-          placeholder='password'
+          name="password"
+          :type="pwdType"
+          v-model="loginForm.password"
+          autoComplete="on"
+          placeholder="password"
         ></el-input>
-        <span class='show-pwd' @click='showPwd'>
+        <span class="show-pwd" @click="showPwd">
           <svg-icon :icon="pwdType === 'password' ? 'eye' : 'eye-open'" />
         </span>
       </el-form-item>
       <el-form-item>
-        <el-button type='primary' style='width: 100%' @click='handleLogin'>
+        <el-button type="primary" style="width: 100%" @click="handleLogin">
           {{ $t('msg.login.loginBtn') }}
         </el-button>
       </el-form-item>
 
-      <div class='tips' v-html='$t("msg.login.desc")'></div>
+      <div class="tips" v-html="$t('msg.login.desc')"></div>
     </el-form>
   </div>
 </template>
@@ -74,16 +74,20 @@ const validatePass = (rule, value, callback) => {
   }
 }
 const loginRules = ref({
-  username: [{
-    required: true,
-    trigger: 'blur',
-    message: i18n.t('msg.login.usernameRule')
-  }],
-  password: [{
-    required: true,
-    trigger: 'blur',
-    validator: validatePass
-  }]
+  username: [
+    {
+      required: true,
+      trigger: 'blur',
+      message: i18n.t('msg.login.usernameRule')
+    }
+  ],
+  password: [
+    {
+      required: true,
+      trigger: 'blur',
+      validator: validatePass
+    }
+  ]
 })
 
 const pwdType = ref('password')
@@ -116,7 +120,7 @@ const handleLogin = () => {
 }
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 $bg: #2d3a4b;
 $dark_gray: #889aa4;
 $light_gray: #eee;
@@ -147,11 +151,16 @@ $cursor: #fff;
       display: inline-block;
       height: 47px;
       width: 85%;
+      .el-input__wrapper {
+        background: transparent;
+        width: 100%;
+        box-shadow: none;
+      }
 
       input {
         background: transparent;
-        border: 0px;
-        border-radius: 0px;
+        border: 0;
+        border-radius: 0;
         padding: 12px 5px 12px 15px;
         color: $light_gray;
         height: 47px;
@@ -182,7 +191,7 @@ $cursor: #fff;
       font-size: 26px;
       position: absolute;
       right: 0;
-      top:0;
+      top: 0;
     }
   }
 
