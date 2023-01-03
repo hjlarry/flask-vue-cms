@@ -10,7 +10,7 @@ const service = axios.create({
 service.interceptors.request.use(
   (config) => {
     if (store.getters.token) {
-      config.headers.Authorization = store.getters.token
+      config.headers.Authorization = 'Bearer ' + store.getters.token
     }
     config.headers['Accept-Language'] = store.getters.lang
     return config
@@ -29,7 +29,7 @@ service.interceptors.response.use(
     const res = response.data
     if (res.code !== 0) {
       ElMessage({
-        message: res.data,
+        message: res.error,
         type: 'error',
         duration: 5 * 1000
       })
