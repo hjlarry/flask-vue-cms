@@ -8,6 +8,7 @@ from sqlalchemy import Integer,Boolean
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
 from sqlalchemy.orm import relationship
+from werkzeug.security import generate_password_hash, check_password_hash
 
 import datetime
 
@@ -37,10 +38,29 @@ class User(Base):
     __tablename__ = "users"
 
     username: Mapped[str] = mapped_column(String(40), unique=True)
-    password: Mapped[str] = mapped_column(String(255))
+    _password: Mapped[str] = mapped_column("password",String(255))
     name: Mapped[str] = mapped_column(String(40))
     avatar: Mapped[str] = mapped_column(String(100), nullable=True)
     roles: Mapped[list['Role']] = relationship(secondary=user_roles, back_populates="users")
+
+    @staticmethod
+    def generate_password(password):
+        return generate_password_hash(password)
+
+    def verify_password(self, password):
+        try:
+            result = check_password_hash(self.password, password)
+        except:
+            return False
+        return result
+
+    @property
+    def password(self):
+        return self._password
+
+    @password.setter
+    def password(self, value):
+        self._password = generate_password_hash(value)
 
     def __repr__(self) -> str:
         return f"User(id={self.id!r}, name={self.name!r})"
