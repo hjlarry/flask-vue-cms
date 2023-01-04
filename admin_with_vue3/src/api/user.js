@@ -13,3 +13,11 @@ export const getChapter = () => {
     method: 'get'
   })
 }
+
+export const getUsers = (data) => {
+  return request({
+    url: '/user/list',
+    method: 'get',
+    params: data
+  })
+}

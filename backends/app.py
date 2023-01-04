@@ -1,6 +1,6 @@
-from apiflask import APIFlask, Schema, abort, HTTPTokenAuth, APIBlueprint
+from apiflask import APIFlask, Schema, abort, HTTPTokenAuth, APIBlueprint, PaginationSchema, pagination_builder
 from apiflask.fields import Integer, String, List, Nested, Field
-from apiflask.validators import Length, OneOf
+from apiflask.validators import Length, OneOf, Range
 from flask import current_app, request
 
 from config import DevConfig
@@ -116,5 +116,21 @@ def get_chapter():
         {"content": "项目架构解决方案之搭建Layout基础架构", "timestamp": "第四章", "id": 4},
     ]
     return {"data": data, "code": 0}
+
+class UserListQuery(Schema):
+    page = Integer(load_default=1)
+    per_page = Integer(load_default=20, validate=Range(min=1, max=30))
+
+class UsersOut(Schema):
+    users = List(Nested(nested=UserInfoScheme))
+    pagination = Nested(nested=PaginationSchema)
+
+@admin_bp.get("/user/list")
+@app.input(UserListQuery, location="query")
+@app.output(schema=UsersOut)
+def get_userlist(params):
+    paganition = User.query.paginate(page=params['page'], per_page=params['per_page'])
+    return_data = {"users": paganition.items, "pagination": pagination_builder(paganition)}   
+    return {"data":return_data}
 
 app.register_blueprint(blueprint=admin_bp)
