@@ -10,7 +10,7 @@ def gen_admin_data(db):
         username="admin",
         password="123",
         name="Hejl",
-        avatar="https://avatar.52pojie.cn/data/avatar/001/15/47/76_avatar_small.jpg",
+        avatar="https://avatar.52pojie.cn/images/noavatar_small.gif",
     )
     role = Role(name="超级管理员", can_edit=False)
     admin.roles.append(role)

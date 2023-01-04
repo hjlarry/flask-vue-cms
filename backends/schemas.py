@@ -1,6 +1,7 @@
 from apiflask import Schema, PaginationSchema
-from apiflask.fields import Integer, String, List, Nested, Field
+from apiflask.fields import Integer, String, List, Nested, Field, DateTime
 from apiflask.validators import Length, Range
+from apiflask.schemas import validation_error_detail_schema
 
 
 class BaseResponse(Schema):
@@ -25,6 +26,7 @@ class UserInfoScheme(Schema):
     name = String()
     avatar = String()
     roles = List(Nested(nested=RoleScheme))
+    created_at = DateTime(data_key="openTime")
 
 
 class UserListQuery(Schema):
@@ -35,3 +37,19 @@ class UserListQuery(Schema):
 class UsersOut(Schema):
     users = List(Nested(nested=UserInfoScheme))
     pagination = Nested(nested=PaginationSchema)
+
+http_error_schema = {
+    "properties": {
+        "error_detail": {
+            "type": "object"
+        },
+        "error_message": {
+            "type": "string"
+        },
+        "code": {
+            "type": "integer"
+        }
+    },
+    "type": "object"
+}
+

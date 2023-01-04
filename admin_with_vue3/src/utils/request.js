@@ -50,7 +50,7 @@ service.interceptors.response.use(
           // })
         })
       }
-      return Promise.reject(new Error(res.data || 'Error'))
+      return Promise.reject(new Error(res.error || 'Error'))
     } else {
       return response.data
     }

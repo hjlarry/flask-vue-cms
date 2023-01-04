@@ -23,5 +23,7 @@
         top: 0;
         right: 0;
         width: calc(100% - #{$sideBarWidth});
+        z-index: 999;
+        background: #ffffff;
     }
 }
