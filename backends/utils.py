@@ -6,8 +6,9 @@ from authlib.jose import jwt
 
 from models import User
 
-class CacheDict():
-    def __init__(self, db='cache.db'):
+
+class CacheDict:
+    def __init__(self, db="cache.db"):
         self.db = db
 
     def get(self, key, default=None):
@@ -15,21 +16,19 @@ class CacheDict():
         with shelve.open(self.db) as db:
             if not key in db:
                 return default
-            elif db[key].get('expires', 0) < time.time():
+            elif db[key].get("expires", 0) < time.time():
                 return default
-            return db[key]['value']
+            return db[key]["value"]
 
     def set(self, key, value):
         key = str(key)
         with shelve.open(self.db) as db:
-            db[key] = {
-                'value': value
-            }
+            db[key] = {"value": value}
 
     def expire(self, key, expire):
         key = str(key)
         with shelve.open(self.db, writeback=True) as db:
-            db[key]['expires'] = time.time() + expire
+            db[key]["expires"] = time.time() + expire
 
     def delete(self, key):
         key = str(key)
@@ -42,6 +41,7 @@ class CacheDict():
 
 
 auth_cache = CacheDict()
+
 
 def generate_token(user_id):
     header = {

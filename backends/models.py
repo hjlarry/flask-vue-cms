@@ -1,24 +1,20 @@
-from typing import Optional
-from sqlalchemy import ForeignKey
-from sqlalchemy import String
-from sqlalchemy import func
-from sqlalchemy import Table
-from sqlalchemy import Column
-from sqlalchemy import Integer,Boolean
-from sqlalchemy.orm import Mapped
-from sqlalchemy.orm import mapped_column
-from sqlalchemy.orm import relationship
-from werkzeug.security import generate_password_hash, check_password_hash
-
 import datetime
 
+from sqlalchemy import ForeignKey, String, func, Table, Column, Integer, Boolean
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+from werkzeug.security import generate_password_hash, check_password_hash
+
 from ext import db
+
 
 class Base(db.Model):
     __abstract__ = True
     id: Mapped[int] = mapped_column(primary_key=True)
-    created_at:Mapped[datetime.datetime] = mapped_column(insert_default=func.now())
-    updated_at:Mapped[datetime.datetime] = mapped_column(insert_default=func.now(),server_onupdate=func.now() )
+    created_at: Mapped[datetime.datetime] = mapped_column(insert_default=func.now())
+    updated_at: Mapped[datetime.datetime] = mapped_column(
+        insert_default=func.now(), server_onupdate=func.now()
+    )
+
 
 user_roles = Table(
     "user_roles",
@@ -34,14 +30,17 @@ role_permissions = Table(
     Column("permission_id", Integer, ForeignKey("permissions.id"), primary_key=True),
 )
 
+
 class User(Base):
     __tablename__ = "users"
 
     username: Mapped[str] = mapped_column(String(40), unique=True)
-    _password: Mapped[str] = mapped_column("password",String(255))
+    _password: Mapped[str] = mapped_column("password", String(255))
     name: Mapped[str] = mapped_column(String(40))
-    avatar: Mapped[str] = mapped_column(String(100), nullable=True)
-    roles: Mapped[list['Role']] = relationship(secondary=user_roles, back_populates="users")
+    avatar: Mapped[str] = mapped_column(String(100), nullable=True, default="")
+    roles: Mapped[list["Role"]] = relationship(
+        secondary=user_roles, back_populates="users"
+    )
 
     @staticmethod
     def generate_password(password):
@@ -65,12 +64,15 @@ class User(Base):
     def __repr__(self) -> str:
         return f"User(id={self.id!r}, name={self.name!r})"
 
+
 class Role(Base):
     __tablename__ = "roles"
     name: Mapped[str] = mapped_column(String(40), unique=True)
     can_edit: Mapped[bool] = mapped_column(Boolean, default=True)
-    users: Mapped[list[User]] = relationship(secondary=user_roles, back_populates="roles")
-    permissions: Mapped[list['Permission']] = relationship(secondary=role_permissions)
+    users: Mapped[list[User]] = relationship(
+        secondary=user_roles, back_populates="roles"
+    )
+    permissions: Mapped[list["Permission"]] = relationship(secondary=role_permissions)
 
 
 class Permission(Base):
