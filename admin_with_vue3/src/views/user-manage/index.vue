@@ -38,7 +38,11 @@
           :label="$t('msg.excel.openTime')"
           prop="openTime"
           align="center"
-        ></el-table-column>
+        >
+          <template #default="{ row }">
+            {{ $filters.dateFilter(row.openTime) }}
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('msg.excel.action')" align="center">
           <template #default>
             <el-button type="primary" size="small">{{
