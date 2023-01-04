@@ -111,7 +111,7 @@ export default {
     foot: '签字：___________日期:___________'
   },
   uploadExcel: {
-    upload: '点击上传',
+    upload: '点击上传或拖拽文件到此区域上传',
     drop: '将文件拖到此处'
   },
   excel: {

@@ -2,7 +2,9 @@
   <div>
     <el-card shadow="hover" class="head-container">
       <div class="excel-btn">
-        <el-button type="primary">{{ $t('msg.excel.importExcel') }}</el-button>
+        <el-button type="primary" @click="goImport">{{
+          $t('msg.excel.importExcel')
+        }}</el-button>
         <el-button type="success">{{ $t('msg.excel.exportExcel') }}</el-button>
       </div>
     </el-card>
@@ -74,6 +76,7 @@
 <script setup>
 import { ref } from 'vue'
 import { getUsers } from '@/api/user'
+import { useRouter } from 'vue-router'
 
 const tableData = ref([])
 const page = ref(1)
@@ -95,6 +98,11 @@ function handleSizeChange(val) {
 function handleCurrentChange(val) {
   page.value = val
   getUsersList()
+}
+
+const router = useRouter()
+function goImport() {
+  router.push('/user/import')
 }
 </script>
 

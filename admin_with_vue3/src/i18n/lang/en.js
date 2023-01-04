@@ -112,7 +112,7 @@ export default {
     foot: 'Signature:___________Date:___________'
   },
   uploadExcel: {
-    upload: 'Click upload',
+    upload: 'Click upload or drag the file to this area to upload',
     drop: 'Drag files here'
   },
   excel: {
