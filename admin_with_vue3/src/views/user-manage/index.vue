@@ -46,14 +46,14 @@
           </template>
         </el-table-column>
         <el-table-column :label="$t('msg.excel.action')" align="center">
-          <template #default>
+          <template #default="{ row }">
             <el-button type="primary" size="small">{{
               $t('msg.excel.show')
             }}</el-button>
             <el-button type="info" size="small">{{
               $t('msg.excel.showRole')
             }}</el-button>
-            <el-button type="danger" size="small">{{
+            <el-button type="danger" size="small" @click="onRemoveClick(row)">{{
               $t('msg.excel.remove')
             }}</el-button>
           </template>
@@ -75,8 +75,10 @@
 
 <script setup>
 import { ref } from 'vue'
-import { getUsers } from '@/api/user'
+import { getUsers, userDelete } from '@/api/user'
 import { useRouter } from 'vue-router'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { useI18n } from 'vue-i18n'
 
 const tableData = ref([])
 const page = ref(1)
@@ -103,6 +105,22 @@ function handleCurrentChange(val) {
 const router = useRouter()
 function goImport() {
   router.push('/user/import')
+}
+
+const i18n = useI18n()
+function onRemoveClick(row) {
+  ElMessageBox.confirm(
+    i18n.t('msg.excel.dialogTitle1') +
+      row.username +
+      i18n.t('msg.excel.dialogTitle2'),
+    {
+      type: 'warning'
+    }
+  ).then(async () => {
+    await userDelete(row.id)
+    ElMessage.success(i18n.t('msg.excel.removeSuccess'))
+    await getUsersList()
+  })
 }
 </script>
 

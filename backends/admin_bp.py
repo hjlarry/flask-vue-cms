@@ -94,3 +94,14 @@ def import_users(data):
     except:
         return {"code": 2000, "error": "some data import error!"}
     return {"code":0}
+
+@admin_bp.post('/user/delete/<int:id>')
+def delete_user(id):
+    try:
+        user = User.query.get(id)
+        db.session.delete(user)
+        db.session.commit()
+    except Exception as e:
+        print(e)
+        return {"code": 2000, "error": "some data delete error!"}
+    return {"code":0}

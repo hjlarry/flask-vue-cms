@@ -29,3 +29,10 @@ export const userBatchImport = (data) => {
     data
   })
 }
+
+export const userDelete = (id) => {
+  return request({
+    url: '/user/delete/' + id,
+    method: 'post'
+  })
+}
