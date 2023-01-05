@@ -5,7 +5,9 @@
         <el-button type="primary" @click="goImport">{{
           $t('msg.excel.importExcel')
         }}</el-button>
-        <el-button type="success">{{ $t('msg.excel.exportExcel') }}</el-button>
+        <el-button type="success" @click="onExport">{{
+          $t('msg.excel.exportExcel')
+        }}</el-button>
       </div>
     </el-card>
     <el-card class="table-container" shadow="never">
@@ -70,6 +72,10 @@
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
     />
+    <Export2Excel
+      v-model:dialog-visable="export2ExcelVisiable"
+      :table-data="tableData"
+    ></Export2Excel>
   </div>
 </template>
 
@@ -79,6 +85,7 @@ import { getUsers, userDelete } from '@/api/user'
 import { useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useI18n } from 'vue-i18n'
+import Export2Excel from '@/views/user-manage/Export2Excel.vue'
 
 const tableData = ref([])
 const page = ref(1)
@@ -121,6 +128,11 @@ function onRemoveClick(row) {
     ElMessage.success(i18n.t('msg.excel.removeSuccess'))
     await getUsersList()
   })
+}
+
+const export2ExcelVisiable = ref(false)
+function onExport() {
+  export2ExcelVisiable.value = true
 }
 </script>
 
