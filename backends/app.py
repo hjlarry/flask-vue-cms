@@ -24,6 +24,15 @@ def create_app():
 app = create_app()
 
 
+@app.error_processor
+def my_error_processor(error):
+    return {
+        'code': error.status_code,
+        'error': error.message,
+        'detail': error.detail
+    }, 200, error.headers
+
+
 @app.get("/")
 def say_hello():
     return {"message": "Hello!"}

@@ -21,3 +21,11 @@ export const getUsers = (data) => {
     params: data
   })
 }
+
+export const userBatchImport = (data) => {
+  return request({
+    url: '/user/batchImport',
+    method: 'post',
+    data
+  })
+}

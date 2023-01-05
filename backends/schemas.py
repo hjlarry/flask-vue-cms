@@ -1,7 +1,6 @@
 from apiflask import Schema, PaginationSchema
 from apiflask.fields import Integer, String, List, Nested, Field, DateTime
 from apiflask.validators import Length, Range
-from apiflask.schemas import validation_error_detail_schema
 
 
 class BaseResponse(Schema):
@@ -53,3 +52,5 @@ http_error_schema = {
     "type": "object"
 }
 
+class ImportUser(Schema):
+    users = Field()

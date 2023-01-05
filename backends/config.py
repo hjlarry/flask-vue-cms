@@ -1,4 +1,4 @@
-from schemas import BaseResponse
+from schemas import BaseResponse, http_error_schema
 
 
 class DevConfig:
@@ -7,3 +7,5 @@ class DevConfig:
     EXPIRE_TIME = 36000
     BASE_RESPONSE_SCHEMA = BaseResponse
     BASE_RESPONSE_DATA_KEY = "data"
+    AUTO_VALIDATION_ERROR_RESPONSE = True
+    HTTP_ERROR_SCHEMA = http_error_schema

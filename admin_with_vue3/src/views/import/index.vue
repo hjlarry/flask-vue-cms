@@ -3,7 +3,6 @@
     class="upload"
     drag
     :auto-upload="false"
-    :limit="1"
     :show-file-list="false"
     :on-change="handleUpload"
     v-loading="loading"
@@ -20,8 +19,13 @@ import SvgIcon from '@/components/SvgIcon'
 import { ElMessage } from 'element-plus'
 import { read, utils } from 'xlsx'
 import { ref } from 'vue'
+import { userBatchImport } from '@/api/user'
+import { useI18n } from 'vue-i18n'
+import { useRouter } from 'vue-router'
 
 const loading = ref(false)
+const i18n = useI18n()
+const router = useRouter()
 
 function isExcel(file) {
   return /\.(xlsx|xls|csv)$/.test(file.name)
@@ -49,9 +53,14 @@ function readData(file) {
       resolve(json)
     }
     reader.readAsBinaryString(file)
-  }).then((res) => {
-    console.log(res)
+  }).then(async (res) => {
     loading.value = false
+    await userBatchImport({ users: res })
+    ElMessage({
+      message: res.length + i18n.t('msg.excel.importSuccess'),
+      type: 'success'
+    })
+    await router.push('/user/manage')
   })
 }
 </script>

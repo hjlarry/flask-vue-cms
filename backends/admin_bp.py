@@ -2,7 +2,8 @@ from apiflask import HTTPTokenAuth, APIBlueprint, pagination_builder
 from flask import current_app, request
 
 from utils import generate_token, auth_cache, verify_token
-from schemas import LoginScheme, UserInfoScheme, UserListQuery, UsersOut
+from schemas import LoginScheme, UserInfoScheme, UserListQuery, UsersOut, ImportUser
+from ext import db
 from models import User
 
 admin_bp = APIBlueprint("admin", __name__, url_prefix="/admin")
@@ -80,3 +81,16 @@ def get_userlist(params):
         "pagination": pagination_builder(paganition),
     }
     return {"data": return_data}
+
+
+@admin_bp.post('/user/batchImport')
+@admin_bp.input(ImportUser)
+def import_users(data):
+    try:
+        for item in data['users']:
+            user = User(name=item['name'], username=item['username'], password='123')
+            db.session.add(user)
+        db.session.commit()
+    except:
+        return {"code": 2000, "error": "some data import error!"}
+    return {"code":0}
