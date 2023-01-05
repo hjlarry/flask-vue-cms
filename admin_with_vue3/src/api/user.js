@@ -36,3 +36,9 @@ export const userDelete = (id) => {
     method: 'post'
   })
 }
+
+export const userDetail = (id) => {
+  return request({
+    url: '/user/' + id
+  })
+}

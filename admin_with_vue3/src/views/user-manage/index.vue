@@ -49,7 +49,7 @@
         </el-table-column>
         <el-table-column :label="$t('msg.excel.action')" align="center">
           <template #default="{ row }">
-            <el-button type="primary" size="small">{{
+            <el-button type="primary" size="small" @click="onShowClick(row)">{{
               $t('msg.excel.show')
             }}</el-button>
             <el-button type="info" size="small">{{
@@ -128,6 +128,10 @@ function onRemoveClick(row) {
     ElMessage.success(i18n.t('msg.excel.removeSuccess'))
     await getUsersList()
   })
+}
+
+function onShowClick(row) {
+  router.push({ name: 'userInfo', params: { id: row.id } })
 }
 
 const export2ExcelVisiable = ref(false)

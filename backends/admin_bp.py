@@ -93,7 +93,8 @@ def import_users(data):
         db.session.commit()
     except:
         return {"code": 2000, "error": "some data import error!"}
-    return {"code":0}
+    return {"code": 0}
+
 
 @admin_bp.post('/user/delete/<int:id>')
 def delete_user(id):
@@ -104,4 +105,48 @@ def delete_user(id):
     except Exception as e:
         print(e)
         return {"code": 2000, "error": "some data delete error!"}
-    return {"code":0}
+    return {"code": 0}
+
+
+@admin_bp.get('/user/<int:id>')
+def get_user(id):
+    data = {
+        "role": [
+            {
+                "id": "1",
+                "title": "超级管理员"
+            }
+        ],
+        "remark": [
+            "超级管理员",
+            "BOSS"
+        ],
+        "experience": [
+            {
+                "startTime": "2016-05-24",
+                "endTime": "2017-05-24",
+                "title": "慕课网",
+                "desc": "混合开发京东商城"
+            },
+            {
+                "startTime": "2018-06-01",
+                "endTime": "2019-08-12",
+                "title": "慕课网",
+                "desc": "uni-app 开发企业级小程序"
+            }
+        ],
+        "_id": "612710a0ec87aa543c9c341d",
+        "id": "0",
+        "openTime": "2016-05-24",
+        "username": "super-admin",
+        "title": "超级管理员",
+        "mobile": "188xxxx0001",
+        "avatar": "https://m.imooc.com/static/wap/static/common/img/logo-small@2x.png",
+        "gender": "男",
+        "province": "北京",
+        "nationality": "汉",
+        "address": "北京市朝阳区xx大道 11xx0 号 3 层",
+        "major": "在线职业教育平台",
+        "glory": "国内领先的线上 IT 教育品牌"
+    }
+    return {"code": 0, "data": data}
