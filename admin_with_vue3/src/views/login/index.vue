@@ -16,7 +16,7 @@
 
       <el-form-item prop="username">
         <span class="svg-container svg-container_login">
-          <svg-icon icon="user" />
+          <svg-icon icon="user"></svg-icon>
         </span>
         <el-input
           name="username"
@@ -54,10 +54,11 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useStore } from 'vuex'
 import router from '@/router'
 import LangSelect from '@/components/LangSelect/index.vue'
 import { useI18n } from 'vue-i18n'
+import { userStore } from '@/store/user_store'
+import SvgIcon from '@/components/SvgIcon'
 
 const loginForm = ref({
   username: 'admin',
@@ -101,13 +102,13 @@ const showPwd = () => {
 
 const loading = ref(false)
 const loginFormRef = ref(null)
-const store = useStore()
+const uStore = userStore()
 const handleLogin = () => {
   loginFormRef.value.validate((valid) => {
     if (!valid) return
     loading.value = true
-    store
-      .dispatch('user/login', loginForm.value)
+    uStore
+      .login(loginForm.value)
       .then(() => {
         loading.value = false
         router.push('/')
@@ -151,6 +152,7 @@ $cursor: #fff;
       display: inline-block;
       height: 47px;
       width: 85%;
+
       .el-input__wrapper {
         background: transparent;
         width: 100%;
@@ -182,7 +184,7 @@ $cursor: #fff;
     .title {
       font-size: 26px;
       color: $light_gray;
-      margin: 0px auto 40px auto;
+      margin: 0 auto 40px auto;
       text-align: center;
       font-weight: bold;
     }

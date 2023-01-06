@@ -47,8 +47,8 @@ watch(
   }
 )
 
-const store = themeStore()
-const linkHoverColor = ref(store.cssVar.menuBg)
+const tStore = themeStore()
+const linkHoverColor = ref(tStore.cssVar.menuBg)
 </script>
 
 <style lang="scss" scoped>

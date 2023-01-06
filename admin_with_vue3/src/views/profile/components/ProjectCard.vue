@@ -9,7 +9,7 @@
       <div class="user-info">
         <div class="box-center">
           <PanThumb
-            :image="$store.getters.userInfo.avatar"
+            :image="uStore.userInfo.avatar"
             :height="'100px'"
             :width="'100px'"
           >
@@ -18,7 +18,7 @@
         </div>
         <div class="box-center">
           <div class="user-name">
-            <span>{{ $store.getters.userInfo.name }}</span>
+            <span>{{ uStore.userInfo.name }}</span>
           </div>
         </div>
       </div>
@@ -53,6 +53,9 @@
 <script setup>
 import PanThumb from '@/components/PanThumb/index.vue'
 import SvgIcon from '@/components/SvgIcon/index.vue'
+import { userStore } from '@/store/user_store'
+
+const uStore = userStore()
 
 defineProps({
   features: {

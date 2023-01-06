@@ -1,11 +1,7 @@
 <template>
   <div class="author-container">
     <div class="header">
-      <PanThumb
-        :image="$store.getters.userInfo.avatar"
-        height="60px"
-        width="60px"
-      >
+      <PanThumb :image="uStore.userInfo.avatar" height="60px" width="60px">
         {{ $t('msg.profile.name') }}
       </PanThumb>
     </div>
@@ -17,6 +13,8 @@
 
 <script setup>
 import PanThumb from '@/components/PanThumb/index.vue'
+import { userStore } from '@/store/user_store'
+const uStore = userStore()
 </script>
 
 <style scoped>

@@ -55,12 +55,12 @@ const predefineColors = [
   '#c7158577'
 ]
 
-const store = themeStore()
-const mColor = ref(store.mainColor)
+const tStore = themeStore()
+const mColor = ref(tStore.mainColor)
 async function submitTheme() {
   const style = await genNewStyle(mColor.value)
   writeNewStyle(style)
-  store.setColor(mColor.value)
+  tStore.setColor(mColor.value)
   closed()
 }
 </script>

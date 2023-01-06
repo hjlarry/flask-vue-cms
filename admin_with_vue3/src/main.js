@@ -1,7 +1,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
-import store from './store'
 import pinia from './store/pinia'
 import i18n from './i18n'
 import installElementPlus from './plugins/element'
@@ -16,4 +15,4 @@ installElementPlus(app)
 installIcons(app)
 installFilters(app)
 installDirectives(app)
-app.use(store).use(pinia).use(router).use(i18n).mount('#app')
+app.use(pinia).use(router).use(i18n).mount('#app')

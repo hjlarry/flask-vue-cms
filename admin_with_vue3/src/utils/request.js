@@ -1,7 +1,7 @@
-import store from '@/store'
 import axios from 'axios'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { appStore } from '@/store/app_store'
+import { userStore } from '@/store/user_store'
 
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
@@ -11,8 +11,9 @@ const service = axios.create({
 service.interceptors.request.use(
   (config) => {
     const aStore = appStore()
-    if (store.getters.token) {
-      config.headers.Authorization = 'Bearer ' + store.getters.token
+    const uStore = userStore()
+    if (uStore.token) {
+      config.headers.Authorization = 'Bearer ' + uStore.token
     }
     config.headers['Accept-Language'] = aStore.language
     return config
@@ -29,6 +30,7 @@ service.interceptors.response.use(
      * code为非0是抛错 可结合自己业务进行修改
      */
     const res = response.data
+    const uStore = userStore()
     if (res.code !== 0) {
       ElMessage({
         message: res.error,
@@ -47,10 +49,7 @@ service.interceptors.response.use(
             type: 'warning'
           }
         ).then(() => {
-          store.dispatch('user/logout')
-          // store.dispatch('FedLogOut').then(() => {
-          //   location.reload() // 为了重新实例化vue-router对象 避免bug
-          // })
+          uStore.logout()
         })
       }
       return Promise.reject(new Error(res.error || 'Error'))
@@ -61,7 +60,7 @@ service.interceptors.response.use(
   (error) => {
     console.log('err' + error) // for debug
     if (error.response && error.response.status === 401) {
-      store.dispatch('user/logout')
+      uStore.logout()
     }
     ElMessage({
       message: error.message,
