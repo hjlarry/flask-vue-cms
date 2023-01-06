@@ -23,7 +23,7 @@ async function getOriginStyle() {
     // 避免找字体404
     'src:url\\(fonts/element-icons.woff\\)': ''
   }
-  Object.keys(colorMap).forEach(key => {
+  Object.keys(colorMap).forEach((key) => {
     const value = colorMap[key]
     data = data.replace(new RegExp(key, 'ig'), value)
   })
@@ -34,7 +34,7 @@ async function getOriginStyle() {
 export function genNewColor(primary) {
   if (!primary) return
   const colors = { primary }
-  Object.keys(formula).forEach(key => {
+  Object.keys(formula).forEach((key) => {
     const value = formula[key].replace(/primary/g, primary)
     colors[key] = '#' + rgbHex(color.convert(value))
   })
@@ -44,8 +44,11 @@ export function genNewColor(primary) {
 export async function genNewStyle(primaryColor) {
   let cssText = await getOriginStyle()
   const colors = genNewColor(primaryColor)
-  Object.keys(colors).forEach(key => {
-    cssText = cssText.replace(new RegExp('(:|\\s+)' + key, 'g'), '$1' + colors[key])
+  Object.keys(colors).forEach((key) => {
+    cssText = cssText.replace(
+      new RegExp('(:|\\s+)' + key, 'g'),
+      '$1' + colors[key]
+    )
   })
   return cssText
 }

@@ -23,8 +23,8 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useStore } from 'vuex'
 import { genNewStyle, writeNewStyle } from '@/utils/theme'
+import { themeStore } from '@/store/theme_store'
 
 defineProps({
   dialogVisable: {
@@ -54,13 +54,13 @@ const predefineColors = [
   'hsla(209, 100%, 56%, 0.73)',
   '#c7158577'
 ]
-const store = useStore()
-const mColor = ref(store.getters.mainColor)
 
+const store = themeStore()
+const mColor = ref(store.mainColor)
 async function submitTheme() {
   const style = await genNewStyle(mColor.value)
   writeNewStyle(style)
-  store.commit('theme/setColor', mColor.value)
+  store.setColor(mColor.value)
   closed()
 }
 </script>

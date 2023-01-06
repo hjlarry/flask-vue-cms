@@ -19,7 +19,7 @@
 <script setup>
 import { useRoute, useRouter } from 'vue-router'
 import { ref, watch } from 'vue'
-import store from '@/store'
+import { themeStore } from '@/store/theme_store'
 import { generateRouteTitle } from '@/i18n'
 
 const route = useRoute()
@@ -47,7 +47,8 @@ watch(
   }
 )
 
-const linkHoverColor = ref(store.getters.cssVar.menuBg)
+const store = themeStore()
+const linkHoverColor = ref(store.cssVar.menuBg)
 </script>
 
 <style lang="scss" scoped>

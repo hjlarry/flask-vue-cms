@@ -1,26 +1,34 @@
 <template>
-  <div class='tags-view-container'>
+  <div class="tags-view-container">
     <el-scrollbar>
-      <div class='tags-view-wrapper'>
+      <div class="tags-view-wrapper">
         <router-link
-          class='tags-view-item'
-          :class='isActive(tag) ? "active" : ""'
-          :style='{
-        backgroundColor: isActive(tag) ? $store.getters.cssVar.menuBg : "",
-        borderColor: isActive(tag) ? $store.getters.cssVar.menuBg : ""
-      }'
-          v-for='(tag, index) in $store.getters.tagsViewList'
-          :key='tag.fullPath'
-          :to='tag.fullPath'
-          @contextmenu.prevent='openMenu($event, index)'
+          class="tags-view-item"
+          :class="isActive(tag) ? 'active' : ''"
+          :style="{
+            backgroundColor: isActive(tag) ? tStore.cssVar.menuBg : '',
+            borderColor: isActive(tag) ? tStore.cssVar.menuBg : ''
+          }"
+          v-for="(tag, index) in $store.getters.tagsViewList"
+          :key="tag.fullPath"
+          :to="tag.fullPath"
+          @contextmenu.prevent="openMenu($event, index)"
         >
           {{ tag.title }}
-          <svg-icon icon='close' class='icon-close' v-show='isShowCloseIcon(tag)'
-                    @click.prevent='onCloseClick(index)'></svg-icon>
+          <svg-icon
+            icon="close"
+            class="icon-close"
+            v-show="isShowCloseIcon(tag)"
+            @click.prevent="onCloseClick(index)"
+          ></svg-icon>
         </router-link>
       </div>
     </el-scrollbar>
-    <context-menu :index='selectIndex' v-show='isShow' :style='menuPos'></context-menu>
+    <context-menu
+      :index="selectIndex"
+      v-show="isShow"
+      :style="menuPos"
+    ></context-menu>
   </div>
 </template>
 
@@ -30,8 +38,10 @@ import ContextMenu from './ContextMenu.vue'
 import { reactive, ref, watch } from 'vue'
 import SvgIcon from '@/components/SvgIcon'
 import { useStore } from 'vuex'
+import { themeStore } from '@/store/theme_store'
 
 const route = useRoute()
+const tStore = themeStore()
 
 function isActive(tag) {
   return tag.path === route.path
@@ -59,10 +69,7 @@ const menuPos = reactive({
 })
 
 function openMenu(event, index) {
-  const {
-    clientX,
-    clientY
-  } = event
+  const { clientX, clientY } = event
   menuPos.left = clientX + 'px'
   menuPos.top = clientY + 'px'
   selectIndex.value = index
@@ -73,17 +80,16 @@ function closeMenu() {
   isShow.value = false
 }
 
-watch(isShow, val => {
+watch(isShow, (val) => {
   if (val) {
     document.body.addEventListener('click', closeMenu)
   } else {
     document.body.removeEventListener('click', closeMenu)
   }
 })
-
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 .tags-view-container {
   height: 34px;
   width: 100%;
@@ -154,7 +160,5 @@ watch(isShow, val => {
       }
     }
   }
-
 }
-
 </style>

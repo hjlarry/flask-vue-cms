@@ -16,6 +16,7 @@
     "element-plus": "^2.2.27",
     "fuse.js": "^6.6.2",
     "path-browserify": "^1.0.1",
+    "pinia": "^2.0.28",
     "rgb-hex": "^4.0.0",
     "screenfull": "^6.0.2",
     "vue": "^3.2.13",

@@ -1,12 +1,14 @@
 <template>
-  <div class='app-wrapper'
-       :class="[$store.getters.sidebarOpened ? 'default' : 'hide-sidebar']">
+  <div
+    class="app-wrapper"
+    :class="[$store.getters.sidebarOpened ? 'default' : 'hide-sidebar']"
+  >
     <sidebar
-      class='sidebar-container'
-      :style='{ backgroundColor: $store.getters.cssVar.menuBg }'
+      class="sidebar-container"
+      :style="{ backgroundColor: store.cssVar.menuBg }"
     />
-    <div class='main-container'>
-      <div class='fix-header'>
+    <div class="main-container">
+      <div class="fix-header">
         <navbar />
         <tags-view></tags-view>
       </div>
@@ -20,22 +22,25 @@ import Navbar from './components/Navbar'
 import Sidebar from './components/Sidebar'
 import AppMain from './components/AppMain'
 import TagsView from '@/components/TagsView/index.vue'
+import { themeStore } from '@/store/theme_store'
+
+const store = themeStore()
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 @import '~@/styles/variables.scss';
 
 .hide-sidebar {
   .sidebar-container {
-    width: #{ $hideSideBarWidth } !important;
+    width: #{$hideSideBarWidth} !important;
   }
 
   .main-container {
-    margin-left: #{ $hideSideBarWidth } !important;
+    margin-left: #{$hideSideBarWidth} !important;
   }
 
   .fix-header {
-    width: calc(100% - #{ $hideSideBarWidth }) !important;
+    width: calc(100% - #{$hideSideBarWidth}) !important;
     transition: width #{$sideBarDuration};
   }
 }
