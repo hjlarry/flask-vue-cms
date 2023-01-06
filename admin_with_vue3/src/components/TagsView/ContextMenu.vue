@@ -1,14 +1,14 @@
 <template>
-  <ul class='context-menu-container'>
-    <li @click='onRefreshClick'>{{ $t('msg.tagsView.refresh') }}</li>
-    <li @click='onCloseRight'>{{ $t('msg.tagsView.closeRight') }}</li>
-    <li @click='onCloseOther'>{{ $t('msg.tagsView.closeOther') }}</li>
+  <ul class="context-menu-container">
+    <li @click="onRefreshClick">{{ $t('msg.tagsView.refresh') }}</li>
+    <li @click="onCloseRight">{{ $t('msg.tagsView.closeRight') }}</li>
+    <li @click="onCloseOther">{{ $t('msg.tagsView.closeOther') }}</li>
   </ul>
 </template>
 
 <script setup>
 import { useRouter } from 'vue-router'
-import { useStore } from 'vuex'
+import { appStore } from '@/store/app_store'
 
 const props = defineProps({
   index: {
@@ -18,31 +18,30 @@ const props = defineProps({
 })
 
 const router = useRouter()
-const store = useStore()
+const aStore = appStore()
 function onRefreshClick() {
   router.go(0)
 }
 
 function onCloseRight() {
-  store.commit('app/removeTagsView', {
+  aStore.removeTagsView({
     index: props.index,
     type: 'right'
   })
-  const last = store.getters.tagsViewList.length - 1
-  router.push(store.getters.tagsViewList[last].fullPath)
+  const last = aStore.tagsView.length - 1
+  router.push(aStore.tagsView[last].fullPath)
 }
 
 function onCloseOther() {
-  store.commit('app/removeTagsView', {
+  aStore.removeTagsView({
     index: props.index,
     type: 'other'
   })
-  router.push(store.getters.tagsViewList[0].fullPath)
+  router.push(aStore.tagsView[0].fullPath)
 }
-
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 .context-menu-container {
   list-style: none;
   border: 1px solid #d8dce5;
@@ -65,5 +64,4 @@ function onCloseOther() {
     }
   }
 }
-
 </style>

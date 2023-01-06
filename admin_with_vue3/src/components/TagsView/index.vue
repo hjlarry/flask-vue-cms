@@ -9,7 +9,7 @@
             backgroundColor: isActive(tag) ? tStore.cssVar.menuBg : '',
             borderColor: isActive(tag) ? tStore.cssVar.menuBg : ''
           }"
-          v-for="(tag, index) in $store.getters.tagsViewList"
+          v-for="(tag, index) in aStore.tagsView"
           :key="tag.fullPath"
           :to="tag.fullPath"
           @contextmenu.prevent="openMenu($event, index)"
@@ -37,28 +37,28 @@ import { useRoute, useRouter } from 'vue-router'
 import ContextMenu from './ContextMenu.vue'
 import { reactive, ref, watch } from 'vue'
 import SvgIcon from '@/components/SvgIcon'
-import { useStore } from 'vuex'
 import { themeStore } from '@/store/theme_store'
+import { appStore } from '@/store/app_store'
 
 const route = useRoute()
 const tStore = themeStore()
+const aStore = appStore()
 
 function isActive(tag) {
   return tag.path === route.path
 }
 
 function isShowCloseIcon(tag) {
-  return isActive(tag) && store.getters.tagsViewList.length > 1
+  return isActive(tag) && aStore.tagsView.length > 1
 }
 
-const store = useStore()
 const router = useRouter()
 function onCloseClick(index) {
-  store.commit('app/removeTagsView', {
+  aStore.removeTagsView({
     index: index,
     type: 'index'
   })
-  router.push(store.getters.tagsViewList[0].fullPath)
+  router.push(aStore.tagsView[0].fullPath)
 }
 
 const selectIndex = ref(0)

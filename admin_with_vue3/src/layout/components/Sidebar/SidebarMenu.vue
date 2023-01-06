@@ -1,11 +1,11 @@
 <template>
   <el-menu
     :unique-opened="true"
-    :background-color="store.cssVar.menuBg"
-    :text-color="store.cssVar.menuText"
-    :active-text-color="store.cssVar.$menuActiveText"
+    :background-color="tStore.cssVar.menuBg"
+    :text-color="tStore.cssVar.menuText"
+    :active-text-color="tStore.cssVar.$menuActiveText"
     :default-active="activeMenu"
-    :collapse="!$store.getters.sidebarOpened"
+    :collapse="!aStore.sidebarOpened"
     router
   >
     <sidebar-item
@@ -22,12 +22,14 @@ import { filterRoutes, genMenus } from '@/utils/route'
 import { computed } from 'vue'
 import SidebarItem from './SidebarItem.vue'
 import { themeStore } from '@/store/theme_store'
+import { appStore } from '@/store/app_store'
 
 const router = useRouter()
 const routes = computed(() => genMenus(filterRoutes(router.getRoutes())))
 const route = useRoute()
 const activeMenu = computed(() => route.path)
-const store = themeStore()
+const tStore = themeStore()
+const aStore = appStore()
 </script>
 
 <style scoped></style>

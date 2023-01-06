@@ -1,6 +1,7 @@
 import store from '@/store'
 import axios from 'axios'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import { appStore } from '@/store/app_store'
 
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
@@ -9,10 +10,11 @@ const service = axios.create({
 
 service.interceptors.request.use(
   (config) => {
+    const aStore = appStore()
     if (store.getters.token) {
       config.headers.Authorization = 'Bearer ' + store.getters.token
     }
-    config.headers['Accept-Language'] = store.getters.lang
+    config.headers['Accept-Language'] = aStore.language
     return config
   },
   (error) => {

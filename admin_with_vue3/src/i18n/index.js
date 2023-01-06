@@ -1,11 +1,11 @@
 import { createI18n } from 'vue-i18n'
 import { watch } from 'vue'
-import store from '@/store'
 import { getItem } from '@/utils/storage'
 import { LANG } from '@/constant'
 
 import myCn from './lang/zh'
 import myEn from './lang/en'
+import { appStore } from '@/store/app_store'
 
 const messages = {
   en: {
@@ -36,10 +36,11 @@ export function generateRouteTitle(title) {
 }
 
 export function watchSwitchLang(...cbs) {
+  const aStore = appStore()
   watch(
-    () => store.getters.lang,
+    () => aStore.language,
     () => {
-      cbs.forEach(cb => cb(store.getters.lang))
+      cbs.forEach((cb) => cb(aStore.lang))
     }
   )
 }

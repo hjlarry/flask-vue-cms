@@ -1,11 +1,11 @@
 <template>
   <div
     class="app-wrapper"
-    :class="[$store.getters.sidebarOpened ? 'default' : 'hide-sidebar']"
+    :class="[aStore.sidebarOpened ? 'default' : 'hide-sidebar']"
   >
     <sidebar
       class="sidebar-container"
-      :style="{ backgroundColor: store.cssVar.menuBg }"
+      :style="{ backgroundColor: tStore.cssVar.menuBg }"
     />
     <div class="main-container">
       <div class="fix-header">
@@ -23,8 +23,10 @@ import Sidebar from './components/Sidebar'
 import AppMain from './components/AppMain'
 import TagsView from '@/components/TagsView/index.vue'
 import { themeStore } from '@/store/theme_store'
+import { appStore } from '@/store/app_store'
 
-const store = themeStore()
+const tStore = themeStore()
+const aStore = appStore()
 </script>
 
 <style lang="scss" scoped>

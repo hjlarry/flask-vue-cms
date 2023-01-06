@@ -10,16 +10,16 @@
 
 <script setup>
 import { useRoute } from 'vue-router'
-import { useStore } from 'vuex'
 import { watch } from 'vue'
 import { generateRouteTitle, watchSwitchLang } from '@/i18n'
 import { shouldInTagsView } from '@/utils/tags'
+import { appStore } from '@/store/app_store'
 
 const route = useRoute()
-const store = useStore()
+const aStore = appStore()
 
 function getTitle(route) {
-  let title = ''
+  let title
   if (!route.meta) {
     const pathArr = route.path.split('/')
     title = pathArr[pathArr.length - 1]
@@ -34,7 +34,7 @@ watch(
   (to, from) => {
     if (!shouldInTagsView(to.path)) return
     const { fullPath, path, query, params, meta, name } = to
-    store.commit('app/addTag', {
+    aStore.addTag({
       fullPath,
       path,
       query,
@@ -50,8 +50,8 @@ watch(
 )
 
 watchSwitchLang(() => {
-  store.getters.tagsViewList.forEach((route, index) => {
-    store.commit('app/changeTagsView', {
+  aStore.tagsView.forEach((route, index) => {
+    aStore.changeTagsView({
       index,
       tag: {
         ...route,
