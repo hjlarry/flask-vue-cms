@@ -42,3 +42,17 @@ export const userDetail = (id) => {
     url: '/user/' + id
   })
 }
+
+export const userRole = (id) => {
+  return request({
+    url: '/user/role/' + id
+  })
+}
+
+export const updateUserRole = (id, data) => {
+  return request({
+    url: '/user/role/' + id,
+    method: 'post',
+    data
+  })
+}

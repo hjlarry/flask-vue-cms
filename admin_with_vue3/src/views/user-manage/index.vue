@@ -52,7 +52,7 @@
             <el-button type="primary" size="small" @click="onShowClick(row)">{{
               $t('msg.excel.show')
             }}</el-button>
-            <el-button type="info" size="small">{{
+            <el-button type="info" size="small" @click="onShowRole(row)">{{
               $t('msg.excel.showRole')
             }}</el-button>
             <el-button type="danger" size="small" @click="onRemoveClick(row)">{{
@@ -76,6 +76,11 @@
       v-model:dialog-visable="export2ExcelVisiable"
       :table-data="tableData"
     ></Export2Excel>
+    <show-role
+      v-model="roleDialogVisible"
+      :user-id="selectUserId"
+      @updateRole="getUsersList"
+    ></show-role>
   </div>
 </template>
 
@@ -86,6 +91,7 @@ import { useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import Export2Excel from '@/views/user-manage/Export2Excel.vue'
+import ShowRole from './showRole.vue'
 
 const tableData = ref([])
 const page = ref(1)
@@ -137,6 +143,13 @@ function onShowClick(row) {
 const export2ExcelVisiable = ref(false)
 function onExport() {
   export2ExcelVisiable.value = true
+}
+
+const roleDialogVisible = ref(false)
+const selectUserId = ref(NaN)
+function onShowRole(row) {
+  roleDialogVisible.value = true
+  selectUserId.value = row.id
 }
 </script>
 
