@@ -6,3 +6,10 @@ export const getRoles = () => {
     method: 'get'
   })
 }
+
+export const getPermissions = () => {
+  return request({
+    url: '/permission/list',
+    method: 'get'
+  })
+}
