@@ -36,7 +36,7 @@ import { getRoles } from '@/api/role'
 
 const rolesData = ref([])
 async function getRoleList() {
-  rolesData.value = await (await getRoles()).data.roles
+  rolesData.value = await (await getRoles()).data
 }
 getRoleList()
 </script>

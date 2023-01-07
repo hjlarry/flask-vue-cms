@@ -2,7 +2,7 @@ from apiflask import HTTPTokenAuth, APIBlueprint, pagination_builder
 from flask import current_app, request
 
 from utils import generate_token, auth_cache, verify_token
-from schemas import LoginSchema, UserInfoSchema, UserDetailSchema, RoleListSchema, UserListQuery, UsersOut, ImportUser
+from schemas import LoginSchema, UserInfoSchema, UserDetailSchema, UserListQuery, UsersOut, ImportUser, RoleSchema
 from ext import db
 from models import User, Role
 
@@ -146,28 +146,30 @@ def get_user(id):
 
 
 @admin_bp.get('/user/role/<int:id>')
+@admin_bp.output(RoleSchema(many=True))
 def get_user_role(id):
-    data = {
-        "role": [
-            {
-                "id": "1",
-                "title": "超级管理员"
-            }
-        ]
-    }
-    return {"code": 0, "data": data}
+    db_roles = User.query.get(id).roles
+    return {"data": db_roles}
 
 
 @admin_bp.post('/user/role/<int:id>')
-def update_user_role(id):
+@admin_bp.input(RoleSchema(many=True))
+def update_user_role(id, data):
+    user = User.query.get(id)
+    roles = []
+    for item in data:
+        role = Role.query.get(item['id'])
+        roles.append(role)
+    user.roles = roles
+    db.session.commit()
     return {"code": 0}
 
 
 @admin_bp.get('/role/list')
-@admin_bp.output(RoleListSchema)
+@admin_bp.output(RoleSchema(many=True))
 def roles():
     db_roles = Role.query.all()
-    return {"data": {"roles": db_roles}}
+    return {"data": db_roles}
 
 
 @admin_bp.get('/permission/list')

@@ -42,6 +42,7 @@ const emits = defineEmits(['update:modelValue', 'updateRole'])
 
 function closed() {
   emits('update:modelValue', false)
+  currentUserRoles.value = []
 }
 
 async function onConfirm() {
@@ -60,7 +61,7 @@ const currentUserRoles = ref([])
 async function getRoleData() {
   allRoles.value = (await getRoles()).data
   const res = (await userRole(props.userId)).data
-  currentUserRoles.value = res.role.map((item) => item.title)
+  currentUserRoles.value = res.map((item) => item.title)
 }
 
 // 组件初始状态时，useId为null，监听到其有值时再获取数据

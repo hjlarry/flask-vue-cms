@@ -29,12 +29,12 @@
         </el-table-column>
         <el-table-column
           :label="$t('msg.excel.role')"
-          prop="role"
+          prop="roles"
           align="center"
         >
           <template #default="{ row }">
             <el-tag v-for="item in row.roles" :key="item.id" size="small">
-              {{ item.name }}
+              {{ item.title }}
             </el-tag>
           </template>
         </el-table-column>
