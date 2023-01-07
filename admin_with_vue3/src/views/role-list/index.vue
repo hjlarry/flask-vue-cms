@@ -14,7 +14,7 @@
         ></el-table-column>
         <el-table-column
           :label="$t('msg.role.desc')"
-          prop="describe"
+          prop="description"
         ></el-table-column>
         <el-table-column
           :label="$t('msg.role.action')"
@@ -36,7 +36,7 @@ import { getRoles } from '@/api/role'
 
 const rolesData = ref([])
 async function getRoleList() {
-  rolesData.value = await (await getRoles()).data
+  rolesData.value = await (await getRoles()).data.roles
 }
 getRoleList()
 </script>

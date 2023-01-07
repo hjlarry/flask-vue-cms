@@ -67,8 +67,9 @@ class User(Base):
 
 class Role(Base):
     __tablename__ = "roles"
-    name: Mapped[str] = mapped_column(String(40), unique=True)
+    title: Mapped[str] = mapped_column(String(40), unique=True)
     can_edit: Mapped[bool] = mapped_column(Boolean, default=True)
+    description: Mapped[str] = mapped_column(String(100), nullable=True, default="")
     users: Mapped[list[User]] = relationship(
         secondary=user_roles, back_populates="roles"
     )

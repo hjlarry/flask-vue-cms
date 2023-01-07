@@ -1,5 +1,5 @@
 from apiflask import Schema, PaginationSchema
-from apiflask.fields import Integer, String, List, Nested, Field, DateTime
+from apiflask.fields import Integer, String, List, Nested, Field,Dict, DateTime
 from apiflask.validators import Length, Range
 
 
@@ -8,24 +8,36 @@ class BaseResponse(Schema):
     code = Integer(default=0)
 
 
-class RoleScheme(Schema):
+class RoleSchema(Schema):
     id = Integer()
-    name = String()
-    can_edit = Integer()
+    title = String()
+    description = String()
 
 
-class LoginScheme(Schema):
+class LoginSchema(Schema):
     username = String(required=True, validate=Length(min=3, max=40))
     password = String(required=True, validate=Length(min=3, max=40))
 
 
-class UserInfoScheme(Schema):
+class UserInfoSchema(Schema):
     id = Integer()
     username = String()
     name = String()
     avatar = String()
-    roles = List(Nested(nested=RoleScheme))
+    roles = List(Nested(nested=RoleSchema))
     created_at = DateTime(data_key="openTime")
+
+
+class UserDetailSchema(UserInfoSchema):
+    remark = List(String())
+    experience = List(Dict())
+    gender = String()
+    mobile = String()
+    province = String()
+    nationality = String()
+    address = String()
+    major = String()
+    glory = String()
 
 
 class UserListQuery(Schema):
@@ -34,8 +46,12 @@ class UserListQuery(Schema):
 
 
 class UsersOut(Schema):
-    users = List(Nested(nested=UserInfoScheme))
+    users = List(Nested(nested=UserInfoSchema))
     pagination = Nested(nested=PaginationSchema)
+
+class RoleListSchema(Schema):
+    roles = List(Nested(nested=RoleSchema))
+
 
 http_error_schema = {
     "properties": {
@@ -51,6 +67,7 @@ http_error_schema = {
     },
     "type": "object"
 }
+
 
 class ImportUser(Schema):
     users = Field()

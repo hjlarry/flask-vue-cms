@@ -2,9 +2,9 @@ from apiflask import HTTPTokenAuth, APIBlueprint, pagination_builder
 from flask import current_app, request
 
 from utils import generate_token, auth_cache, verify_token
-from schemas import LoginScheme, UserInfoScheme, UserListQuery, UsersOut, ImportUser
+from schemas import LoginSchema, UserInfoSchema, UserDetailSchema, RoleListSchema, UserListQuery, UsersOut, ImportUser
 from ext import db
-from models import User
+from models import User, Role
 
 admin_bp = APIBlueprint("admin", __name__, url_prefix="/admin")
 auth = HTTPTokenAuth(scheme="Bearer")
@@ -12,7 +12,7 @@ auth.verify_token(verify_token)
 
 
 @admin_bp.post("/login")
-@admin_bp.input(LoginScheme)
+@admin_bp.input(LoginSchema)
 def login(data):
     user = User.query.filter_by(username=data["username"]).first()
     if user and user.verify_password(data["password"]):
@@ -24,7 +24,7 @@ def login(data):
 
 
 @admin_bp.get("/info")
-@admin_bp.output(schema=UserInfoScheme)
+@admin_bp.output(schema=UserInfoSchema)
 @admin_bp.auth_required(auth)
 def get_info():
     return {"data": auth.current_user}
@@ -109,14 +109,10 @@ def delete_user(id):
 
 
 @admin_bp.get('/user/<int:id>')
+@admin_bp.output(UserDetailSchema)
 def get_user(id):
+    user = User.query.get(id)
     data = {
-        "role": [
-            {
-                "id": "1",
-                "title": "超级管理员"
-            }
-        ],
         "remark": [
             "超级管理员",
             "BOSS"
@@ -135,11 +131,7 @@ def get_user(id):
                 "desc": "uni-app 开发企业级小程序"
             }
         ],
-        "_id": "612710a0ec87aa543c9c341d",
-        "id": "0",
         "openTime": "2016-05-24",
-        "username": "super-admin",
-        "title": "超级管理员",
         "mobile": "188xxxx0001",
         "avatar": "https://m.imooc.com/static/wap/static/common/img/logo-small@2x.png",
         "gender": "男",
@@ -149,7 +141,8 @@ def get_user(id):
         "major": "在线职业教育平台",
         "glory": "国内领先的线上 IT 教育品牌"
     }
-    return {"code": 0, "data": data}
+    user.__dict__.update(data)
+    return {"data": user}
 
 
 @admin_bp.get('/user/role/<int:id>')
@@ -171,40 +164,10 @@ def update_user_role(id):
 
 
 @admin_bp.get('/role/list')
+@admin_bp.output(RoleListSchema)
 def roles():
-    data = [
-        {
-            "id": "1",
-            "title": "超级管理员",
-            "describe": "唯一账号，可以操作系统所有功能"
-        },
-        {
-            "id": "2",
-            "title": "管理员",
-            "describe": "由超管指定，可以为多个，协助超管管理系统"
-        },
-        {
-            "id": "3",
-            "title": "人事经理",
-            "describe": "主管人事相关业务"
-        },
-        {
-            "id": "4",
-            "title": "销售经理",
-            "describe": "主管销售相关业务"
-        },
-        {
-            "id": "5",
-            "title": "保安队长",
-            "describe": "主管安保相关业务"
-        },
-        {
-            "id": "6",
-            "title": "员工",
-            "describe": "普通员工"
-        }
-    ]
-    return {"code": 0, "data": data}
+    db_roles = Role.query.all()
+    return {"data": {"roles": db_roles}}
 
 
 @admin_bp.get('/permission/list')
