@@ -35,6 +35,7 @@ class UserInfoSchema(Schema):
     name = String()
     avatar = String()
     roles = List(Nested(nested=RoleSchema))
+    permissions = Dict()
     created_at = DateTime(data_key="openTime")
 
 

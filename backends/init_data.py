@@ -66,7 +66,7 @@ def gen_permission_data(db):
         "permission_mark": "distributePermission",
         "permission_desc": "为角色分配权限",
     }
-    data = [
+    menu_data = [
         {
             "permission_id": "1",
             "permission_name": "员工管理",
@@ -98,7 +98,7 @@ def gen_permission_data(db):
             "permission_desc": "创建文章页面",
         },
     ]
-    for item in data:
+    for item in menu_data:
         permission = Permission(**item)
         db.session.add(permission)
     db.session.commit()

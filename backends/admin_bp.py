@@ -10,7 +10,7 @@ from schemas import (
     ImportUser,
     RoleSchema,
     PermissionSchema,
-    SetPermissionIn
+    SetPermissionIn,
 )
 from ext import db
 from models import User, Role, Permission
@@ -29,6 +29,18 @@ def whole_bp_need_login():
 @admin_bp.get("/info")
 @admin_bp.output(schema=UserInfoSchema)
 def get_info():
+    data = {
+        "menus": [
+            "userManage",
+            "roleList",
+        ],
+        "points": [
+            "distributeRole",
+            "importUser",
+        ]
+    }
+
+    auth.current_user.__dict__['permissions'] = data
     return {"data": auth.current_user}
 
 
