@@ -85,7 +85,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { getUsers, userDelete } from '@/api/user'
 import { useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
@@ -151,6 +151,11 @@ function onShowRole(row) {
   roleDialogVisible.value = true
   selectUserId.value = row.id
 }
+
+// 确保关闭弹窗再次打开时仍然能去获取一次数据
+watch(roleDialogVisible, (val) => {
+  if (!val) selectUserId.value = NaN
+})
 </script>
 
 <style lang="scss" scoped>

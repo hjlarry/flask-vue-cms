@@ -70,3 +70,7 @@ class PermissionSchema(Schema):
     permission_mark = String()
     permission_desc = String()
     children = List(Nested(nested="self"))
+
+
+class SetPermissionIn(Schema):
+    permissions = List(String())

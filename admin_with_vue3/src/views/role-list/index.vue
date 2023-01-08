@@ -36,7 +36,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { getRoles } from '@/api/role'
 import ShowPermission from './showPermission.vue'
 
@@ -52,6 +52,9 @@ function onShowDialog(row) {
   permissionDialog.value = true
   selectRoleId.value = row.id
 }
+watch(permissionDialog, (val) => {
+  if (!val) selectRoleId.value = NaN
+})
 </script>
 
 <style lang="scss" scoped></style>

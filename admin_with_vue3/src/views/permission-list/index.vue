@@ -10,15 +10,15 @@
       >
         <el-table-column
           :label="$t('msg.permission.name')"
-          prop="permissionName"
+          prop="permission_name"
         ></el-table-column>
         <el-table-column
           :label="$t('msg.permission.mark')"
-          prop="permissionMark"
+          prop="permission_mark"
         ></el-table-column>
         <el-table-column
           :label="$t('msg.permission.desc')"
-          prop="permissionDesc"
+          prop="permission_desc"
         ></el-table-column>
       </el-table>
     </el-card>

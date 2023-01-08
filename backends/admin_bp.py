@@ -9,7 +9,8 @@ from schemas import (
     UsersOut,
     ImportUser,
     RoleSchema,
-    PermissionSchema
+    PermissionSchema,
+    SetPermissionIn
 )
 from ext import db
 from models import User, Role, Permission
@@ -173,16 +174,25 @@ def roles():
 @admin_bp.get("/permission/list")
 @admin_bp.output(PermissionSchema(many=True))
 def permissions():
-    premissions = Permission.query.all()
-    return {"code": 0, "data": premissions}
+    permissions = Permission.query.filter_by(parent_id=None).all()
+    return {"code": 0, "data": permissions}
 
 
 @admin_bp.get("/role/<int:id>/permission")
 def role_permission(id):
-    data = ["1", "1-1", "1-2", "1-3", "2", "2-1", "3", "4", "5"]
+    permissions = Role.query.get(id).permissions
+    data = [p.permission_id for p in permissions]
     return {"data": data, "code": 0}
 
 
 @admin_bp.post("/role/<int:id>/permission")
-def set_role_permission(id):
+@admin_bp.input(SetPermissionIn)
+def set_role_permission(id, data):
+    role = Role.query.get(id)
+    r_p = []
+    for p_id in data["permissions"]:
+        p = Permission.query.filter_by(permission_id=p_id).first()
+        r_p.append(p)
+    role.permissions = r_p
+    db.session.commit()
     return {"code": 0}

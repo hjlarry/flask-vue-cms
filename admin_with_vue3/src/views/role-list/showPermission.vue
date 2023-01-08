@@ -54,7 +54,7 @@ const i18n = useI18n()
 
 async function onConfirm() {
   await setRolePermission(props.roleId, {
-    permissons: treeRef.value.getCheckedKeys()
+    permissions: treeRef.value.getCheckedKeys()
   })
   ElMessage.success(i18n.t('msg.role.updateRoleSuccess'))
   treeRef.value.setCheckedKeys([])
