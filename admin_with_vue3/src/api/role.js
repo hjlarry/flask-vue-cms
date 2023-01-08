@@ -13,3 +13,18 @@ export const getPermissions = () => {
     method: 'get'
   })
 }
+
+export const getRolePermission = (id) => {
+  return request({
+    url: '/role/' + id + '/permission',
+    method: 'get'
+  })
+}
+
+export const setRolePermission = (id, data) => {
+  return request({
+    url: '/role/' + id + '/permission',
+    method: 'post',
+    data
+  })
+}

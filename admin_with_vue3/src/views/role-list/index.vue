@@ -20,25 +20,38 @@
           :label="$t('msg.role.action')"
           prop="action"
           align="center"
+          #default="{ row }"
         >
-          <el-button type="primary" size="small">{{
+          <el-button type="primary" size="small" @click="onShowDialog(row)">{{
             $t('msg.role.assignPermissions')
           }}</el-button>
         </el-table-column>
       </el-table>
     </el-card>
+    <show-permission
+      v-model="permissionDialog"
+      :role-id="selectRoleId"
+    ></show-permission>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import { getRoles } from '@/api/role'
+import ShowPermission from './showPermission.vue'
 
 const rolesData = ref([])
 async function getRoleList() {
   rolesData.value = await (await getRoles()).data
 }
 getRoleList()
+
+const permissionDialog = ref(false)
+const selectRoleId = ref(NaN)
+function onShowDialog(row) {
+  permissionDialog.value = true
+  selectRoleId.value = row.id
+}
 </script>
 
 <style lang="scss" scoped></style>

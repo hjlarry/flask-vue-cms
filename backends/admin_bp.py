@@ -235,3 +235,24 @@ def permissions():
         },
     ]
     return {"code": 0, "data": data}
+
+
+@admin_bp.get("/role/<int:id>/permission")
+def role_permission(id):
+    data = [
+        "1",
+        "1-1",
+        "1-2",
+        "1-3",
+        "2",
+        "2-1",
+        "3",
+        "4",
+        "5"
+    ]
+    return {"data": data, "code": 0}
+
+
+@admin_bp.post("/role/<int:id>/permission")
+def set_role_permission(id):
+    return {"code": 0}
