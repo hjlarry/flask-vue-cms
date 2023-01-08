@@ -78,7 +78,9 @@ class Role(Base):
 
 class Permission(Base):
     __tablename__ = "permissions"
-    permission_id = Column("permission_id", db.String(40))
-    permission_name = Column("permission_name", db.String(40))
-    permission_mark = Column("permission_mark", db.String(40))
-    permission_desc = Column("permission_desc", db.String(255))
+    permission_id: Mapped[str] = mapped_column(String(40), unique=True)
+    permission_name: Mapped[str] = mapped_column(String(40))
+    permission_mark: Mapped[str] = mapped_column(String(40))
+    permission_desc: Mapped[str] = mapped_column(String(255), nullable=True)
+    parent_id: Mapped[int] = mapped_column(ForeignKey("permissions.id"), nullable=True)
+    children: Mapped[list["Permission"]] = relationship("Permission")

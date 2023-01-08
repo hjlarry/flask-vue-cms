@@ -63,7 +63,7 @@ async function onConfirm() {
 
 const defaultProps = ref({
   children: 'children',
-  label: 'permissionName'
+  label: 'permission_name'
 })
 
 const allPermissions = ref([])

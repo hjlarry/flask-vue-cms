@@ -8,6 +8,16 @@ class BaseResponse(Schema):
     code = Integer(default=0)
 
 
+http_error_schema = {
+    "properties": {
+        "error_detail": {"type": "object"},
+        "error_message": {"type": "string"},
+        "code": {"type": "integer"},
+    },
+    "type": "object",
+}
+
+
 class RoleSchema(Schema):
     id = Integer()
     title = String()
@@ -50,19 +60,13 @@ class UsersOut(Schema):
     pagination = Nested(nested=PaginationSchema)
 
 
-class RoleListSchema(Schema):
-    roles = List(Nested(nested=RoleSchema))
-
-
-http_error_schema = {
-    "properties": {
-        "error_detail": {"type": "object"},
-        "error_message": {"type": "string"},
-        "code": {"type": "integer"},
-    },
-    "type": "object",
-}
-
-
 class ImportUser(Schema):
     users = Field()
+
+
+class PermissionSchema(Schema):
+    permission_id = String(data_key="id")
+    permission_name = String()
+    permission_mark = String()
+    permission_desc = String()
+    children = List(Nested(nested="self"))

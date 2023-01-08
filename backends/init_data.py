@@ -1,4 +1,4 @@
-from models import User, Role
+from models import User, Role, Permission
 
 
 def check_data_exist():
@@ -39,9 +39,85 @@ def gen_role_data(db):
     db.session.commit()
 
 
+def gen_permission_data(db):
+    child1 = [
+        {
+            "permission_id": "1-1",
+            "permission_name": "分配角色",
+            "permission_mark": "distributeRole",
+            "permission_desc": "为员工分配角色",
+        },
+        {
+            "permission_id": "1-2",
+            "permission_name": "导入员工",
+            "permission_mark": "importUser",
+            "permission_desc": "通过 excel 导入员工",
+        },
+        {
+            "permission_id": "1-3",
+            "permission_name": "删除员工",
+            "permission_mark": "removeUser",
+            "permission_desc": "删除员工",
+        },
+    ]
+    child2 = {
+        "permission_id": "2-1",
+        "permission_name": "分配权限",
+        "permission_mark": "distributePermission",
+        "permission_desc": "为角色分配权限",
+    }
+    data = [
+        {
+            "permission_id": "1",
+            "permission_name": "员工管理",
+            "permission_mark": "userManage",
+            "permission_desc": "员工管理菜单",
+        },
+        {
+            "permission_id": "2",
+            "permission_name": "角色列表",
+            "permission_mark": "roleList",
+            "permission_desc": "角色列表菜单",
+        },
+        {
+            "permission_id": "3",
+            "permission_name": "权限列表",
+            "permission_mark": "permissionList",
+            "permission_desc": "权限列表菜单",
+        },
+        {
+            "permission_id": "4",
+            "permission_name": "文章排名",
+            "permission_mark": "articleRanking",
+            "permission_desc": "文章排名菜单",
+        },
+        {
+            "permission_id": "5",
+            "permission_name": "创建文章",
+            "permission_mark": "articleCreate",
+            "permission_desc": "创建文章页面",
+        },
+    ]
+    for item in data:
+        permission = Permission(**item)
+        db.session.add(permission)
+    db.session.commit()
+    for item in child1:
+        p1 = Permission.query.get(1)
+        permission = Permission(**item)
+        p1.children.append(permission)
+    db.session.commit()
+
+    p2 = Permission.query.get(2)
+    permission = Permission(**child2)
+    p2.children.append(permission)
+    db.session.commit()
+
+
 def init_data(db):
     if check_data_exist():
         return
     gen_admin_data(db)
     gen_user_data(db)
     gen_role_data(db)
+    gen_permission_data(db)
