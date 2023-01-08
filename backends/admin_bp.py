@@ -1,8 +1,15 @@
 from apiflask import HTTPTokenAuth, APIBlueprint, pagination_builder
-from flask import current_app, request
+from flask import request
 
-from utils import generate_token, auth_cache, verify_token
-from schemas import LoginSchema, UserInfoSchema, UserDetailSchema, UserListQuery, UsersOut, ImportUser, RoleSchema
+from utils import verify_token
+from schemas import (
+    UserInfoSchema,
+    UserDetailSchema,
+    UserListQuery,
+    UsersOut,
+    ImportUser,
+    RoleSchema,
+)
 from ext import db
 from models import User, Role
 
@@ -11,21 +18,14 @@ auth = HTTPTokenAuth(scheme="Bearer")
 auth.verify_token(verify_token)
 
 
-@admin_bp.post("/login")
-@admin_bp.input(LoginSchema)
-def login(data):
-    user = User.query.filter_by(username=data["username"]).first()
-    if user and user.verify_password(data["password"]):
-        token = generate_token(user.id).decode()
-        res = {"data": {"token": token}, "code": 0}
-        auth_cache.setex(user.id, current_app.config["EXPIRE_TIME"], token)
-        return res
-    return {"error": "用户名或密码错误", "code": 1234}
+@admin_bp.before_request
+@admin_bp.auth_required(auth)
+def whole_bp_need_login():
+    pass
 
 
 @admin_bp.get("/info")
 @admin_bp.output(schema=UserInfoSchema)
-@admin_bp.auth_required(auth)
 def get_info():
     return {"data": auth.current_user}
 
@@ -83,12 +83,12 @@ def get_userlist(params):
     return {"data": return_data}
 
 
-@admin_bp.post('/user/batchImport')
+@admin_bp.post("/user/batchImport")
 @admin_bp.input(ImportUser)
 def import_users(data):
     try:
-        for item in data['users']:
-            user = User(name=item['name'], username=item['username'], password='123')
+        for item in data["users"]:
+            user = User(name=item["name"], username=item["username"], password="123")
             db.session.add(user)
         db.session.commit()
     except:
@@ -96,7 +96,7 @@ def import_users(data):
     return {"code": 0}
 
 
-@admin_bp.post('/user/delete/<int:id>')
+@admin_bp.post("/user/delete/<int:id>")
 def delete_user(id):
     try:
         user = User.query.get(id)
@@ -108,28 +108,25 @@ def delete_user(id):
     return {"code": 0}
 
 
-@admin_bp.get('/user/<int:id>')
+@admin_bp.get("/user/<int:id>")
 @admin_bp.output(UserDetailSchema)
 def get_user(id):
     user = User.query.get(id)
     data = {
-        "remark": [
-            "超级管理员",
-            "BOSS"
-        ],
+        "remark": ["超级管理员", "BOSS"],
         "experience": [
             {
                 "startTime": "2016-05-24",
                 "endTime": "2017-05-24",
                 "title": "慕课网",
-                "desc": "混合开发京东商城"
+                "desc": "混合开发京东商城",
             },
             {
                 "startTime": "2018-06-01",
                 "endTime": "2019-08-12",
                 "title": "慕课网",
-                "desc": "uni-app 开发企业级小程序"
-            }
+                "desc": "uni-app 开发企业级小程序",
+            },
         ],
         "openTime": "2016-05-24",
         "mobile": "188xxxx0001",
@@ -139,40 +136,40 @@ def get_user(id):
         "nationality": "汉",
         "address": "北京市朝阳区xx大道 11xx0 号 3 层",
         "major": "在线职业教育平台",
-        "glory": "国内领先的线上 IT 教育品牌"
+        "glory": "国内领先的线上 IT 教育品牌",
     }
     user.__dict__.update(data)
     return {"data": user}
 
 
-@admin_bp.get('/user/role/<int:id>')
+@admin_bp.get("/user/role/<int:id>")
 @admin_bp.output(RoleSchema(many=True))
 def get_user_role(id):
     db_roles = User.query.get(id).roles
     return {"data": db_roles}
 
 
-@admin_bp.post('/user/role/<int:id>')
+@admin_bp.post("/user/role/<int:id>")
 @admin_bp.input(RoleSchema(many=True))
 def update_user_role(id, data):
     user = User.query.get(id)
     roles = []
     for item in data:
-        role = Role.query.get(item['id'])
+        role = Role.query.get(item["id"])
         roles.append(role)
     user.roles = roles
     db.session.commit()
     return {"code": 0}
 
 
-@admin_bp.get('/role/list')
+@admin_bp.get("/role/list")
 @admin_bp.output(RoleSchema(many=True))
 def roles():
     db_roles = Role.query.all()
     return {"data": db_roles}
 
 
-@admin_bp.get('/permission/list')
+@admin_bp.get("/permission/list")
 def permissions():
     data = [
         {
@@ -185,21 +182,21 @@ def permissions():
                     "id": "1-1",
                     "permissionName": "分配角色",
                     "permissionMark": "distributeRole",
-                    "permissionDesc": "为员工分配角色"
+                    "permissionDesc": "为员工分配角色",
                 },
                 {
                     "id": "1-2",
                     "permissionName": "导入员工",
                     "permissionMark": "importUser",
-                    "permissionDesc": "通过 excel 导入员工"
+                    "permissionDesc": "通过 excel 导入员工",
                 },
                 {
                     "id": "1-3",
                     "permissionName": "删除员工",
                     "permissionMark": "removeUser",
-                    "permissionDesc": "删除员工"
-                }
-            ]
+                    "permissionDesc": "删除员工",
+                },
+            ],
         },
         {
             "id": "2",
@@ -211,36 +208,30 @@ def permissions():
                     "id": "2-1",
                     "permissionName": "分配权限",
                     "permissionMark": "distributePermission",
-                    "permissionDesc": "为角色分配权限"
+                    "permissionDesc": "为角色分配权限",
                 }
-            ]
+            ],
         },
         {
             "id": "3",
             "permissionName": "权限列表",
             "permissionMark": "permissionList",
             "permissionDesc": "权限列表菜单",
-            "children": [
-
-            ]
+            "children": [],
         },
         {
             "id": "4",
             "permissionName": "文章排名",
             "permissionMark": "articleRanking",
             "permissionDesc": "文章排名菜单",
-            "children": [
-
-            ]
+            "children": [],
         },
         {
             "id": "5",
             "permissionName": "创建文章",
             "permissionMark": "articleCreate",
             "permissionDesc": "创建文章页面",
-            "children": [
-
-            ]
-        }
+            "children": [],
+        },
     ]
     return {"code": 0, "data": data}

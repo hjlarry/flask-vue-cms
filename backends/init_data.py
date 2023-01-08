@@ -27,31 +27,11 @@ def gen_user_data(db):
 
 def gen_role_data(db):
     data = [
-        {
-            "id": "2",
-            "title": "管理员",
-            "description": "由超管指定，可以为多个，协助超管管理系统"
-        },
-        {
-            "id": "3",
-            "title": "人事经理",
-            "description": "主管人事相关业务"
-        },
-        {
-            "id": "4",
-            "title": "销售经理",
-            "description": "主管销售相关业务"
-        },
-        {
-            "id": "5",
-            "title": "保安队长",
-            "description": "主管安保相关业务"
-        },
-        {
-            "id": "6",
-            "title": "员工",
-            "description": "普通员工"
-        }
+        {"id": "2", "title": "管理员", "description": "由超管指定，可以为多个，协助超管管理系统"},
+        {"id": "3", "title": "人事经理", "description": "主管人事相关业务"},
+        {"id": "4", "title": "销售经理", "description": "主管销售相关业务"},
+        {"id": "5", "title": "保安队长", "description": "主管安保相关业务"},
+        {"id": "6", "title": "员工", "description": "普通员工"},
     ]
     for item in data:
         role = Role(**item)
