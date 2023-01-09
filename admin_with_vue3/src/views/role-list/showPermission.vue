@@ -11,6 +11,7 @@
       show-checkbox
       node-key="id"
       default-expand-all
+      check-strictly
     >
     </el-tree>
     <template #footer>

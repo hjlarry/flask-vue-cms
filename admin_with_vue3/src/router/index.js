@@ -5,6 +5,7 @@ import RoleListRouter from './modules/RoleList'
 import PermissionListRouter from './modules/PermissionList'
 import ArticleRankingRouter from './modules/ArticleRanking'
 import ArticleCreateRouter from './modules/ArticleCreate'
+import { userStore } from '@/store/user_store'
 
 export const publicRoutes = [
   {
@@ -52,5 +53,17 @@ const router = createRouter({
   history: createWebHashHistory(),
   routes: publicRoutes
 })
+
+export function resetRouter() {
+  const uStore = userStore()
+  if (
+    uStore.userInfo &&
+    uStore.userInfo.permissions &&
+    uStore.userInfo.permissions.menus
+  ) {
+    const menus = uStore.userInfo.permissions.menus
+    menus.forEach((menu) => router.removeRoute(menu))
+  }
+}
 
 export default router

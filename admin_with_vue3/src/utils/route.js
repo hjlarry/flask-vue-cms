@@ -2,7 +2,7 @@ import path from 'path'
 
 function getChildren(routes) {
   const result = []
-  routes.forEach(route => {
+  routes.forEach((route) => {
     if (route.children && route.children.length > 0) {
       result.push(...route.children)
     }
@@ -14,8 +14,8 @@ function getChildren(routes) {
 export function filterRoutes(routes) {
   const children = getChildren(routes)
   const result = []
-  routes.forEach(route => {
-    if (!children.find(item => item.path === route.path)) {
+  routes.forEach((route) => {
+    if (!children.find((item) => item.path === route.path)) {
       result.push(route)
     }
   })
@@ -31,26 +31,31 @@ function isNull(data) {
 
 export function genMenus(routes, basePath = '') {
   const result = []
-  routes.forEach(route => {
-    // 没有meta且没有children的直接跳过
-    if (isNull(route.meta) && isNull(route.children)) return
-    // 没有meta但有children的，递归
-    if (isNull(route.meta) && !isNull(route.children)) {
-      result.push(...genMenus(route.children))
+  routes.forEach((item) => {
+    // 不存在 children && 不存在 meta 返回
+    if (isNull(item.meta) && isNull(item.children)) return
+    // 存在 children 不存在 meta，递归
+    if (isNull(item.meta) && !isNull(item.children)) {
+      result.push(...genMenus(item.children))
       return
     }
-    const routePath = path.resolve(basePath, route.path)
-    const fRoute = {
-      ...route,
-      path: routePath,
-      children: []
+    const routePath = path.resolve(basePath, item.path)
+    // 例如RoleList和UserMange都是 `/user`下的子页面，如果已添加过一个，另一个应该作为user的children
+    let route = result.find((item) => item.path === routePath)
+    if (!route) {
+      route = {
+        ...item,
+        path: routePath,
+        children: []
+      }
+      // 如果没有icon，也不会放到menu里去
+      if (route.meta.title && route.meta.icon) {
+        result.push(route)
+      }
     }
-    // 如果没有icon，也不会放到menu里去
-    if (fRoute.meta.title && fRoute.meta.icon) {
-      result.push(fRoute)
-    }
-    if (route.children) {
-      fRoute.children.push(...genMenus(route.children, routePath))
+
+    if (item.children) {
+      route.children.push(...genMenus(item.children, route.path))
     }
   })
   return result

@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { clear, getItem, setItem } from '@/utils/storage'
 import { TOKEN } from '@/constant'
 import { getInfo, toLogin } from '@/api/login'
-import router from '@/router'
+import router, { resetRouter } from '@/router'
 
 export const userStore = defineStore('user', {
   state: () => ({
@@ -35,6 +35,7 @@ export const userStore = defineStore('user', {
       return response.data
     },
     logout() {
+      resetRouter()
       this.token = ''
       this.userInfo = {}
       clear()

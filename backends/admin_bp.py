@@ -29,18 +29,15 @@ def whole_bp_need_login():
 @admin_bp.get("/info")
 @admin_bp.output(schema=UserInfoSchema)
 def get_info():
-    data = {
-        "menus": [
-            "userManage",
-            "roleList",
-        ],
-        "points": [
-            "distributeRole",
-            "importUser",
-        ]
-    }
-
-    auth.current_user.__dict__['permissions'] = data
+    menus = set()
+    points = set()
+    for role in auth.current_user.roles:
+        menus.update(
+            set(p.permission_mark for p in role.permissions if not p.parent_id)
+        )
+        points.update(set(p.permission_mark for p in role.permissions if p.parent_id))
+    data = {"menus": list(menus), "points": list(points)}
+    auth.current_user.__dict__["permissions"] = data
     return {"data": auth.current_user}
 
 
