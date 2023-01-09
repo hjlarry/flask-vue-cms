@@ -22,9 +22,13 @@
           align="center"
           #default="{ row }"
         >
-          <el-button type="primary" size="small" @click="onShowDialog(row)">{{
-            $t('msg.role.assignPermissions')
-          }}</el-button>
+          <el-button
+            type="primary"
+            size="small"
+            @click="onShowDialog(row)"
+            v-permission="['distributePermission']"
+            >{{ $t('msg.role.assignPermissions') }}</el-button
+          >
         </el-table-column>
       </el-table>
     </el-card>

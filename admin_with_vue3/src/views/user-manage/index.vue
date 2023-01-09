@@ -2,9 +2,12 @@
   <div>
     <el-card shadow="hover" class="head-container">
       <div class="excel-btn">
-        <el-button type="primary" @click="goImport">{{
-          $t('msg.excel.importExcel')
-        }}</el-button>
+        <el-button
+          type="primary"
+          @click="goImport"
+          v-permission="['importUser']"
+          >{{ $t('msg.excel.importExcel') }}</el-button
+        >
         <el-button type="success" @click="onExport">{{
           $t('msg.excel.exportExcel')
         }}</el-button>
@@ -52,12 +55,20 @@
             <el-button type="primary" size="small" @click="onShowClick(row)">{{
               $t('msg.excel.show')
             }}</el-button>
-            <el-button type="info" size="small" @click="onShowRole(row)">{{
-              $t('msg.excel.showRole')
-            }}</el-button>
-            <el-button type="danger" size="small" @click="onRemoveClick(row)">{{
-              $t('msg.excel.remove')
-            }}</el-button>
+            <el-button
+              type="info"
+              size="small"
+              @click="onShowRole(row)"
+              v-permission="['distributeRole']"
+              >{{ $t('msg.excel.showRole') }}</el-button
+            >
+            <el-button
+              type="danger"
+              size="small"
+              @click="onRemoveClick(row)"
+              v-permission="['removeUser']"
+              >{{ $t('msg.excel.remove') }}</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
@@ -129,11 +140,13 @@ function onRemoveClick(row) {
     {
       type: 'warning'
     }
-  ).then(async () => {
-    await userDelete(row.id)
-    ElMessage.success(i18n.t('msg.excel.removeSuccess'))
-    await getUsersList()
-  })
+  )
+    .then(async () => {
+      await userDelete(row.id)
+      ElMessage.success(i18n.t('msg.excel.removeSuccess'))
+      await getUsersList()
+    })
+    .catch(() => {})
 }
 
 function onShowClick(row) {
