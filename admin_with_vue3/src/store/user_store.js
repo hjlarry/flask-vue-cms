@@ -30,7 +30,7 @@ export const userStore = defineStore('user', {
       })
     },
     async getUserInfo() {
-      const response = await getInfo(this.token)
+      const response = await getInfo()
       this.userInfo = response.data
       return response.data
     },

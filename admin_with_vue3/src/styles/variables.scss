@@ -1,29 +1,6 @@
-// sidebar
-$menuText: #7c838c;
-$menuActiveText: #ffffff;
 $subMenuActiveText: #f4f4f5;
-
-$menuBg: #304156;
-$menuHover: #263445;
-
-$subMenuBg: #1f2d3d;
-$subMenuHover: #001528;
-
 $sideBarWidth: 210px;
 $hideSideBarWidth: 60px;
 $sideBarDuration: 0.3s;
 
-// JS 与 scss 共享变量，在 scss 中通过 :export 进行导出，在 js 中可通过 ESM 进行导入
-// 是css-loader提供的功能，需要在webpack中设置它的模式是icss模式
-:export {
-  menuText: $menuText;
-  menuActiveText: $menuActiveText;
-  subMenuActiveText: $subMenuActiveText;
-  menuBg: $menuBg;
-  menuHover: $menuHover;
-  subMenuBg: $subMenuBg;
-  subMenuHover: $subMenuHover;
-  sideBarWidth: $sideBarWidth;
-  hideSideBarWidth: $hideSideBarWidth;
-  sideBarDuration: $sideBarDuration;
-}
+

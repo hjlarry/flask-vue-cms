@@ -3,6 +3,14 @@ import color from 'css-color-function'
 import rgbHex from 'rgb-hex'
 import formula from '@/constant/formula.json'
 
+export const variables = {
+  menuText: '#7c838c',
+  menuActiveText: '#ffffff',
+  menuBg: '#304156',
+  menuHover: '#263445',
+  subMenuBg: '#1f2d3d',
+  subMenuHover: '#001528'
+}
 async function getOriginStyle() {
   // TODO
   const version = '2.2.28'

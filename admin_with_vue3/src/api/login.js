@@ -8,10 +8,9 @@ export const toLogin = (data) => {
   })
 }
 
-export const getInfo = (token) => {
+export const getInfo = () => {
   return request({
     url: '/info',
-    method: 'get',
-    params: { token }
+    method: 'get'
   })
 }
