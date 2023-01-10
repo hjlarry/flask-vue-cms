@@ -5,15 +5,17 @@ from utils import verify_token
 from schemas import (
     UserInfoSchema,
     UserDetailSchema,
-    UserListQuery,
+    ListQuery,
     UsersOut,
     ImportUser,
     RoleSchema,
     PermissionSchema,
     SetPermissionIn,
+    ArticleSchema,
+    ArticlesOut
 )
 from ext import db
-from models import User, Role, Permission
+from models import User, Role, Permission, Article
 
 admin_bp = APIBlueprint("admin", __name__, url_prefix="/admin")
 auth = HTTPTokenAuth(scheme="Bearer")
@@ -83,7 +85,7 @@ def get_chapter():
 
 
 @admin_bp.get("/user/list")
-@admin_bp.input(UserListQuery, location="query")
+@admin_bp.input(ListQuery, location="query")
 @admin_bp.output(schema=UsersOut)
 def get_userlist(params):
     paganition = User.query.paginate(page=params["page"], per_page=params["per_page"])
@@ -205,3 +207,22 @@ def set_role_permission(id, data):
     role.permissions = r_p
     db.session.commit()
     return {"code": 0}
+
+
+@admin_bp.get("/article/list")
+@admin_bp.input(ListQuery, location="query")
+@admin_bp.output(schema=ArticlesOut)
+def get_articles(params):
+    paganition = Article.query.paginate(page=params["page"], per_page=params["per_page"])
+    return_data = {
+        "articles": paganition.items,
+        "pagination": pagination_builder(paganition),
+    }
+    return {"data": return_data}
+
+
+@admin_bp.get("/article/<int:id>")
+@admin_bp.output(ArticleSchema)
+def get_article(id):
+    article = Article.query.get(id)
+    return {"data": article}

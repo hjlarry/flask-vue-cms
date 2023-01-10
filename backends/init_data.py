@@ -1,4 +1,4 @@
-from models import User, Role, Permission
+from models import User, Role, Permission, Article
 
 
 def check_data_exist():
@@ -113,6 +113,29 @@ def gen_permission_data(db):
     p2.children.append(permission)
     db.session.commit()
 
+    admin_role = Role.query.get(1)
+    admin_role.permissions = Permission.query.all()
+    db.session.commit()
+
+
+def gen_article_data(db):
+    data = [
+        {"title": "ESLint + Git Hooks", "description": "编码规范"},
+        {"title": "Tags View", "description": "便签快捷导航功能"},
+        {"title": "Element-Plus", "description": "基于 Vue 3.0 的桌面端组件库"},
+        {"title": "侧边栏", "description": "根据路由动态生成的 Menu 菜单"},
+        {"title": "动态面包屑", "description": "动态生成的面包屑数据"},
+        {"title": "权限验证", "description": "页面权限、功能权限、动态权限、权限配置"},
+        {"title": "vue-element-admin", "description": "后台前端解决方案"},
+        {"title": "Vue3 + 全家桶", "description": "项目基于最新的vue3全家桶进行开发"},
+        {"title": "功能引导", "description": "对用户的功能引导"},
+        {"title": "架构设计", "description": "架构设计"},
+    ]
+    for item in data:
+        a = Article(**item, author_id=1)
+        db.session.add(a)
+    db.session.commit()
+
 
 def init_data(db):
     if check_data_exist():
@@ -121,3 +144,4 @@ def init_data(db):
     gen_user_data(db)
     gen_role_data(db)
     gen_permission_data(db)
+    gen_article_data(db)

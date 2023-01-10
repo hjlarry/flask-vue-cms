@@ -51,7 +51,7 @@ class UserDetailSchema(UserInfoSchema):
     glory = String()
 
 
-class UserListQuery(Schema):
+class ListQuery(Schema):
     page = Integer(load_default=1)
     per_page = Integer(load_default=20, validate=Range(min=1, max=30))
 
@@ -75,3 +75,16 @@ class PermissionSchema(Schema):
 
 class SetPermissionIn(Schema):
     permissions = List(String())
+
+
+class ArticleSchema(Schema):
+    id = Integer()
+    title = String()
+    description = String(data_key="desc")
+    author = String()
+    content = String()
+    created_at = DateTime(data_key="publicDate")
+
+class ArticlesOut(Schema):
+    articles = List(Nested(nested=ArticleSchema))
+    pagination = Nested(nested=PaginationSchema)

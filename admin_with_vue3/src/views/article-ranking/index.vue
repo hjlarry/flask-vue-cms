@@ -16,10 +16,11 @@
           :label="$t('msg.article.author')"
           prop="author"
         ></el-table-column>
-        <el-table-column
-          :label="$t('msg.article.publicDate')"
-          prop="publicDate"
-        ></el-table-column>
+        <el-table-column :label="$t('msg.article.publicDate')">
+          <template #default="{ row }">
+            {{ $filters.relativeTime(row.publicDate) }}
+          </template>
+        </el-table-column>
         <el-table-column
           :label="$t('msg.article.desc')"
           prop="desc"
@@ -64,7 +65,7 @@ const size = ref(20)
 
 async function getArticleList() {
   const res = await getArticles({ page: page.value, per_page: size.value })
-  tableData.value = res.data.users
+  tableData.value = res.data.articles
   total.value = res.data.pagination.total
 }
 getArticleList()
@@ -99,7 +100,7 @@ function onRemoveClick(row) {
 }
 
 function onShowClick(row) {
-  router.push({ name: 'userInfo', params: { id: row.id } })
+  router.push(`/article/${row.id}`)
 }
 </script>
 

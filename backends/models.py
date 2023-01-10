@@ -64,6 +64,9 @@ class User(Base):
     def __repr__(self) -> str:
         return f"User(id={self.id!r}, name={self.name!r})"
 
+    def __str__(self) -> str:
+        return self.name
+
 
 class Role(Base):
     __tablename__ = "roles"
@@ -84,3 +87,12 @@ class Permission(Base):
     permission_desc: Mapped[str] = mapped_column(String(255), nullable=True)
     parent_id: Mapped[int] = mapped_column(ForeignKey("permissions.id"), nullable=True)
     children: Mapped[list["Permission"]] = relationship("Permission")
+
+
+class Article(Base):
+    __tablename__ = "articles"
+    title: Mapped[str] = mapped_column(String(40), unique=True)
+    description: Mapped[str] = mapped_column(String(100), nullable=True, default="")
+    author_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+    author: Mapped["User"] = relationship()
+    content: Mapped[str] = mapped_column(String(), nullable=True, default="")
