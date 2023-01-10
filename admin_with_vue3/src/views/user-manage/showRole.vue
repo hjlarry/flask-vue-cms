@@ -24,9 +24,10 @@
 
 <script setup>
 import { ref, watch } from 'vue'
+import { ElMessage } from 'element-plus'
+
 import { getRoles } from '@/api/role'
 import { userRole, updateUserRole } from '@/api/user'
-import { ElMessage } from 'element-plus'
 
 const props = defineProps({
   modelValue: {

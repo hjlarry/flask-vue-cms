@@ -3,35 +3,33 @@
     class="app-wrapper"
     :class="[aStore.sidebarOpened ? 'default' : 'hide-sidebar']"
   >
-    <sidebar
+    <Sidebar
       class="sidebar-container"
       :style="{ backgroundColor: tStore.cssVar.menuBg }"
     />
     <div class="main-container">
       <div class="fix-header">
-        <navbar />
-        <tags-view></tags-view>
+        <Navbar />
+        <TagsView></TagsView>
       </div>
-      <app-main />
+      <AppMain />
     </div>
   </div>
 </template>
 
 <script setup>
+import { themeStore } from '@/store/theme_store'
+import { appStore } from '@/store/app_store'
+import TagsView from '@/components/TagsView/index.vue'
 import Navbar from './components/Navbar.vue'
 import Sidebar from './components/Sidebar/index.vue'
 import AppMain from './components/AppMain.vue'
-import TagsView from '@/components/TagsView/index.vue'
-import { themeStore } from '@/store/theme_store'
-import { appStore } from '@/store/app_store'
 
 const tStore = themeStore()
 const aStore = appStore()
 </script>
 
 <style lang="scss" scoped>
-//@import '~@/styles/variables.scss';
-
 .hide-sidebar {
   .sidebar-container {
     width: #{$hideSideBarWidth} !important;

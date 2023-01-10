@@ -11,6 +11,7 @@
 <script setup>
 import { useRoute } from 'vue-router'
 import { watch } from 'vue'
+
 import { generateRouteTitle, watchSwitchLang } from '@/i18n'
 import { shouldInTagsView } from '@/utils/tags'
 import { appStore } from '@/store/app_store'

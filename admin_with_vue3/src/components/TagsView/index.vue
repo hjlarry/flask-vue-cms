@@ -15,12 +15,12 @@
           @contextmenu.prevent="openMenu($event, index)"
         >
           {{ tag.title }}
-          <svg-icon
+          <SvgIcon
             icon="close"
             class="icon-close"
             v-show="isShowCloseIcon(tag)"
             @click.prevent="onCloseClick(index)"
-          ></svg-icon>
+          ></SvgIcon>
         </router-link>
       </div>
     </el-scrollbar>
@@ -34,11 +34,12 @@
 
 <script setup>
 import { useRoute, useRouter } from 'vue-router'
-import ContextMenu from './ContextMenu.vue'
 import { reactive, ref, watch } from 'vue'
+
 import SvgIcon from '@/components/SvgIcon/index.vue'
 import { themeStore } from '@/store/theme_store'
 import { appStore } from '@/store/app_store'
+import ContextMenu from './ContextMenu.vue'
 
 const route = useRoute()
 const tStore = themeStore()

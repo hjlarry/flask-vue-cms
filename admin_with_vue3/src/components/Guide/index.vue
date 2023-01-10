@@ -1,22 +1,23 @@
 <template>
   <div>
     <el-tooltip :content="$t('msg.navBar.guide')">
-      <svg-icon
+      <SvgIcon
         id="guide-start"
         icon="guide"
         class="icon"
         @click="onClick"
-      ></svg-icon>
+      ></SvgIcon>
     </el-tooltip>
   </div>
 </template>
 
 <script setup>
-import SvgIcon from '@/components/SvgIcon/index.vue'
 import Driver from 'driver.js'
 import 'driver.js/dist/driver.min.css'
 import { onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
+
+import SvgIcon from '@/components/SvgIcon/index.vue'
 import { steps } from './step'
 
 const i18n = useI18n()

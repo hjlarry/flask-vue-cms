@@ -5,7 +5,6 @@ export const permissionStore = defineStore('permission', {
   state: () => ({
     routes: publicRoutes
   }),
-  getters: {},
   actions: {
     setRoutes(newRoutes) {
       this.routes = [...publicRoutes, ...newRoutes]

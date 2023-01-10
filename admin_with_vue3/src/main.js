@@ -1,4 +1,6 @@
 import { createApp } from 'vue'
+import 'virtual:svg-icons-register'
+
 import App from './App.vue'
 import router from './router'
 import pinia from './store/pinia'
@@ -8,7 +10,6 @@ import installFilters from './plugins/filter'
 import installDirectives from './directives'
 import './styles/index.scss'
 import './permission'
-import 'virtual:svg-icons-register'
 
 const app = createApp(App)
 installElementPlus(app)

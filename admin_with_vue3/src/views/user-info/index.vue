@@ -79,10 +79,11 @@
 </template>
 
 <script setup>
-// 为了该页面既能以页面的形式，又能以弹窗的形式，采用props传入
-import { userDetail } from '@/api/user'
 import { ref } from 'vue'
 
+import { userDetail } from '@/api/user'
+
+// 为了该页面既能以页面的形式，又能以弹窗的形式，采用props传入
 const props = defineProps({
   id: {
     type: String,

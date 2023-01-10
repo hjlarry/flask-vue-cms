@@ -23,6 +23,7 @@
 
 <script setup>
 import { ref } from 'vue'
+
 import { genNewStyle, writeNewStyle } from '@/utils/theme'
 import { themeStore } from '@/store/theme_store'
 

@@ -2,7 +2,7 @@
   <el-dropdown trigger="click" class="lang-select" @command="SwitchLang">
     <span>
       <el-tooltip :content="$t('msg.navBar.lang')">
-        <svg-icon id="guide-lang" icon="language"></svg-icon>
+        <SvgIcon id="guide-lang" icon="language"></SvgIcon>
       </el-tooltip>
     </span>
 
@@ -20,11 +20,12 @@
 </template>
 
 <script setup>
-import SvgIcon from '@/components/SvgIcon/index.vue'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ElMessage } from 'element-plus'
+
 import { appStore } from '@/store/app_store'
+import SvgIcon from '@/components/SvgIcon/index.vue'
 
 const aStore = appStore()
 const lang = computed(() => aStore.language)

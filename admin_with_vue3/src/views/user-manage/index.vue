@@ -97,10 +97,11 @@
 
 <script setup>
 import { ref, watch } from 'vue'
-import { getUsers, userDelete } from '@/api/user'
 import { useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useI18n } from 'vue-i18n'
+
+import { getUsers, userDelete } from '@/api/user'
 import Export2Excel from '@/views/user-manage/Export2Excel.vue'
 import ShowRole from './showRole.vue'
 

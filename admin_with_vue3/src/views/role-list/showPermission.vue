@@ -27,13 +27,14 @@
 
 <script setup>
 import { ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { ElMessage } from 'element-plus'
+
 import {
   getPermissions,
   getRolePermission,
   setRolePermission
 } from '@/api/role'
-import { useI18n } from 'vue-i18n'
-import { ElMessage } from 'element-plus'
 
 const props = defineProps({
   modelValue: {

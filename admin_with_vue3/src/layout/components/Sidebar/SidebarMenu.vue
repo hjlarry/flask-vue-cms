@@ -8,21 +8,22 @@
     :collapse="!aStore.sidebarOpened"
     router
   >
-    <sidebar-item
+    <SidebarItem
       v-for="item in routes"
       :route="item"
       :key="item.path"
-    ></sidebar-item>
+    ></SidebarItem>
   </el-menu>
 </template>
 
 <script setup>
 import { useRoute, useRouter } from 'vue-router'
-import { filterRoutes, genMenus } from '@/utils/route'
 import { computed } from 'vue'
-import SidebarItem from './SidebarItem.vue'
+
+import { filterRoutes, genMenus } from '@/utils/route'
 import { themeStore } from '@/store/theme_store'
 import { appStore } from '@/store/app_store'
+import SidebarItem from './SidebarItem.vue'
 
 const router = useRouter()
 const routes = computed(() => genMenus(filterRoutes(router.getRoutes())))

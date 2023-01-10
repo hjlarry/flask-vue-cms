@@ -19,6 +19,7 @@
 <script setup>
 import { useRoute, useRouter } from 'vue-router'
 import { ref, watch } from 'vue'
+
 import { themeStore } from '@/store/theme_store'
 import { generateRouteTitle } from '@/i18n'
 

@@ -1,15 +1,15 @@
 <template>
   <div class="navbar">
     <div class="navbar-left">
-      <hambuger class="hambuger-container" />
-      <breadcrumb />
+      <Hambuger class="hambuger-container" />
+      <Breadcrumb />
     </div>
     <div class="right-menu">
-      <guide class="right-menu-item"></guide>
-      <header-search class="right-menu-item"></header-search>
-      <screen-full class="right-menu-item"></screen-full>
-      <theme-select class="right-menu-item"></theme-select>
-      <lang-select class="right-menu-item"></lang-select>
+      <Guide class="right-menu-item"></Guide>
+      <HeaderSearch class="right-menu-item"></HeaderSearch>
+      <ScreenFull class="right-menu-item"></ScreenFull>
+      <ThemeSelect class="right-menu-item"></ThemeSelect>
+      <LangSelect class="right-menu-item"></LangSelect>
       <el-dropdown trigger="click" class="avatar-container">
         <div class="avatar-wrapper">
           <el-avatar
@@ -27,7 +27,7 @@
               </router-link></el-dropdown-item
             >
             <el-dropdown-item
-              ><a target="_blank" href="http://www.baidu.com">{{
+              ><a target="_blank" href="https://www.baidu.com">{{
                 $t('msg.navBar.otherPage')
               }}</a></el-dropdown-item
             >
@@ -42,6 +42,7 @@
 </template>
 
 <script setup>
+import { userStore } from '@/store/user_store'
 import Hambuger from '@/components/Hambuger/index.vue'
 import Breadcrumb from '@/components/Breadcrumb/index.vue'
 import LangSelect from '@/components/LangSelect/index.vue'
@@ -49,10 +50,9 @@ import ThemeSelect from '@/components/ThemeSelect/index.vue'
 import ScreenFull from '@/components/ScreenFull/index.vue'
 import HeaderSearch from '@/components/HeaderSearch/index.vue'
 import Guide from '@/components/Guide/index.vue'
-import { userStore } from '@/store/user_store'
 
 const uStore = userStore()
-const handleLogout = () => {
+function handleLogout() {
   uStore.logout()
 }
 </script>

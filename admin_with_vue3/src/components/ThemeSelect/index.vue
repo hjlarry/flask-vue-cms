@@ -1,20 +1,21 @@
 <template>
   <div>
     <el-tooltip :content="$t('msg.navBar.themeChange')">
-      <svg-icon
+      <SvgIcon
         id="guide-theme"
         icon="change-theme"
         @click="openDialog"
-      ></svg-icon>
+      ></SvgIcon>
     </el-tooltip>
     <select-color v-model:dialogVisable="dialogVisable"></select-color>
   </div>
 </template>
 
 <script setup>
+import { ref } from 'vue'
+
 import SvgIcon from '@/components/SvgIcon/index.vue'
 import SelectColor from './SelectColor.vue'
-import { ref } from 'vue'
 
 const dialogVisable = ref(false)
 const openDialog = () => {

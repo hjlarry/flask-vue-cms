@@ -14,6 +14,7 @@
 <script setup>
 import PanThumb from '@/components/PanThumb/index.vue'
 import { userStore } from '@/store/user_store'
+
 const uStore = userStore()
 </script>
 

@@ -29,13 +29,14 @@
 </template>
 
 <script setup>
-import SvgIcon from '@/components/SvgIcon/index.vue'
 import { ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import Fuse from 'fuse.js'
-import { genRoutes, fuseConfig } from './searchData'
+
+import SvgIcon from '@/components/SvgIcon/index.vue'
 import { filterRoutes } from '@/utils/route'
 import { watchSwitchLang } from '@/i18n'
+import { genRoutes, fuseConfig } from './searchData'
 
 const isShow = ref(false)
 const searchWords = ref('')

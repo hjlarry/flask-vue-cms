@@ -11,14 +11,14 @@
       </transition>
     </div>
     <el-scrollbar>
-      <sidebar-menu></sidebar-menu>
+      <SidebarMenu></SidebarMenu>
     </el-scrollbar>
   </div>
 </template>
 
 <script setup>
-import SidebarMenu from './SidebarMenu.vue'
 import { appStore } from '@/store/app_store'
+import SidebarMenu from './SidebarMenu.vue'
 
 const aStore = appStore()
 const logoHeight = 50

@@ -15,13 +15,14 @@
 </template>
 
 <script setup>
-import SvgIcon from '@/components/SvgIcon/index.vue'
 import { ElMessage } from 'element-plus'
 import { read, utils } from 'xlsx'
 import { ref } from 'vue'
-import { userBatchImport } from '@/api/user'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
+
+import SvgIcon from '@/components/SvgIcon/index.vue'
+import { userBatchImport } from '@/api/user'
 
 const loading = ref(false)
 const i18n = useI18n()

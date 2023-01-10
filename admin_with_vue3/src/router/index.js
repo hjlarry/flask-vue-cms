@@ -1,18 +1,18 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
+
+import { userStore } from '@/store/user_store'
 import layout from '@/layout/index.vue'
 import UserManageRouter from './modules/UserManage'
 import RoleListRouter from './modules/RoleList'
 import PermissionListRouter from './modules/PermissionList'
 import ArticleRankingRouter from './modules/ArticleRanking'
 import ArticleCreateRouter from './modules/ArticleCreate'
-import { userStore } from '@/store/user_store'
 
-import Login from '@/views/login/index.vue'
 export const publicRoutes = [
   {
     path: '/login',
     name: 'Login',
-    component: () => Login
+    component: () => import('@/views/login/index.vue')
   },
   {
     path: '/',

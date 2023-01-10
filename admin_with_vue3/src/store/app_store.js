@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+
 import { getItem, setItem } from '@/utils/storage'
 import { LANG, TAGS_VIEW } from '@/constant'
 
@@ -8,7 +9,6 @@ export const appStore = defineStore('app', {
     language: getItem(LANG) || 'cn',
     tagsView: getItem(TAGS_VIEW) || []
   }),
-  getters: {},
   actions: {
     triggerSidebarOpened() {
       this.sidebarOpened = !this.sidebarOpened

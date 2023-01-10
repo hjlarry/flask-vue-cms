@@ -1,16 +1,17 @@
 <template>
   <div class="hambuger-container" @click="toggerClick">
-    <svg-icon id="guide-hamburger" class="hambuger" :icon="icon" />
+    <SvgIcon id="guide-hamburger" class="hambuger" :icon="icon" />
   </div>
 </template>
 
 <script setup>
 import { computed } from 'vue'
+
 import SvgIcon from '@/components/SvgIcon/index.vue'
 import { appStore } from '@/store/app_store'
 
 const aStore = appStore()
-const toggerClick = () => {
+function toggerClick() {
   aStore.triggerSidebarOpened()
 }
 const icon = computed(() =>

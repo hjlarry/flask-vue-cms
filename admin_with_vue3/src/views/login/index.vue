@@ -16,7 +16,7 @@
 
       <el-form-item prop="username">
         <span class="svg-container svg-container_login">
-          <svg-icon icon="user"></svg-icon>
+          <SvgIcon icon="user"></SvgIcon>
         </span>
         <el-input
           name="username"
@@ -28,7 +28,7 @@
       </el-form-item>
       <el-form-item prop="password">
         <span class="svg-container">
-          <svg-icon icon="password"></svg-icon>
+          <SvgIcon icon="password"></SvgIcon>
         </span>
         <el-input
           name="password"
@@ -38,7 +38,9 @@
           placeholder="password"
         ></el-input>
         <span class="show-pwd" @click="showPwd">
-          <svg-icon :icon="pwdType === 'password' ? 'eye' : 'eye-open'" />
+          <SvgIcon
+            :icon="pwdType === 'password' ? 'eye' : 'eye-open'"
+          ></SvgIcon>
         </span>
       </el-form-item>
       <el-form-item>
@@ -46,18 +48,17 @@
           {{ $t('msg.login.loginBtn') }}
         </el-button>
       </el-form-item>
-
-      <div class="tips" v-html="$t('msg.login.desc')"></div>
     </el-form>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import router from '@/router'
-import LangSelect from '@/components/LangSelect/index.vue'
 import { useI18n } from 'vue-i18n'
+
+import router from '@/router'
 import { userStore } from '@/store/user_store'
+import LangSelect from '@/components/LangSelect/index.vue'
 import SvgIcon from '@/components/SvgIcon/index.vue'
 
 const loginForm = ref({
@@ -67,7 +68,7 @@ const loginForm = ref({
 
 const i18n = useI18n()
 
-const validatePass = (rule, value, callback) => {
+function validatePass(rule, value, callback) {
   if (value.length < 3) {
     callback(new Error(i18n.t('msg.login.passwordRule')))
   } else {
@@ -92,7 +93,7 @@ const loginRules = ref({
 })
 
 const pwdType = ref('password')
-const showPwd = () => {
+function showPwd() {
   if (pwdType.value === 'password') {
     pwdType.value = ''
   } else {
@@ -103,7 +104,7 @@ const showPwd = () => {
 const loading = ref(false)
 const loginFormRef = ref(null)
 const uStore = userStore()
-const handleLogin = () => {
+function handleLogin() {
   loginFormRef.value.validate((valid) => {
     if (!valid) return
     loading.value = true

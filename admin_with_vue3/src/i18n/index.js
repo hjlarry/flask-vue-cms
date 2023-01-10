@@ -1,11 +1,11 @@
 import { createI18n } from 'vue-i18n'
 import { watch } from 'vue'
+
 import { getItem } from '@/utils/storage'
 import { LANG } from '@/constant'
-
+import { appStore } from '@/store/app_store'
 import myCn from './lang/zh'
 import myEn from './lang/en'
-import { appStore } from '@/store/app_store'
 
 const messages = {
   en: {
