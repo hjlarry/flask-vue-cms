@@ -18,9 +18,9 @@
 </template>
 
 <script setup>
-import Navbar from './components/Navbar'
-import Sidebar from './components/Sidebar'
-import AppMain from './components/AppMain'
+import Navbar from './components/Navbar.vue'
+import Sidebar from './components/Sidebar/index.vue'
+import AppMain from './components/AppMain.vue'
 import TagsView from '@/components/TagsView/index.vue'
 import { themeStore } from '@/store/theme_store'
 import { appStore } from '@/store/app_store'
@@ -30,7 +30,7 @@ const aStore = appStore()
 </script>
 
 <style lang="scss" scoped>
-@import '~@/styles/variables.scss';
+//@import '~@/styles/variables.scss';
 
 .hide-sidebar {
   .sidebar-container {

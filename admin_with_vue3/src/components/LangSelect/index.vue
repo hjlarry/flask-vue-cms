@@ -20,7 +20,7 @@
 </template>
 
 <script setup>
-import SvgIcon from '@/components/SvgIcon'
+import SvgIcon from '@/components/SvgIcon/index.vue'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ElMessage } from 'element-plus'

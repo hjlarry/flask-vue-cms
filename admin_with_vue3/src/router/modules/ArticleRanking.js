@@ -12,7 +12,7 @@ export default {
   children: [
     {
       path: '/article/ranking',
-      component: () => import('@/views/article-ranking/index'),
+      component: () => import('@/views/article-ranking/index.vue'),
       meta: {
         title: 'articleRanking',
         icon: 'article-ranking'
@@ -20,7 +20,7 @@ export default {
     },
     {
       path: '/article/:id',
-      component: () => import('@/views/article-detail/index'),
+      component: () => import('@/views/article-detail/index.vue'),
       meta: {
         title: 'articleDetail'
       }

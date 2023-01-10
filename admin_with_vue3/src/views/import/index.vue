@@ -15,7 +15,7 @@
 </template>
 
 <script setup>
-import SvgIcon from '@/components/SvgIcon'
+import SvgIcon from '@/components/SvgIcon/index.vue'
 import { ElMessage } from 'element-plus'
 import { read, utils } from 'xlsx'
 import { ref } from 'vue'

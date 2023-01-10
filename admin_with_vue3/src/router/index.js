@@ -7,11 +7,12 @@ import ArticleRankingRouter from './modules/ArticleRanking'
 import ArticleCreateRouter from './modules/ArticleCreate'
 import { userStore } from '@/store/user_store'
 
+import Login from '@/views/login/index.vue'
 export const publicRoutes = [
   {
     path: '/login',
     name: 'Login',
-    component: () => import('@/views/login/index')
+    component: () => Login
   },
   {
     path: '/',
@@ -21,7 +22,7 @@ export const publicRoutes = [
       {
         path: '/profile',
         name: 'Profile',
-        component: () => import('@/views/profile/index'),
+        component: () => import('@/views/profile/index.vue'),
         meta: {
           title: 'profile',
           icon: 'user'
@@ -30,12 +31,12 @@ export const publicRoutes = [
       {
         path: '/404',
         name: '404',
-        component: () => import('@/views/error-page/404')
+        component: () => import('@/views/error-page/404.vue')
       },
       {
         path: '/401',
         name: '401',
-        component: () => import('@/views/error-page/401')
+        component: () => import('@/views/error-page/401.vue')
       }
     ]
   }

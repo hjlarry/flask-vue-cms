@@ -22,7 +22,7 @@ export const fuseConfig = {
 
 export function genRoutes(routes, prefixTitle = []) {
   const result = []
-  routes.forEach(route => {
+  routes.forEach((route) => {
     const data = {
       path: route.path,
       title: [...prefixTitle]

@@ -33,6 +33,7 @@ watch(
   route,
   (to, from) => {
     if (!shouldInTagsView(to.path)) return
+    console.log(from)
     const { fullPath, path, query, params, meta, name } = to
     aStore.addTag({
       fullPath,

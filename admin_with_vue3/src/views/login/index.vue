@@ -58,7 +58,7 @@ import router from '@/router'
 import LangSelect from '@/components/LangSelect/index.vue'
 import { useI18n } from 'vue-i18n'
 import { userStore } from '@/store/user_store'
-import SvgIcon from '@/components/SvgIcon'
+import SvgIcon from '@/components/SvgIcon/index.vue'
 
 const loginForm = ref({
   username: 'admin',

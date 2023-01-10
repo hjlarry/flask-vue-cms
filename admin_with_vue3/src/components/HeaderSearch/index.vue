@@ -1,29 +1,35 @@
 <template>
-  <div class='header-search' :class='{show:isShow}'>
-    <svg-icon id='guide-search' icon='search' class='search-icon' @click.stop='toggleShowSearch'></svg-icon>
+  <div class="header-search" :class="{ show: isShow }">
+    <svg-icon
+      id="guide-search"
+      icon="search"
+      class="search-icon"
+      @click.stop="toggleShowSearch"
+    ></svg-icon>
     <el-select
       filterable
       remote
       default-first-option
-      placeholder='Search'
-      ref='searchInputRef'
-      class='header-search-input'
-      v-model='searchWords'
-      :remote-method='onSearch'
-      @change='onSelectChange'
+      placeholder="Search"
+      ref="searchInputRef"
+      class="header-search-input"
+      v-model="searchWords"
+      :remote-method="onSearch"
+      @change="onSelectChange"
     >
       <el-option
-        v-for='option in searchResults'
-        :key='option.item.path'
-        :label='option.item.title.join(">")'
-        :value='option.item'>
+        v-for="option in searchResults"
+        :key="option.item.path"
+        :label="option.item.title.join('>')"
+        :value="option.item"
+      >
       </el-option>
     </el-select>
   </div>
 </template>
 
 <script setup>
-import SvgIcon from '@/components/SvgIcon'
+import SvgIcon from '@/components/SvgIcon/index.vue'
 import { ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import Fuse from 'fuse.js'
@@ -56,7 +62,7 @@ function onClose() {
   searchWords.value = ''
 }
 
-watch(isShow, val => {
+watch(isShow, (val) => {
   if (val) {
     document.body.addEventListener('click', onClose)
   } else {
@@ -83,7 +89,7 @@ watchSwitchLang(() => {
 })
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 .header-search {
   .search-icon {
     vertical-align: middle;

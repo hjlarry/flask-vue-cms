@@ -12,7 +12,7 @@
 </template>
 
 <script setup>
-import SvgIcon from '@/components/SvgIcon'
+import SvgIcon from '@/components/SvgIcon/index.vue'
 import Driver from 'driver.js'
 import 'driver.js/dist/driver.min.css'
 import { onMounted } from 'vue'

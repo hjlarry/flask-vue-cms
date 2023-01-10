@@ -4,7 +4,8 @@ import rgbHex from 'rgb-hex'
 import formula from '@/constant/formula.json'
 
 async function getOriginStyle() {
-  const version = require('element-plus/package.json').version
+  // TODO
+  const version = '2.2.28'
   const url = `https://unpkg.com/element-plus@${version}/dist/index.css`
   let { data } = await axios.get(url)
   const colorMap = {

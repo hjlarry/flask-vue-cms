@@ -36,7 +36,7 @@
 import { useRoute, useRouter } from 'vue-router'
 import ContextMenu from './ContextMenu.vue'
 import { reactive, ref, watch } from 'vue'
-import SvgIcon from '@/components/SvgIcon'
+import SvgIcon from '@/components/SvgIcon/index.vue'
 import { themeStore } from '@/store/theme_store'
 import { appStore } from '@/store/app_store'
 

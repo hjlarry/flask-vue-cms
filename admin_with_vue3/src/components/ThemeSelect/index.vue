@@ -12,7 +12,7 @@
 </template>
 
 <script setup>
-import SvgIcon from '@/components/SvgIcon'
+import SvgIcon from '@/components/SvgIcon/index.vue'
 import SelectColor from './SelectColor.vue'
 import { ref } from 'vue'
 

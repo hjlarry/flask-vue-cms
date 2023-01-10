@@ -1,5 +1,5 @@
 <template>
-  <el-icon><svg-icon :icon='icon' /></el-icon>
+  <el-icon><svg-icon :icon="icon" /></el-icon>
   <span>{{ generateRouteTitle(title) }}</span>
 </template>
 
@@ -18,6 +18,4 @@ defineProps({
 })
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

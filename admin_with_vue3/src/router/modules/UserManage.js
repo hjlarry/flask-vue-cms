@@ -12,7 +12,7 @@ export default {
   children: [
     {
       path: '/user/manage',
-      component: () => import('@/views/user-manage/index'),
+      component: () => import('@/views/user-manage/index.vue'),
       meta: {
         title: 'userManage',
         icon: 'personal-manage'
@@ -22,7 +22,7 @@ export default {
       path: '/user/info/:id',
       name: 'userInfo',
       props: true,
-      component: () => import('@/views/user-info/index'),
+      component: () => import('@/views/user-info/index.vue'),
       meta: {
         title: 'userInfo'
       }
@@ -30,7 +30,7 @@ export default {
     {
       path: '/user/import',
       name: 'userImport',
-      component: () => import('@/views/import/index'),
+      component: () => import('@/views/import/index.vue'),
       meta: {
         title: 'excelImport'
       }

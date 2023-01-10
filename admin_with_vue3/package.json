@@ -1,79 +1,46 @@
 {
-  "name": "admin_with_vue3",
-  "version": "0.1.0",
+  "name": "vue-project",
+  "version": "0.0.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "dev": "vite",
+    "build": "run-p type-check build-only",
+    "preview": "vite preview",
+    "build-only": "vite build",
+    "type-check": "vue-tsc --noEmit",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },
   "dependencies": {
-    "axios": "^1.2.1",
-    "core-js": "^3.8.3",
+    "axios": "^1.2.2",
     "css-color-function": "^1.3.3",
-    "dayjs": "^1.11.7",
     "driver.js": "^0.9.8",
-    "element-plus": "^2.2.27",
+    "element-plus": "^2.2.28",
     "fuse.js": "^6.6.2",
     "path-browserify": "^1.0.1",
     "pinia": "^2.0.28",
     "rgb-hex": "^4.0.0",
+    "sass": "^1.57.1",
     "screenfull": "^6.0.2",
-    "vue": "^3.2.13",
+    "vite-plugin-svg-icons": "^2.0.1",
+    "vue": "^3.2.45",
     "vue-i18n": "^9.2.2",
-    "vue-router": "^4.0.3",
+    "vue-router": "^4.1.6",
     "vue3-print-nb": "^0.1.4",
-    "vuex": "^4.0.0",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.16",
-    "@babel/eslint-parser": "^7.12.16",
-    "@vue/cli-plugin-babel": "~5.0.0",
-    "@vue/cli-plugin-eslint": "~5.0.0",
-    "@vue/cli-plugin-router": "~5.0.0",
-    "@vue/cli-plugin-vuex": "~5.0.0",
-    "@vue/cli-service": "~5.0.0",
-    "@vue/eslint-config-standard": "^6.1.0",
-    "eslint": "^7.32.0",
-    "eslint-plugin-import": "^2.25.3",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^5.1.0",
-    "eslint-plugin-vue": "^8.0.3",
-    "lint-staged": "^11.1.2",
-    "sass": "^1.32.7",
-    "sass-loader": "^12.0.0",
-    "svg-sprite-loader": "^6.0.11",
-    "vue-cli-plugin-element-plus": "~0.0.13"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/vue3-essential",
-      "@vue/standard"
-    ],
-    "parserOptions": {
-      "parser": "@babel/eslint-parser"
-    },
-    "rules": {
-      "space-before-function-paren": "off",
-      "vue/multi-word-component-names": "off",
-      "no-undef": "off"
-    }
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead",
-    "not ie 11"
-  ],
-  "gitHooks": {
-    "pre-commit": "lint-staged"
-  },
-  "lint-staged": {
-    "*.{js,jsx,vue}": "vue-cli-service lint"
+    "@rushstack/eslint-patch": "^1.1.4",
+    "@types/node": "^18.11.12",
+    "@vitejs/plugin-vue": "^4.0.0",
+    "@vue/eslint-config-prettier": "^7.0.0",
+    "@vue/eslint-config-typescript": "^11.0.0",
+    "@vue/tsconfig": "^0.1.3",
+    "eslint": "^8.22.0",
+    "eslint-plugin-vue": "^9.3.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.7.1",
+    "typescript": "~4.7.4",
+    "vite": "^4.0.0",
+    "vue-tsc": "^1.0.12"
   }
 }

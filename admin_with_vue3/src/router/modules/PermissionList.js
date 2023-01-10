@@ -12,7 +12,7 @@ export default {
   children: [
     {
       path: '/user/permission',
-      component: () => import('@/views/permission-list/index'),
+      component: () => import('@/views/permission-list/index.vue'),
       meta: {
         title: 'permissionList',
         icon: 'permission'

@@ -1,8 +1,8 @@
-import SvgIcon from '@/components/SvgIcon' // svg component
+import SvgIcon from '@/components/SvgIcon/index.vue' // svg component
 
-const svgRequire = require.context('./svg', false, /\.svg$/)
-
-svgRequire.keys().forEach((svgIcon) => svgRequire(svgIcon))
+const svgRequire = import.meta.globEager('@/icons/svg/**/*.svg')
+console.log(svgRequire)
+// svgRequire.keys().forEach((svgIcon) => svgRequire(svgIcon))
 
 export default (app) => {
   app.component('svg-icon', SvgIcon)

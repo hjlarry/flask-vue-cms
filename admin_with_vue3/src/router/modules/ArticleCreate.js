@@ -12,7 +12,7 @@ export default {
   children: [
     {
       path: '/article/create',
-      component: () => import('@/views/article-create/index'),
+      component: () => import('@/views/article-create/index.vue'),
       meta: {
         title: 'articleCreate',
         icon: 'article-create'
@@ -20,7 +20,7 @@ export default {
     },
     {
       path: '/article/edit/:id',
-      component: () => import('@/views/article-create/index'),
+      component: () => import('@/views/article-create/index.vue'),
       meta: {
         title: 'articleEdit'
       }

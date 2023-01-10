@@ -4,9 +4,10 @@ import { appStore } from '@/store/app_store'
 import { userStore } from '@/store/user_store'
 
 const service = axios.create({
-  baseURL: process.env.VUE_APP_BASE_API,
+  baseURL: '/admin',
   timeout: 5000
 })
+console.log(import.meta.env.VUE_APP_BASE_API, 31323)
 
 service.interceptors.request.use(
   (config) => {
