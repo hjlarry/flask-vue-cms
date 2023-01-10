@@ -2,6 +2,7 @@ import axios from 'axios'
 import color from 'css-color-function'
 import rgbHex from 'rgb-hex'
 import formula from '@/constant/formula.json'
+import ele_version from 'element-plus/package.json'
 
 export const variables = {
   menuText: '#7c838c',
@@ -12,8 +13,7 @@ export const variables = {
   subMenuHover: '#001528'
 }
 async function getOriginStyle() {
-  // TODO
-  const version = '2.2.28'
+  const version = ele_version.version
   const url = `https://unpkg.com/element-plus@${version}/dist/index.css`
   let { data } = await axios.get(url)
   const colorMap = {
