@@ -18,6 +18,8 @@ router.beforeEach(async (to, from, next) => {
         routes.forEach((route) => {
           router.addRoute(route)
         })
+        // 添加动态路由后，需要再进行一次主动跳转，否则刷新页面就空白
+        return next(to.path)
       }
       next()
     }

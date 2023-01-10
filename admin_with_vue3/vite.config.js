@@ -10,7 +10,7 @@ export default defineConfig({
     vue(),
     createSvgIconsPlugin({
       // 指定需要缓存的图标文件夹
-      iconDirs: [fileURLToPath(new URL('./src/icons/svg', import.meta.url))],
+      iconDirs: [fileURLToPath(new URL('./src/styles/svg', import.meta.url))],
       // 指定symbolId格式
       symbolId: 'icon-[name]'
     })
