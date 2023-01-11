@@ -85,6 +85,12 @@ class ArticleSchema(Schema):
     content = String()
     created_at = DateTime(data_key="publicDate")
 
+
 class ArticlesOut(Schema):
     articles = List(Nested(nested=ArticleSchema))
     pagination = Nested(nested=PaginationSchema)
+
+
+class ArticleIn(Schema):
+    title = String()
+    content = String()

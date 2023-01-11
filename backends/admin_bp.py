@@ -12,7 +12,8 @@ from schemas import (
     PermissionSchema,
     SetPermissionIn,
     ArticleSchema,
-    ArticlesOut
+    ArticlesOut,
+ArticleIn
 )
 from ext import db
 from models import User, Role, Permission, Article
@@ -237,4 +238,25 @@ def delete_article(id):
     except Exception as e:
         print(e)
         return {"code": 2000, "error": "some data delete error!"}
+    return {"code": 0}
+
+
+@admin_bp.post("/article")
+@admin_bp.input(ArticleIn)
+def create_article(data):
+    article = Article(**data)
+    article.author = auth.current_user
+    db.session.add(article)
+    db.session.commit()
+    return {"code": 0}
+
+
+@admin_bp.post("/article/<int:id>")
+@admin_bp.input(ArticleIn)
+def edit_article(id, data):
+    article = Article.query.get(id)
+    article.title = data['title']
+    article.content = data['content']
+    db.session.add(article)
+    db.session.commit()
     return {"code": 0}

@@ -15,7 +15,20 @@ import '@toast-ui/editor/dist/i18n/zh-cn'
 import '@toast-ui/editor/dist/toastui-editor.css'
 
 import { appStore } from '@/store/app_store'
-import { onMounted } from 'vue'
+import { onMounted, watch } from 'vue'
+import { watchSwitchLang } from '@/i18n'
+import { articleCreate, articleEdit } from '@/views/article-create/commit'
+
+const props = defineProps({
+  title: {
+    required: true,
+    type: String
+  },
+  detail: {
+    type: Object
+  }
+})
+const emits = defineEmits(['onSuccess'])
 
 let mkEditor
 let el
@@ -35,7 +48,36 @@ onMounted(() => {
   initEditor()
 })
 
-function onSubmit() {}
+watchSwitchLang(() => {
+  const htmlStr = mkEditor.getHTML()
+  mkEditor.destroy()
+  initEditor()
+  mkEditor.setHTML(htmlStr)
+})
+
+watch(
+  () => props.detail,
+  (val) => {
+    if (val && val.content) {
+      mkEditor.setHTML(val.content)
+    }
+  }
+)
+
+async function onSubmit() {
+  const data = {
+    title: props.title,
+    content: mkEditor.getHTML()
+  }
+  if (props.detail && props.detail.id) {
+    await articleEdit(props.detail.id, data)
+  } else {
+    await articleCreate(data)
+  }
+
+  mkEditor.reset()
+  emits('onSuccess')
+}
 </script>
 
 <style lang="scss" scoped>

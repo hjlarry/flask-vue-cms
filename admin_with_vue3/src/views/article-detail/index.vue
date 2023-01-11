@@ -9,7 +9,7 @@
         >{{ $t('msg.article.publicDate') }}:
         {{ $filters.relativeTime(detail.publicDate) }}</span
       >
-      <el-button class="edit" type="text">{{
+      <el-button class="edit" type="primary" link @click="onEdit">{{
         $t('msg.article.edit')
       }}</el-button>
     </div>
@@ -18,7 +18,7 @@
 </template>
 
 <script setup>
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { ref } from 'vue'
 import { articleDetail } from '@/api/article'
 
@@ -31,6 +31,11 @@ async function getArticle() {
 }
 
 getArticle()
+
+const router = useRouter()
+function onEdit() {
+  router.push(`/article/edit/${articleId}`)
+}
 </script>
 
 <style lang="scss" scoped>

@@ -20,3 +20,19 @@ export const articleDetail = (id) => {
     url: '/article/' + id
   })
 }
+
+export const createArticle = (data) => {
+  return request({
+    url: '/article',
+    method: 'post',
+    data
+  })
+}
+
+export const editArticle = (id, data) => {
+  return request({
+    url: '/article/' + id,
+    method: 'post',
+    data
+  })
+}
