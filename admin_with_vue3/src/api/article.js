@@ -14,3 +14,9 @@ export const articleDelete = (id) => {
     method: 'post'
   })
 }
+
+export const articleDetail = (id) => {
+  return request({
+    url: '/article/' + id
+  })
+}
