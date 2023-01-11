@@ -58,7 +58,7 @@ import { useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 
-import { getArticles } from '@/api/article'
+import { getArticles, articleDelete } from '@/api/article'
 import { selectedDynamicLabel, dynamicData, tableColumns } from './dynamicTable'
 
 const tableData = ref([])
@@ -90,14 +90,14 @@ const i18n = useI18n()
 function onRemoveClick(row) {
   ElMessageBox.confirm(
     i18n.t('msg.excel.dialogTitle1') +
-      row.username +
+      row.title +
       i18n.t('msg.excel.dialogTitle2'),
     {
       type: 'warning'
     }
   )
     .then(async () => {
-      // await userDelete(row.id)
+      await articleDelete(row.id)
       ElMessage.success(i18n.t('msg.excel.removeSuccess'))
       await getArticleList()
     })

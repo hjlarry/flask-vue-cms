@@ -226,3 +226,15 @@ def get_articles(params):
 def get_article(id):
     article = Article.query.get(id)
     return {"data": article}
+
+
+@admin_bp.post("/article/delete/<int:id>")
+def delete_article(id):
+    try:
+        article = Article.query.get(id)
+        db.session.delete(article)
+        db.session.commit()
+    except Exception as e:
+        print(e)
+        return {"code": 2000, "error": "some data delete error!"}
+    return {"code": 0}

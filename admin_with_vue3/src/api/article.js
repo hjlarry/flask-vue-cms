@@ -7,3 +7,10 @@ export const getArticles = (data) => {
     params: data
   })
 }
+
+export const articleDelete = (id) => {
+  return request({
+    url: '/article/delete/' + id,
+    method: 'post'
+  })
+}
