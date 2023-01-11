@@ -163,7 +163,7 @@ export default {
     richText: '富文本',
     commit: '提交',
     createSuccess: '文章创建成功',
-    editorSuccess: '文章修改成功',
+    editSuccess: '文章修改成功',
     sortSuccess: '文章排名修改成功'
   }
 }

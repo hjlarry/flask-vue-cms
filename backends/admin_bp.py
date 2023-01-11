@@ -13,7 +13,7 @@ from schemas import (
     SetPermissionIn,
     ArticleSchema,
     ArticlesOut,
-ArticleIn
+    ArticleIn,
 )
 from ext import db
 from models import User, Role, Permission, Article
@@ -214,7 +214,9 @@ def set_role_permission(id, data):
 @admin_bp.input(ListQuery, location="query")
 @admin_bp.output(schema=ArticlesOut)
 def get_articles(params):
-    paganition = Article.query.paginate(page=params["page"], per_page=params["per_page"])
+    paganition = Article.query.paginate(
+        page=params["page"], per_page=params["per_page"]
+    )
     return_data = {
         "articles": paganition.items,
         "pagination": pagination_builder(paganition),
@@ -255,8 +257,8 @@ def create_article(data):
 @admin_bp.input(ArticleIn)
 def edit_article(id, data):
     article = Article.query.get(id)
-    article.title = data['title']
-    article.content = data['content']
+    article.title = data["title"]
+    article.content = data["content"]
     db.session.add(article)
     db.session.commit()
     return {"code": 0}

@@ -164,7 +164,7 @@ export default {
     richText: 'Rich Text',
     commit: 'commit',
     createSuccess: 'The article was created successfully',
-    editorSuccess: 'Article modified successfully',
+    editSuccess: 'Article modified successfully',
     sortSuccess: 'Article ranking modified successfully'
   }
 }
