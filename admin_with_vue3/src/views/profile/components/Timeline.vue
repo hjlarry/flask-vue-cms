@@ -1,7 +1,7 @@
 <template>
   <el-timeline>
     <el-timeline-item
-      v-for="item in chapterData"
+      v-for="item in timelineData"
       :key="item.id"
       :timestamp="item.timestamp"
       placement="top"
@@ -16,14 +16,14 @@
 <script setup>
 import { ref } from 'vue'
 
-import { getChapter } from '@/api/user'
+import { getTimeline } from '@/api/user'
 
-const chapterData = ref([])
-const getChapterData = async () => {
-  const res = await getChapter()
-  chapterData.value = res.data
+const timelineData = ref([])
+const getTimelineData = async () => {
+  const res = await getTimeline()
+  timelineData.value = res.data
 }
-getChapterData()
+getTimelineData()
 </script>
 
 <style scoped></style>

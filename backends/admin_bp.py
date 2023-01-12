@@ -44,18 +44,48 @@ def get_info():
     return {"data": auth.current_user}
 
 
-@admin_bp.get("/user/feature")
+@admin_bp.get("/feature")
 def get_feature():
     data = [
         {
-            "title": "Vue3 + 全家桶",
+            "title": "Vue3(V3.2.*)",
             "percentage": 100,
-            "content": '项目基于最新的<a target="_blank" href="https://v3.cn.vuejs.org/guide/introduction.html">vue3</a>全家桶进行开发，全面使用最新的的<a target="_blank" href="https://github.com/vuejs/rfcs/blob/master/active-rfcs/0040-script-setup.md">RFC script setup</a>语法标准，为你带来不一样的 vue3 开发体验',
+            "content": '项目基于最新的vue3标准进行开发，全面使用最新的的<a target="_blank" href="https://github.com/vuejs/rfcs/blob/master/active-rfcs/0040-script-setup.md">RFC script setup</a>语法标准，为你带来不一样的 vue3 开发体验'
         },
         {
-            "title": "Element-Plus",
+            "title": "Element-Plus(V2.2.*)",
             "percentage": 100,
             "content": '<a target="_blank" href="https://element-plus.org/#/zh-CN">Element Plus</a>，一套为开发者、设计师和产品经理准备的基于 Vue 3.0 的桌面端组件库。是 Element UI 的官方 vue 3 兼容版本',
+        },
+        {
+            "title": "Pinia(V2.0.*)",
+            "percentage": 100,
+            "content": 'vuex的官方替代品',
+        },
+        {
+            "title": "Vite",
+            "percentage": 100,
+            "content": 'webpack的官方替代品',
+        },
+        {
+            "title": "Flask(V2.2.*)",
+            "percentage": 100,
+            "content": '最新版flask',
+        },
+        {
+            "title": "ApiFlask(V1.2.*)",
+            "percentage": 100,
+            "content": '最现代的flask生态中的api框架',
+        },
+        {
+            "title": "sqlalchemy(V2.0.*)",
+            "percentage": 100,
+            "content": '最新版的sqlalchemy',
+        },
+        {
+            "title": "国际化",
+            "percentage": 60,
+            "content": '大部分的国际化支持',
         },
     ]
     if request.headers.get("Accept-Language") == "en":
@@ -68,19 +98,18 @@ def get_feature():
             {
                 "title": "Element-Plus",
                 "percentage": 100,
-                "content": '<a target="_blank" href="https://element-plus.org/#/zh-CN">Element Plus</a>，Other thing',
+                "content": '<a target="_blank" href="https://element-plus.org/">Element Plus</a>，Other thing',
             },
         ]
     return {"data": data, "code": 0}
 
 
-@admin_bp.get("/user/chapter")
-def get_chapter():
+@admin_bp.get("/timeline")
+def get_timeline():
     data = [
-        {"content": "课程导读", "timestamp": "第一章", "id": 1},
-        {"content": " 标准化大厂编程规范解决方案之ESLint + Git Hooks ", "timestamp": "第二章", "id": 2},
-        {"content": "项目架构解决方案之搭建登录基础架构", "timestamp": "第三章", "id": 3},
-        {"content": "项目架构解决方案之搭建Layout基础架构", "timestamp": "第四章", "id": 4},
+        {"content": "开始开发", "timestamp": "2018.03", "id": 1},
+        {"content": "使用flask的0.12版本，以及vue2版本", "timestamp": "2018.09", "id": 2},
+        {"content": "使用flaskV2.2,sqlalchemyV2.0,vue3,vite,pinia等新技术重新开发", "timestamp": "2022.12", "id": 3},
     ]
     return {"data": data, "code": 0}
 

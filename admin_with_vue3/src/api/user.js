@@ -2,14 +2,14 @@ import request from '@/utils/request'
 
 export const getFeature = () => {
   return request({
-    url: '/user/feature',
+    url: '/feature',
     method: 'get'
   })
 }
 
-export const getChapter = () => {
+export const getTimeline = () => {
   return request({
-    url: '/user/chapter',
+    url: '/timeline',
     method: 'get'
   })
 }

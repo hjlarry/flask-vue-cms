@@ -74,12 +74,8 @@ export default {
     projectIntroduction: '项目介绍',
     projectFunction: '项目功能',
     feature: '功能',
-    chapter: '章节',
-    author: '作者',
-    name: 'Sunday',
-    job: '一个前端开发程序猿',
-    Introduction:
-      '高级技术专家，曾就职于国内一线互联网公司，统筹过的多个大型项目用户数已过千万级。致力于研究大前端技术，多次受邀参加国内前端技术分享会，如：2018 年 Google 中国技术分享会。'
+    timeline: '时间线',
+    about: '关于'
   },
   userInfo: {
     print: '打印',
