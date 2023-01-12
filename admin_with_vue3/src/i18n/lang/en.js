@@ -14,7 +14,7 @@ export default {
     roleList: 'RoleList',
     permissionList: 'PermissionList',
     article: 'article',
-    articleRanking: 'ArticleRanking',
+    articles: 'Articles',
     articleCreate: 'ArticleCreate',
     articleDetail: 'ArticleDetail',
     articleEdit: 'ArticleEditor'
@@ -142,7 +142,6 @@ export default {
     desc: 'Permission description'
   },
   article: {
-    ranking: 'Ranking',
     title: 'Title',
     author: 'Author',
     publicDate: 'release time',
@@ -160,7 +159,6 @@ export default {
     richText: 'Rich Text',
     commit: 'commit',
     createSuccess: 'The article was created successfully',
-    editSuccess: 'Article modified successfully',
-    sortSuccess: 'Article ranking modified successfully'
+    editSuccess: 'Article modified successfully'
   }
 }

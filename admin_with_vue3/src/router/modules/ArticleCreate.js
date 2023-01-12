@@ -3,7 +3,7 @@ import layout from '@/layout/index.vue'
 export default {
   path: '/article',
   component: layout,
-  redirect: '/article/ranking',
+  redirect: '/articles',
   name: 'articleCreate',
   meta: {
     title: 'article',

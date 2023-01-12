@@ -14,7 +14,7 @@ export default {
     roleList: '角色列表',
     permissionList: '权限列表',
     article: '文章',
-    articleRanking: '文章排名',
+    articles: '所有文章',
     articleCreate: '创建文章',
     articleDetail: '文章详情',
     articleEdit: '文章编辑'
@@ -141,7 +141,6 @@ export default {
     desc: '权限描述'
   },
   article: {
-    ranking: '排名',
     title: '标题',
     author: '作者',
     publicDate: '发布时间',

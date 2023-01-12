@@ -3,19 +3,19 @@ import layout from '@/layout/index.vue'
 export default {
   path: '/article',
   component: layout,
-  redirect: '/article/ranking',
-  name: 'articleRanking',
+  redirect: '/articles',
+  name: 'articles',
   meta: {
     title: 'article',
     icon: 'article'
   },
   children: [
     {
-      path: '/article/ranking',
-      component: () => import('@/views/article-ranking/index.vue'),
+      path: '/articles',
+      component: () => import('@/views/article-list/index.vue'),
       meta: {
-        title: 'articleRanking',
-        icon: 'article-ranking'
+        title: 'articles',
+        icon: 'article-list'
       }
     },
     {

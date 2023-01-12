@@ -5,7 +5,7 @@ import layout from '@/layout/index.vue'
 import UserManageRouter from './modules/UserManage'
 import RoleListRouter from './modules/RoleList'
 import PermissionListRouter from './modules/PermissionList'
-import ArticleRankingRouter from './modules/ArticleRanking'
+import ArticleListRouter from './modules/ArticleList'
 import ArticleCreateRouter from './modules/ArticleCreate'
 
 export const publicRoutes = [
@@ -46,7 +46,7 @@ export const privateRoutes = [
   UserManageRouter,
   RoleListRouter,
   PermissionListRouter,
-  ArticleRankingRouter,
+  ArticleListRouter,
   ArticleCreateRouter
 ]
 
