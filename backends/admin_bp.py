@@ -1,7 +1,7 @@
 from apiflask import HTTPTokenAuth, APIBlueprint, pagination_builder
 from flask import request
 
-from utils import verify_token
+from utils import verify_token, PermissionControl
 from schemas import (
     UserInfoSchema,
     UserDetailSchema,
@@ -21,6 +21,7 @@ from models import User, Role, Permission, Article
 admin_bp = APIBlueprint("admin", __name__, url_prefix="/admin")
 auth = HTTPTokenAuth(scheme="Bearer")
 auth.verify_token(verify_token)
+permission = PermissionControl(auth)
 
 
 @admin_bp.before_request
@@ -32,14 +33,8 @@ def whole_bp_need_login():
 @admin_bp.get("/info")
 @admin_bp.output(schema=UserInfoSchema)
 def get_info():
-    menus = set()
-    points = set()
-    for role in auth.current_user.roles:
-        menus.update(
-            set(p.permission_mark for p in role.permissions if not p.parent_id)
-        )
-        points.update(set(p.permission_mark for p in role.permissions if p.parent_id))
-    data = {"menus": list(menus), "points": list(points)}
+    p = permission.get_permissions()
+    data = {"menus": list(p.get('menus')), "points": list(p.get('points'))}
     auth.current_user.__dict__["permissions"] = data
     return {"data": auth.current_user}
 
@@ -117,6 +112,7 @@ def get_timeline():
 @admin_bp.get("/user/list")
 @admin_bp.input(ListQuery, location="query")
 @admin_bp.output(schema=UsersOut)
+@permission.can('userManage')
 def get_userlist(params):
     paganition = User.query.paginate(page=params["page"], per_page=params["per_page"])
     return_data = {
@@ -128,6 +124,7 @@ def get_userlist(params):
 
 @admin_bp.post("/user/batchImport")
 @admin_bp.input(ImportUser)
+@permission.can('importUser')
 def import_users(data):
     try:
         for item in data["users"]:
@@ -140,6 +137,7 @@ def import_users(data):
 
 
 @admin_bp.post("/user/delete/<int:id>")
+@permission.can('removeUser')
 def delete_user(id):
     try:
         user = User.query.get(id)
@@ -194,6 +192,7 @@ def get_user_role(id):
 
 @admin_bp.post("/user/role/<int:id>")
 @admin_bp.input(RoleSchema(many=True))
+@permission.can('distributeRole')
 def update_user_role(id, data):
     user = User.query.get(id)
     roles = []
@@ -207,6 +206,7 @@ def update_user_role(id, data):
 
 @admin_bp.get("/role/list")
 @admin_bp.output(RoleSchema(many=True))
+@permission.can('roleList')
 def roles():
     db_roles = Role.query.all()
     return {"data": db_roles}
@@ -214,12 +214,14 @@ def roles():
 
 @admin_bp.get("/permission/list")
 @admin_bp.output(PermissionSchema(many=True))
+@permission.can('permissionList')
 def permissions():
     permissions = Permission.query.filter_by(parent_id=None).all()
     return {"code": 0, "data": permissions}
 
 
 @admin_bp.get("/role/<int:id>/permission")
+@permission.can('permissionList')
 def role_permission(id):
     permissions = Role.query.get(id).permissions
     data = [p.permission_id for p in permissions]
@@ -228,6 +230,7 @@ def role_permission(id):
 
 @admin_bp.post("/role/<int:id>/permission")
 @admin_bp.input(SetPermissionIn)
+@permission.can('distributePermission')
 def set_role_permission(id, data):
     role = Role.query.get(id)
     r_p = []
@@ -242,6 +245,7 @@ def set_role_permission(id, data):
 @admin_bp.get("/article/list")
 @admin_bp.input(ListQuery, location="query")
 @admin_bp.output(schema=ArticlesOut)
+@permission.can('articles')
 def get_articles(params):
     paganition = Article.query.paginate(
         page=params["page"], per_page=params["per_page"]
@@ -255,12 +259,14 @@ def get_articles(params):
 
 @admin_bp.get("/article/<int:id>")
 @admin_bp.output(ArticleSchema)
+@permission.can('articles')
 def get_article(id):
     article = Article.query.get(id)
     return {"data": article}
 
 
 @admin_bp.post("/article/delete/<int:id>")
+@permission.can('articles')
 def delete_article(id):
     try:
         article = Article.query.get(id)
@@ -274,6 +280,7 @@ def delete_article(id):
 
 @admin_bp.post("/article")
 @admin_bp.input(ArticleIn)
+@permission.can('articleCreate')
 def create_article(data):
     article = Article(**data)
     article.author = auth.current_user
@@ -284,6 +291,7 @@ def create_article(data):
 
 @admin_bp.post("/article/<int:id>")
 @admin_bp.input(ArticleIn)
+@permission.can('articleCreate')
 def edit_article(id, data):
     article = Article.query.get(id)
     article.title = data["title"]

@@ -2,6 +2,7 @@ import shelve
 import time
 
 from flask import current_app
+from apiflask.exceptions import abort
 from authlib.jose import jwt
 
 from models import User
@@ -63,3 +64,36 @@ def verify_token(token):
         current_user = User.query.get(data["user_id"])
         return current_user
     return False
+
+
+permission_cache = CacheDict("permission.db")
+from functools import wraps
+
+class PermissionControl:
+    def __init__(self, auth):
+        self.auth = auth
+
+    def get_permissions(self):
+        permissions = permission_cache.get(self.auth.current_user.id)
+        if permissions:
+            return permissions
+        menus = set()
+        points = set()
+        for role in self.auth.current_user.roles:
+            menus.update(
+                set(p.permission_mark for p in role.permissions if not p.parent_id)
+            )
+            points.update(set(p.permission_mark for p in role.permissions if p.parent_id))
+        permissions = {'menus': menus, 'points': points, 'all': menus.union(points)}
+        permission_cache.set(self.auth.current_user.id, permissions)
+        return permissions
+
+    def can(self, permission):
+        def wrapper(fn):
+            @wraps(fn)
+            def decorated_view(*args, **kwargs):
+                if permission not in self.get_permissions().get('all'):
+                    abort(401)
+                return fn(*args, **kwargs)
+            return decorated_view
+        return wrapper
