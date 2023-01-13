@@ -139,6 +139,8 @@ def import_users(data):
 @admin_bp.post("/user/delete/<int:id>")
 @permission.can('removeUser')
 def delete_user(id):
+    if id == 1:
+        return {"code": 4000, "error": "can not delete admin!"}
     try:
         user = User.query.get(id)
         db.session.delete(user)
@@ -194,6 +196,8 @@ def get_user_role(id):
 @admin_bp.input(RoleSchema(many=True))
 @permission.can('distributeRole')
 def update_user_role(id, data):
+    if id == 1:
+        return {"code": 4000, "error": "can not set admin!"}
     user = User.query.get(id)
     roles = []
     for item in data:
@@ -233,6 +237,8 @@ def role_permission(id):
 @permission.can('distributePermission')
 def set_role_permission(id, data):
     role = Role.query.get(id)
+    if not role.can_edit:
+        return {"code": 4000, "error": "can not edit this role!"}
     r_p = []
     for p_id in data["permissions"]:
         p = Permission.query.filter_by(permission_id=p_id).first()
