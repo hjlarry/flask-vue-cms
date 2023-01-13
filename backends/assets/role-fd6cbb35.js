@@ -1,0 +1,1 @@
+import{cc as e}from"./index-27b2444c.js";const t=()=>e({url:"/role/list",method:"get"}),i=()=>e({url:"/permission/list",method:"get"}),n=s=>e({url:"/role/"+s+"/permission",method:"get"}),l=(s,r)=>e({url:"/role/"+s+"/permission",method:"post",data:r});export{i as a,n as b,t as g,l as s};

@@ -69,6 +69,7 @@ def verify_token(token):
 permission_cache = CacheDict("permission.db")
 from functools import wraps
 
+
 class PermissionControl:
     def __init__(self, auth):
         self.auth = auth
@@ -83,8 +84,10 @@ class PermissionControl:
             menus.update(
                 set(p.permission_mark for p in role.permissions if not p.parent_id)
             )
-            points.update(set(p.permission_mark for p in role.permissions if p.parent_id))
-        permissions = {'menus': menus, 'points': points, 'all': menus.union(points)}
+            points.update(
+                set(p.permission_mark for p in role.permissions if p.parent_id)
+            )
+        permissions = {"menus": menus, "points": points, "all": menus.union(points)}
         permission_cache.set(self.auth.current_user.id, permissions)
         return permissions
 
@@ -92,8 +95,10 @@ class PermissionControl:
         def wrapper(fn):
             @wraps(fn)
             def decorated_view(*args, **kwargs):
-                if permission not in self.get_permissions().get('all'):
+                if permission not in self.get_permissions().get("all"):
                     abort(401)
                 return fn(*args, **kwargs)
+
             return decorated_view
+
         return wrapper

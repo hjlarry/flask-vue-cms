@@ -1,0 +1,1 @@
+import{cc as e}from"./index-27b2444c.js";const l=t=>e({url:"/article/list",method:"get",params:t}),a=t=>e({url:"/article/delete/"+t,method:"post"}),s=t=>e({url:"/article/"+t}),i=t=>e({url:"/article",method:"post",data:t}),o=(t,r)=>e({url:"/article/"+t,method:"post",data:r});export{a,s as b,i as c,o as e,l as g};

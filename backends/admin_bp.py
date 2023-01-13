@@ -34,7 +34,7 @@ def whole_bp_need_login():
 @admin_bp.output(schema=UserInfoSchema)
 def get_info():
     p = permission.get_permissions()
-    data = {"menus": list(p.get('menus')), "points": list(p.get('points'))}
+    data = {"menus": list(p.get("menus")), "points": list(p.get("points"))}
     auth.current_user.__dict__["permissions"] = data
     return {"data": auth.current_user}
 
@@ -45,7 +45,7 @@ def get_feature():
         {
             "title": "Vue3(V3.2.*)",
             "percentage": 100,
-            "content": '项目基于最新的vue3标准进行开发，全面使用最新的的<a target="_blank" href="https://github.com/vuejs/rfcs/blob/master/active-rfcs/0040-script-setup.md">RFC script setup</a>语法标准，为你带来不一样的 vue3 开发体验'
+            "content": '项目基于最新的vue3标准进行开发，全面使用最新的的<a target="_blank" href="https://github.com/vuejs/rfcs/blob/master/active-rfcs/0040-script-setup.md">RFC script setup</a>语法标准，为你带来不一样的 vue3 开发体验',
         },
         {
             "title": "Element-Plus(V2.2.*)",
@@ -55,32 +55,32 @@ def get_feature():
         {
             "title": "Pinia(V2.0.*)",
             "percentage": 100,
-            "content": 'vuex的官方替代品',
+            "content": "vuex的官方替代品",
         },
         {
             "title": "Vite",
             "percentage": 100,
-            "content": 'webpack的官方替代品',
+            "content": "webpack的官方替代品",
         },
         {
             "title": "Flask(V2.2.*)",
             "percentage": 100,
-            "content": '最新版flask',
+            "content": "最新版flask",
         },
         {
             "title": "ApiFlask(V1.2.*)",
             "percentage": 100,
-            "content": '最现代的flask生态中的api框架',
+            "content": "最现代的flask生态中的api框架",
         },
         {
             "title": "sqlalchemy(V2.0.*)",
             "percentage": 100,
-            "content": '最新版的sqlalchemy',
+            "content": "最新版的sqlalchemy",
         },
         {
             "title": "国际化",
             "percentage": 60,
-            "content": '大部分的国际化支持',
+            "content": "大部分的国际化支持",
         },
     ]
     if request.headers.get("Accept-Language") == "en":
@@ -104,7 +104,11 @@ def get_timeline():
     data = [
         {"content": "开始开发", "timestamp": "2018.03", "id": 1},
         {"content": "使用flask的0.12版本，以及vue2版本", "timestamp": "2018.09", "id": 2},
-        {"content": "使用flaskV2.2,sqlalchemyV2.0,vue3,vite,pinia等新技术重新开发", "timestamp": "2022.12", "id": 3},
+        {
+            "content": "使用flaskV2.2,sqlalchemyV2.0,vue3,vite,pinia等新技术重新开发",
+            "timestamp": "2022.12",
+            "id": 3,
+        },
     ]
     return {"data": data, "code": 0}
 
@@ -112,7 +116,7 @@ def get_timeline():
 @admin_bp.get("/user/list")
 @admin_bp.input(ListQuery, location="query")
 @admin_bp.output(schema=UsersOut)
-@permission.can('userManage')
+@permission.can("userManage")
 def get_userlist(params):
     paganition = User.query.paginate(page=params["page"], per_page=params["per_page"])
     return_data = {
@@ -124,7 +128,7 @@ def get_userlist(params):
 
 @admin_bp.post("/user/batchImport")
 @admin_bp.input(ImportUser)
-@permission.can('importUser')
+@permission.can("importUser")
 def import_users(data):
     try:
         for item in data["users"]:
@@ -137,7 +141,7 @@ def import_users(data):
 
 
 @admin_bp.post("/user/delete/<int:id>")
-@permission.can('removeUser')
+@permission.can("removeUser")
 def delete_user(id):
     if id == 1:
         return {"code": 4000, "error": "can not delete admin!"}
@@ -194,7 +198,7 @@ def get_user_role(id):
 
 @admin_bp.post("/user/role/<int:id>")
 @admin_bp.input(RoleSchema(many=True))
-@permission.can('distributeRole')
+@permission.can("distributeRole")
 def update_user_role(id, data):
     if id == 1:
         return {"code": 4000, "error": "can not set admin!"}
@@ -210,7 +214,7 @@ def update_user_role(id, data):
 
 @admin_bp.get("/role/list")
 @admin_bp.output(RoleSchema(many=True))
-@permission.can('roleList')
+@permission.can("roleList")
 def roles():
     db_roles = Role.query.all()
     return {"data": db_roles}
@@ -218,14 +222,14 @@ def roles():
 
 @admin_bp.get("/permission/list")
 @admin_bp.output(PermissionSchema(many=True))
-@permission.can('permissionList')
+@permission.can("permissionList")
 def permissions():
     permissions = Permission.query.filter_by(parent_id=None).all()
     return {"code": 0, "data": permissions}
 
 
 @admin_bp.get("/role/<int:id>/permission")
-@permission.can('permissionList')
+@permission.can("permissionList")
 def role_permission(id):
     permissions = Role.query.get(id).permissions
     data = [p.permission_id for p in permissions]
@@ -234,7 +238,7 @@ def role_permission(id):
 
 @admin_bp.post("/role/<int:id>/permission")
 @admin_bp.input(SetPermissionIn)
-@permission.can('distributePermission')
+@permission.can("distributePermission")
 def set_role_permission(id, data):
     role = Role.query.get(id)
     if not role.can_edit:
@@ -251,7 +255,7 @@ def set_role_permission(id, data):
 @admin_bp.get("/article/list")
 @admin_bp.input(ListQuery, location="query")
 @admin_bp.output(schema=ArticlesOut)
-@permission.can('articles')
+@permission.can("articles")
 def get_articles(params):
     paganition = Article.query.paginate(
         page=params["page"], per_page=params["per_page"]
@@ -265,14 +269,14 @@ def get_articles(params):
 
 @admin_bp.get("/article/<int:id>")
 @admin_bp.output(ArticleSchema)
-@permission.can('articles')
+@permission.can("articles")
 def get_article(id):
     article = Article.query.get(id)
     return {"data": article}
 
 
 @admin_bp.post("/article/delete/<int:id>")
-@permission.can('articles')
+@permission.can("articles")
 def delete_article(id):
     try:
         article = Article.query.get(id)
@@ -286,7 +290,7 @@ def delete_article(id):
 
 @admin_bp.post("/article")
 @admin_bp.input(ArticleIn)
-@permission.can('articleCreate')
+@permission.can("articleCreate")
 def create_article(data):
     article = Article(**data)
     article.author = auth.current_user
@@ -297,7 +301,7 @@ def create_article(data):
 
 @admin_bp.post("/article/<int:id>")
 @admin_bp.input(ArticleIn)
-@permission.can('articleCreate')
+@permission.can("articleCreate")
 def edit_article(id, data):
     article = Article.query.get(id)
     article.title = data["title"]

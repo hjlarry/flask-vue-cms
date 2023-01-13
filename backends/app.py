@@ -1,5 +1,5 @@
 from apiflask import APIFlask
-from flask import current_app
+from flask import current_app, render_template
 
 from utils import generate_token, auth_cache
 from schemas import LoginSchema
@@ -12,7 +12,9 @@ from init_data import init_data
 
 
 def create_app():
-    app = APIFlask(__name__)
+    app = APIFlask(
+        __name__, static_url_path="/assets", static_folder="assets", template_folder="."
+    )
     app.config.from_object(DevConfig)
     db.init_app(app)
 
@@ -38,8 +40,8 @@ def my_error_processor(error):
 
 
 @app.get("/")
-def say_hello():
-    return {"message": "Hello!"}
+def index():
+    return render_template("index.html")
 
 
 @app.post("/admin/login")
