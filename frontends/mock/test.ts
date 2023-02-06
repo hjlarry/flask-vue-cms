@@ -5,7 +5,7 @@ export default [
     response: () => {
       return {
         success: true,
-        code: 200,
+        code: 0,
         data: {
           categories: [
             {

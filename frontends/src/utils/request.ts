@@ -1,23 +1,63 @@
 import axios from 'axios'
+import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 
-const service = axios.create({
-  baseURL: import.meta.env.VITE_BASE_API,
-  timeout: 5000
-})
+type Result<T> = {
+  code: number
+  message: string
+  data: T
+}
 
-service.interceptors.response.use(
-  (response) => {
-    const { success, message, data } = response.data
-    if (success) {
-      return data
-    } else {
-      console.log('err:' + message) // for debug
-      return Promise.reject(new Error(message || 'Error'))
-    }
-  },
-  (error) => {
-    console.log('err' + error) // for debug
-    return Promise.reject(error)
+export class Request {
+  instance: AxiosInstance
+  baseConfig: AxiosRequestConfig = {
+    baseURL: import.meta.env.VITE_BASE_API,
+    timeout: 5000
   }
-)
-export default service
+  constructor(config: AxiosRequestConfig) {
+    this.instance = axios.create(Object.assign(this.baseConfig, config))
+    this.instance.interceptors.request.use(
+      (config: AxiosRequestConfig) => {
+        return config
+      },
+      (error: any) => {
+        return Promise.reject(error)
+      }
+    )
+    this.instance.interceptors.response.use(
+      (response: AxiosResponse) => {
+        const { code, message, data } = response.data
+        if (code === 0) {
+          return data
+        } else {
+          console.log('err:' + message)
+          return Promise.reject(new Error(message || 'Error'))
+        }
+      },
+      (error: any) => {
+        console.log('err' + error)
+        return Promise.reject(error.response)
+      }
+    )
+  }
+
+  public request(config: AxiosRequestConfig): Promise<AxiosResponse> {
+    return this.instance.request(config)
+  }
+
+  public get(
+    url: string,
+    config?: AxiosRequestConfig
+  ): Promise<AxiosResponse<Result<T>>> {
+    return this.instance.get(url, config)
+  }
+
+  public post(
+    url: string,
+    data?: any,
+    config?: AxiosRequestConfig
+  ): Promise<AxiosResponse<Result<T>>> {
+    return this.instance.post(url, data, config)
+  }
+}
+
+export default new Request({})

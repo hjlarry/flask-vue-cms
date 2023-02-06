@@ -8,14 +8,13 @@
   </div>
 </template>
 
-<script setup>
-const props = defineProps({
+<script setup lang="ts">
+defineProps({
   data: {
     type: Array,
     required: true
   }
 })
-console.log(props.data)
 </script>
 
 <style scoped></style>

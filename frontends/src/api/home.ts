@@ -1,8 +1,8 @@
 import request from '@/utils/request'
 
-export const getCategories = () => {
-  return request({
-    url: '/getCategories',
-    method: 'get'
-  })
+type Result = {
+  categories: Array<any>
+}
+export const getCategories = (): Result => {
+  return request.get('/getCategories')
 }
