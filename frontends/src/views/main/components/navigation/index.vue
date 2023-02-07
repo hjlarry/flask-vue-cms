@@ -8,6 +8,7 @@ const categoriesData = ref([] as any)
 const getCategoriesData = async () => {
   const { categories } = await getCategories()
   categoriesData.value = categories
+  categoriesData.value.unshift({ id: 'all', name: '全部' })
 }
 getCategoriesData()
 </script>
