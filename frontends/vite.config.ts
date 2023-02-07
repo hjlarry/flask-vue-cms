@@ -3,6 +3,7 @@ import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { viteMockServe } from 'vite-plugin-mock'
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -10,6 +11,12 @@ export default defineConfig({
     vue(),
     viteMockServe({
       mockPath: 'mock'
+    }),
+    createSvgIconsPlugin({
+      // 指定需要缓存的图标文件夹
+      iconDirs: [fileURLToPath(new URL('./src/assets/icons', import.meta.url))],
+      // 指定symbolId格式
+      symbolId: 'icon-[name]'
     })
   ],
   resolve: {
