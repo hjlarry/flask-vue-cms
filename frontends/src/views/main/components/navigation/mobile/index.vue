@@ -7,6 +7,7 @@
       <!-- hamburger -->
       <li
         class="z-20 fixed top-0 right-[-1px] h-4 px-1 flex items-center bg-white shadow-l-white"
+        @click="isOpenPopup = true"
       >
         <m-svg-icon class="w-1.5 h-1.5" name="hamburger" />
       </li>
@@ -28,11 +29,15 @@
       </li>
     </ul>
   </div>
+  <m-popup v-model="isOpenPopup">
+    <popMenus :data="data" @onItemClick="onItemClick"></popMenus>
+  </m-popup>
 </template>
 
 <script setup lang="ts">
 import { useScroll } from '@vueuse/core'
 import { ref, watch } from 'vue'
+import popMenus from '@/views/main/components/menu/index.vue'
 
 interface Props {
   data: Array<{ id: string; name: string }>
@@ -52,6 +57,7 @@ const { x: ulTargetLeft } = useScroll(ulTarget)
 
 const onItemClick = (index: number) => {
   currentCategoryIndex.value = index
+  isOpenPopup.value = false
 }
 
 watch(currentCategoryIndex, (val) => {
@@ -63,6 +69,8 @@ watch(currentCategoryIndex, (val) => {
     transform: `translateX(${ulTargetLeft.value + left - 10}px)`
   }
 })
+
+const isOpenPopup = ref(false)
 </script>
 
 <style scoped></style>
