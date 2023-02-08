@@ -1,3 +1,10 @@
+<template>
+  <mobileNavigationVue
+    v-if="isMoibleDevice"
+    :data="categoriesData"
+  ></mobileNavigationVue>
+</template>
+
 <script setup lang="ts">
 import { isMoibleDevice } from '@/utils/flexiable'
 import mobileNavigationVue from './mobile/index.vue'
@@ -12,12 +19,5 @@ const getCategoriesData = async () => {
 }
 getCategoriesData()
 </script>
-
-<template>
-  <mobileNavigationVue
-    v-if="isMoibleDevice"
-    :data="categoriesData"
-  ></mobileNavigationVue>
-</template>
 
 <style scoped></style>
