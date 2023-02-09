@@ -7,7 +7,7 @@
       src="https://sponsors.vuejs.org/images/chrome_frameworks_fund.png"
       alt="logo"
     />
-    <header-search class="mr-1" />
+    <header-search class="mr-1 w-full" />
     <header-theme class="mr-1" />
     <header-my />
   </div>
