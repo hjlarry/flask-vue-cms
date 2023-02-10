@@ -5,14 +5,16 @@
       <slot name="target"></slot>
     </div>
     <!-- 浮层 -->
-    <div
-      class="absolute z-20 p-1 rounded border text-base bg-white"
-      :style="positionStyle"
-      v-show="isOpen"
-      ref="dropdownRef"
-    >
-      <slot name="dropdown"></slot>
-    </div>
+    <Transition name="slide">
+      <div
+        class="absolute z-20 p-1 rounded border text-base bg-white"
+        :style="positionStyle"
+        v-show="isOpen"
+        ref="dropdownRef"
+      >
+        <slot name="dropdown"></slot>
+      </div>
+    </Transition>
   </div>
 </template>
 
@@ -79,4 +81,18 @@ const onMouseLeave = () => {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.slide-enter-active {
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.slide-leave-active {
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.slide-enter-from,
+.slide-leave-to {
+  transform: translateY(20px);
+  opacity: 0;
+}
+</style>

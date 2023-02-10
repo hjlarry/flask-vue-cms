@@ -10,11 +10,11 @@
       <div class="flex flex-col w-[140px]">
         <div
           class="flex items-center space-x-1 p-1 rounded-sm cursor-pointer hover:bg-zinc-100/60"
-          v-for="item in itemsData"
+          v-for="item in dropdownMenu"
           :key="item.id"
         >
           <m-svg-icon :name="item.icon" class="w-1.5 h-1.5" />
-          <span class="text-sm">{{ item.text }}</span>
+          <span class="text-sm text-zinc-800">{{ item.text }}</span>
         </div>
       </div>
     </template>
@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-const itemsData = [
+const dropdownMenu = [
   {
     id: 1,
     icon: 'theme-light',
