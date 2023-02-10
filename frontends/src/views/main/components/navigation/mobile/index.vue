@@ -18,7 +18,7 @@
       ></li>
       <!-- categories -->
       <li
-        v-for="(item, index) in data"
+        v-for="(item, index) in cStore.categoriesData"
         :key="item.id"
         class="shrink-0 px-1.5 py-0.5 z-10 duration-200 last:mr-4"
         :class="currentCategoryIndex === index ? 'text-white' : ''"
@@ -30,7 +30,10 @@
     </ul>
   </div>
   <m-popup v-model="isOpenPopup">
-    <popMenus :data="data" @onItemClick="onItemClick"></popMenus>
+    <popMenus
+      :data="cStore.categoriesData"
+      @onItemClick="onItemClick"
+    ></popMenus>
   </m-popup>
 </template>
 
@@ -38,11 +41,9 @@
 import { useScroll } from '@vueuse/core'
 import { ref, watch } from 'vue'
 import popMenus from '@/views/main/components/menu/index.vue'
+import { categoryStore } from '@/stores/category'
 
-interface Props {
-  data: Array<{ id: string; name: string }>
-}
-defineProps<Props>()
+const cStore = categoryStore()
 
 // 给滑块一个初始样式
 const sliderStyle = ref({
