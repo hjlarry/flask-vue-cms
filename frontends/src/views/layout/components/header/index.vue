@@ -1,6 +1,6 @@
 <template>
   <div
-    class="h-header flex items-center px-2 py-1 border-b border-b-zinc-200 bg-white"
+    class="h-header flex items-center px-2 py-1 border-b border-b-zinc-200 bg-white dark:bg-red-400"
   >
     <img
       class="h-4 cursor-pointer mr-2"
