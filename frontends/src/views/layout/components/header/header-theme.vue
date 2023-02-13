@@ -2,7 +2,7 @@
   <m-popover>
     <template #target>
       <m-svg-icon
-        name="theme-light"
+        :name="currentThemeIcon"
         class="w-4 h-4 p-1 cursor-pointer hover:bg-zinc-100/60 rounded-sm duration-500"
       />
     </template>
@@ -23,6 +23,8 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
+
 import { themeStore } from '@/stores/theme'
 import { THEME_LIGHT, THEME_DARK, THEME_SYSTEM } from '@/constants'
 
@@ -51,6 +53,9 @@ const tStore = themeStore()
 const itemClick = (item: any) => {
   tStore.setTheme(item.type)
 }
+const currentThemeIcon = computed(() => {
+  return dropdownMenu.find((item) => item.type === tStore.theme)?.icon
+})
 </script>
 
 <style scoped></style>

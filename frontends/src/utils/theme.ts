@@ -12,11 +12,26 @@ const changeTheme = (theme: string) => {
     case THEME_DARK:
       themeClassName = 'dark'
       break
+    case THEME_SYSTEM:
+      watchSystemThemeChange()
+      themeClassName = matchMedia.matches ? 'dark' : 'light'
+      break
   }
   document.body.className = themeClassName
 }
 
+// 监听系统主题变化
+let matchMedia
+const watchSystemThemeChange = () => {
+  // 仅初始化一次
+  if (matchMedia) return
+  matchMedia = window.matchMedia('(prefers-color-scheme: dark)')
+  matchMedia.onchange = function () {
+    changeTheme(THEME_SYSTEM)
+  }
+}
+
 export function useTheme() {
   const tStore = themeStore()
-  watch(() => tStore.$state.theme, changeTheme, { immediate: true })
+  watch(() => tStore.theme, changeTheme, { immediate: true })
 }
