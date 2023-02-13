@@ -1,19 +1,19 @@
 <template>
-  <div class="sticky top-0 left-0">
+  <div class="sticky top-0 left-0 dark:bg-zinc-900">
     <ul
       class="relative flex overflow-x-auto text-xs overflow-hidden p-1 text-zinc-600"
       ref="ulTarget"
     >
       <!-- hamburger -->
       <li
-        class="z-20 fixed top-0 right-[-1px] h-4 px-1 flex items-center bg-white shadow-l-white"
+        class="z-20 fixed top-0 right-[-1px] h-4 px-1 flex items-center bg-white dark:bg-zinc-900 shadow-l-white dark:shadow-l-zinc"
         @click="isOpenPopup = true"
       >
         <m-svg-icon class="w-1.5 h-1.5" name="hamburger" />
       </li>
       <!-- slide item -->
       <li
-        class="absolute bg-zinc-900 h-[22px] rounded-lg duration-300"
+        class="absolute bg-zinc-900 dark:bg-zinc-700 h-[22px] rounded-lg duration-300"
         :style="sliderStyle"
       ></li>
       <!-- categories -->

@@ -3,19 +3,26 @@
     <template #target>
       <m-svg-icon
         :name="currentThemeIcon"
-        class="w-4 h-4 p-1 cursor-pointer hover:bg-zinc-100/60 rounded-sm duration-500"
+        class="w-4 h-4 p-1 cursor-pointer hover:bg-zinc-100/60 dark:hover:bg-zinc-400 rounded-sm duration-500"
+        fillClass="fill-zinc-900 dark:fill-zinc-300"
       />
     </template>
     <template #dropdown>
       <div class="flex flex-col w-[140px]">
         <div
-          class="flex items-center space-x-1 p-1 rounded-sm cursor-pointer hover:bg-zinc-100/60"
+          class="flex items-center space-x-1 p-1 rounded-sm cursor-pointer hover:bg-zinc-100/60 dark:hover:bg-zinc-700"
           v-for="item in dropdownMenu"
           :key="item.id"
           @click="itemClick(item)"
         >
-          <m-svg-icon :name="item.icon" class="w-1.5 h-1.5" />
-          <span class="text-sm text-zinc-800">{{ item.text }}</span>
+          <m-svg-icon
+            :name="item.icon"
+            class="w-1.5 h-1.5"
+            fillClass="fill-zinc-900 dark:fill-zinc-300"
+          />
+          <span class="text-sm text-zinc-800 dark:text-zinc-300">{{
+            item.text
+          }}</span>
         </div>
       </div>
     </template>

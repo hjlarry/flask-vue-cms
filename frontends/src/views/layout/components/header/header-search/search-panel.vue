@@ -9,7 +9,7 @@
       name="search"
     ></m-svg-icon>
     <input
-      class="block duration-500 w-full h-[44px] pl-4 rounded-xl outline-0 text-sm font-semibold text-zinc-900 tracking-wide caret-zinc-400 border border-zinc-100 group-hover:border-zinc-200 focus:border-red-300 bg-zinc-100 group-hover:bg-white"
+      class="block duration-500 w-full h-[44px] pl-4 rounded-xl outline-0 text-sm font-semibold text-zinc-900 dark:text-zinc-200 tracking-wide caret-zinc-400 border border-zinc-100 dark:border-zinc-700 group-hover:border-zinc-200 dark:group-hover:border-zinc-700 focus:border-red-300 bg-zinc-100 dark:bg-zinc-800 group-hover:bg-white dark:group-hover:bg-zinc-900"
       placeholder="搜索"
       v-model="searchValue"
       @focus="isFocus = true"
@@ -37,7 +37,7 @@
       <div
         v-if="$slots.dropdown"
         v-show="isFocus"
-        class="absolute duration-200 w-[96%] z-20 left-0 top-[56px] max-h-[368px] ml-1 p-2 overflow-auto bg-white text-base border border-zinc-200 rounded hover:shadow-2xl"
+        class="absolute duration-200 w-[96%] z-20 left-0 top-[56px] max-h-[368px] ml-1 p-2 overflow-auto bg-white dark:bg-zinc-800 text-base border border-zinc-200 dark:border-zinc-600 rounded hover:shadow-2xl"
       >
         <slot name="dropdown" />
       </div>

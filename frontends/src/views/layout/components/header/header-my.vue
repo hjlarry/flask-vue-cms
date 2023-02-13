@@ -1,12 +1,18 @@
 <template>
   <m-popover>
     <template #target>
-      <div class="flex items-center relative p-0.5 cursor-pointer">
+      <div
+        class="flex items-center relative p-0.5 cursor-pointer rounded-sm hover:bg-zinc-100 dark:hover:bg-zinc-400"
+      >
         <img
           src="https://m.imooc.com/static/wap/static/common/img/logo-small@2x.png"
           class="w-3 h-3 rounded-sm"
         />
-        <m-svg-icon name="down-arrow" class="w-1 h-1 ml-0.5" />
+        <m-svg-icon
+          name="down-arrow"
+          class="w-1 h-1 ml-0.5"
+          fillClass="fill-zinc-900 dark:fill-zinc-300"
+        />
         <m-svg-icon
           name="vip"
           class="absolute bottom-[2px] right-[16px] w-1 h-1"
@@ -16,12 +22,18 @@
     <template #dropdown>
       <div class="flex flex-col w-[140px]">
         <div
-          class="flex items-center space-x-1 p-1 rounded-sm cursor-pointer hover:bg-zinc-100/60"
+          class="flex items-center space-x-1 p-1 rounded-sm cursor-pointer hover:bg-zinc-100/60 dark:hover:bg-zinc-700"
           v-for="item in dropdownMenu"
           :key="item.id"
         >
-          <m-svg-icon :name="item.icon" class="w-1.5 h-1.5" />
-          <span class="text-sm text-zinc-800">{{ item.title }}</span>
+          <m-svg-icon
+            :name="item.icon"
+            class="w-1.5 h-1.5"
+            fillClass="fill-zinc-900 dark:fill-zinc-300"
+          />
+          <span class="text-sm text-zinc-800 dark:text-zinc-300">{{
+            item.title
+          }}</span>
         </div>
       </div>
     </template>

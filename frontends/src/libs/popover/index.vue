@@ -7,7 +7,7 @@
     <!-- 浮层 -->
     <Transition name="slide">
       <div
-        class="absolute z-20 p-1 rounded border text-base bg-white"
+        class="absolute z-20 p-1 rounded border text-base bg-white dark:bg-zinc-900 dark:border-zinc-700"
         :style="positionStyle"
         v-show="isOpen"
         ref="dropdownRef"

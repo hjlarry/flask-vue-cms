@@ -9,7 +9,10 @@
     </Transition>
 
     <Transition name="popup-down-up">
-      <div class="fixed bottom-0 w-screen bg-white z-40" v-if="isOpen">
+      <div
+        class="fixed bottom-0 w-screen bg-white dark:bg-zinc-800 z-40"
+        v-if="isOpen"
+      >
         <slot></slot>
       </div>
     </Transition>
