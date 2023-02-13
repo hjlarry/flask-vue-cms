@@ -6,3 +6,7 @@ type Result = {
 export const getCategories = (): Result => {
   return request.get('/getCategories')
 }
+
+export const getPexels = () => {
+  return request.get('/getPexels')
+}
