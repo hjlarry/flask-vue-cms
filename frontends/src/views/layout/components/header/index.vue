@@ -2,11 +2,7 @@
   <div
     class="h-header flex items-center px-2 py-1 border-b border-b-zinc-200 bg-white dark:bg-zinc-800 dark:border-b-zinc-700"
   >
-    <img
-      class="h-4 cursor-pointer mr-2"
-      src="https://sponsors.vuejs.org/images/chrome_frameworks_fund.png"
-      alt="logo"
-    />
+    <m-svg-icon name="wei-bo" class="h-4 w-4 cursor-pointer mr-2"></m-svg-icon>
     <header-search class="mr-1 flex-1" />
     <header-theme class="mr-1" />
     <header-my />
