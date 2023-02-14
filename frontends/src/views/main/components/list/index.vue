@@ -1,6 +1,10 @@
 <template>
   <div>
-    <itemVue v-for="item in pexelsList" :key="item.id" :data="item" />
+    <m-waterfall :data="pexelsList">
+      <template v-slot="{ item }">
+        <itemVue :data="item" />
+      </template>
+    </m-waterfall>
   </div>
 </template>
 
