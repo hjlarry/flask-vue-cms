@@ -1,7 +1,5 @@
 export const getMinHeight = (columnHeightObj) => {
   const columnHeightArr = Object.values(columnHeightObj)
-  // console.log(columnHeightObj, 122121)
-  // console.log(columnHeightArr, 1221)
   return Math.min(...columnHeightArr)
 }
 
@@ -10,10 +8,21 @@ export const getMaxHeight = (columnHeightObj) => {
   return Math.max(...columnHeightArr)
 }
 
-export const getMinHeightColumn = (columnHeightObj): number => {
-  const minHeight = getMinHeight(columnHeightObj)
-  // console.log(minHeight, 12312)
-  return Object.keys(columnHeightObj).find(
-    (key) => columnHeightObj[key] === minHeight
-  )
+export const getMinHeightColumn = (columnHeightArr): number => {
+  const minHeight = Math.min(...columnHeightArr)
+  return columnHeightArr.findIndex((item) => item === minHeight)
+}
+
+export const waitImgLoaded = (imgs) => {
+  const promiseArr = []
+  imgs.forEach((img, index) => {
+    promiseArr[index] = new Promise((resolve, reject) => {
+      const imgObj = new Image()
+      imgObj.src = img
+      imgObj.onload = () => {
+        resolve({ img, index })
+      }
+    })
+  })
+  return Promise.all(promiseArr)
 }

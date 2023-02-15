@@ -23,8 +23,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { getMinHeightColumn, getMinHeight, getMaxHeight } from './helper'
+import { ref, onMounted, onUnmounted } from 'vue'
+import { getMinHeightColumn, waitImgLoaded } from './helper'
 
 interface Props {
   data: Array<any>
@@ -47,11 +47,11 @@ const containerHeight = ref(0) // 容器总高度
 const containerWidth = ref(0) // 容器不含padding,margin,border的宽度,
 const containerLeft = ref(0) // 容器的左边距，用于计算item的left
 const columnWidth = ref(0) // 每列宽度
-const columnHeightObj = ref({}) // 记录每列高度的容器，{key: val}, key是第几列, val是高度
+const columnHeightArr = ref<Array<number>>([]) // 记录每列高度的容器, index是第几列, val是高度
 
 const initColumnHeightObj = () => {
   for (let i = 0; i < props.column; i++) {
-    columnHeightObj.value[i] = 0
+    columnHeightArr.value[i] = 0
   }
 }
 
@@ -77,19 +77,39 @@ const getColumnWidth = () => {
 onMounted(() => {
   getColumnWidth()
   initColumnHeightObj()
-  getItemHeight()
+  computeItemHeight()
+})
+
+onUnmounted(() => {
+  props.data.forEach((item) => {
+    delete item._style
+  })
 })
 
 // 所有item高度的集合
 let itemHeights: any[] = []
-const getItemHeight = () => {
+const computeItemHeight = () => {
   itemHeights = []
   let itemElements = [...document.getElementsByClassName('m-waterfall-item')]
-  itemElements.forEach((el: any) => {
-    itemHeights.push(el.offsetHeight)
+  const allImgs = itemElements.map((el: any) => {
+    return el.getElementsByTagName('img')[0].src
   })
-  setItemLocation()
-  containerHeight.value = getMaxHeight(columnHeightObj.value)
+
+  function setLocation() {
+    itemElements.forEach((el: any) => {
+      itemHeights.push(el.offsetHeight)
+    })
+    setItemLocation()
+    containerHeight.value = Math.max(...columnHeightArr.value)
+  }
+
+  if (props.picturePreload) {
+    waitImgLoaded(allImgs).then(() => {
+      setLocation()
+    })
+  } else {
+    setLocation()
+  }
 }
 
 const setItemLocation = () => {
@@ -103,15 +123,15 @@ const setItemLocation = () => {
 }
 
 const nextItemLeft = () => {
-  const column = getMinHeightColumn(columnHeightObj.value)
+  const column = getMinHeightColumn(columnHeightArr.value)
   return (
     column * (columnWidth.value + props.columnSpacing) + containerLeft.value
   )
 }
-const nextItemTop = () => getMinHeight(columnHeightObj.value)
+const nextItemTop = () => Math.min(...columnHeightArr.value)
 const increseHeight = (index: number) => {
-  const column = getMinHeightColumn(columnHeightObj.value)
-  columnHeightObj.value[column] += itemHeights[index] + props.rowSpacing
+  const column = getMinHeightColumn(columnHeightArr.value)
+  columnHeightArr.value[column] += itemHeights[index] + props.rowSpacing
 }
 </script>
 
