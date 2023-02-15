@@ -4,7 +4,7 @@
     ref="containerTarget"
     :style="{ height: containerHeight + 'px' }"
   >
-    <template v-if="data.length">
+    <template v-if="columnWidth && data.length">
       <div
         class="m-waterfall-item absolute duration-500"
         v-for="(item, index) in data"
@@ -23,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, watch, nextTick } from 'vue'
 import { getMinHeightColumn, waitImgLoaded } from './helper'
 
 interface Props {
@@ -76,8 +76,21 @@ const getColumnWidth = () => {
 onMounted(() => {
   getColumnWidth()
   initColumnHeightObj()
-  computeItemHeight()
 })
+
+// picturePreload为false时，应当在onMounted时渲染各个组件后，再去计算每个item的高度，否则item的高度计算不准确，会重叠起来
+// picturePreload为true时，则可以不需要watch，直接在onMounted时computeItemHeight()即可
+watch(
+  () => props.data,
+  () => {
+    nextTick(() => {
+      computeItemHeight()
+    })
+  },
+  {
+    immediate: true
+  }
+)
 
 onUnmounted(() => {
   props.data.forEach((item) => {
