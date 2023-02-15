@@ -29,14 +29,13 @@ import { getMinHeightColumn, waitImgLoaded } from './helper'
 interface Props {
   data: Array<any>
   nodeKey?: string
-  column?: number
+  column: number
   columnSpacing?: number
   rowSpacing?: number
   picturePreload?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  column: 5,
   columnSpacing: 20,
   rowSpacing: 20,
   picturePreload: true

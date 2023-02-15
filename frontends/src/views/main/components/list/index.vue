@@ -1,6 +1,10 @@
 <template>
   <div>
-    <m-waterfall :data="pexelsList">
+    <m-waterfall
+      :data="pexelsList"
+      :column="isMoibleDevice ? 2 : 5"
+      class="px-1"
+    >
       <template v-slot="{ item }">
         <itemVue :data="item" />
       </template>
@@ -12,6 +16,7 @@
 import { ref } from 'vue'
 
 import { getPexels } from '@/api/home'
+import { isMoibleDevice } from '@/utils/flexiable'
 import itemVue from './item.vue'
 
 const pexelsList = ref([])

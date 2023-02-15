@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full dark:bg-zinc-800">
+  <div class="h-full dark:bg-zinc-800 overflow-auto">
     <navigationVue />
     <div class="max-w-screen-xl mx-auto relative m-1 xl:mt-4">
       <listVue />
