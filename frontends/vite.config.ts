@@ -10,7 +10,8 @@ export default defineConfig({
   plugins: [
     vue(),
     viteMockServe({
-      mockPath: 'mock'
+      mockPath: 'mock',
+      ignore: /^\_/
     }),
     createSvgIconsPlugin({
       // 指定需要缓存的图标文件夹
