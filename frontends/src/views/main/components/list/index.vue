@@ -10,6 +10,13 @@
         <itemVue :data="item" :width="width" />
       </template>
     </m-waterfall>
+    <m-infinite-scroll-down
+      v-model="isLoading"
+      :is-finished="isFinished"
+      @loadMore="loadMore"
+    >
+      test!
+    </m-infinite-scroll-down>
   </div>
 </template>
 
@@ -25,6 +32,12 @@ const pexelsList = ref([])
 getPexels().then((res: any) => {
   pexelsList.value = res.list
 })
+
+const isLoading = ref(false)
+const isFinished = ref(false)
+const loadMore = () => {
+  console.log('loadMore')
+}
 </script>
 
 <style scoped></style>
