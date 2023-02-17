@@ -1,21 +1,20 @@
 <template>
   <div>
-    <m-waterfall
-      :data="pexelsList"
-      :column="isMoibleDevice ? 2 : 5"
-      :picture-preload="false"
-      class="px-1"
-    >
-      <template v-slot="{ item, width }">
-        <itemVue :data="item" :width="width" />
-      </template>
-    </m-waterfall>
     <m-infinite-scroll-down
       v-model="isLoading"
       :is-finished="isFinished"
       @loadMore="loadMore"
     >
-      test!
+      <m-waterfall
+        :data="pexelsList"
+        :column="isMoibleDevice ? 2 : 5"
+        :picture-preload="false"
+        class="px-1"
+      >
+        <template v-slot="{ item, width }">
+          <itemVue :data="item" :width="width" />
+        </template>
+      </m-waterfall>
     </m-infinite-scroll-down>
   </div>
 </template>
@@ -28,15 +27,30 @@ import { isMoibleDevice } from '@/utils/flexiable'
 import itemVue from './item.vue'
 
 const pexelsList = ref([])
-
-getPexels().then((res: any) => {
-  pexelsList.value = res.list
-})
-
 const isLoading = ref(false)
 const isFinished = ref(false)
-const loadMore = () => {
-  console.log('loadMore')
+let query = {
+  page: 1,
+  pageSize: 15
+}
+
+const loadMore = async () => {
+  if (isFinished.value) return
+  if (pexelsList.value.length) {
+    query.page += 1
+  }
+
+  const res = await getPexels(query)
+  if (query.page === 1) {
+    pexelsList.value = res.list
+  } else {
+    pexelsList.value.push(...res.list)
+  }
+  console.log(pexelsList.value.length, 12321)
+  if (pexelsList.value.length === res.total) {
+    isFinished.value = true
+  }
+  isLoading.value = false
 }
 </script>
 

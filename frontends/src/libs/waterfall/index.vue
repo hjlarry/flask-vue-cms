@@ -82,13 +82,21 @@ onMounted(() => {
 // picturePreload为true时，则可以不需要watch，直接在onMounted时computeItemHeight()即可
 watch(
   () => props.data,
-  () => {
+  (newVal) => {
+    console.log(newVal, 21321)
+    // 重置数据源
+    const resetColumnHeight = newVal.every((item) => !item._style)
+    if (resetColumnHeight) {
+      // 构建高度记录容器
+      initColumnHeightObj()
+    }
     nextTick(() => {
       computeItemHeight()
     })
   },
   {
-    immediate: true
+    immediate: true,
+    deep: true
   }
 )
 

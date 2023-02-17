@@ -7,6 +7,6 @@ export const getCategories = (): Result => {
   return request.get('/getCategories')
 }
 
-export const getPexels = () => {
-  return request.get('/getPexels')
+export const getPexels = (params) => {
+  return request.get('/getPexels', { params: params })
 }
