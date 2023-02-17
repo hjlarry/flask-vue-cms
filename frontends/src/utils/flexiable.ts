@@ -3,7 +3,7 @@ import { useWindowSize } from '@vueuse/core'
 
 const { width } = useWindowSize()
 
-export const isMoibleDevice = computed(() => {
+export const isMobileDevice = computed(() => {
   return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
     navigator.userAgent
   )

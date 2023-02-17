@@ -7,7 +7,7 @@
     >
       <m-waterfall
         :data="pexelsList"
-        :column="isMoibleDevice ? 2 : 5"
+        :column="isMobileDevice ? 2 : 5"
         :picture-preload="false"
         class="px-1"
       >
@@ -23,7 +23,7 @@
 import { ref } from 'vue'
 
 import { getPexels } from '@/api/home'
-import { isMoibleDevice } from '@/utils/flexiable'
+import { isMobileDevice } from '@/utils/flexiable'
 import itemVue from './item.vue'
 
 const pexelsList = ref([])
