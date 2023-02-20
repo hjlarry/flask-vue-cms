@@ -20,18 +20,21 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
 import { getPexels } from '@/api/home'
 import { isMobileDevice } from '@/utils/flexiable'
+import { categoryStore } from '@/stores/category'
 import itemVue from './item.vue'
 
 const pexelsList = ref<any>([])
 const isLoading = ref(false)
 const isFinished = ref(false)
+const cStore = categoryStore()
 let query = {
   page: 0,
-  pageSize: 15
+  pageSize: 15,
+  id: cStore.currentCategory.id
 }
 
 const loadMore = async () => {
@@ -46,6 +49,20 @@ const loadMore = async () => {
   }
   isLoading.value = false
 }
+
+const resetQuery = (newQuery: any) => {
+  query = { ...query, ...newQuery }
+  isFinished.value = false
+  pexelsList.value = []
+}
+
+watch(
+  () => cStore.currentCategory,
+  (val) => {
+    resetQuery({ id: val.id, page: 0 })
+    loadMore()
+  }
+)
 </script>
 
 <style scoped></style>

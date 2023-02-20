@@ -23,7 +23,7 @@
         class="shrink-0 px-1.5 py-0.5 z-10 duration-200 last:mr-4"
         :class="currentCategoryIndex === index ? 'text-white' : ''"
         ref="itemRef"
-        @click="onItemClick(index)"
+        @click="onItemClick(item, index)"
       >
         {{ item.name }}
       </li>
@@ -56,9 +56,10 @@ const itemRef = ref([])
 // 拿到整个ul的滚动距离
 const { x: ulTargetLeft } = useScroll(ulTarget)
 
-const onItemClick = (index: number) => {
+const onItemClick = (item: any, index: number) => {
   currentCategoryIndex.value = index
   isOpenPopup.value = false
+  cStore.setCurrentCategory(item)
 }
 
 watch(currentCategoryIndex, (val) => {

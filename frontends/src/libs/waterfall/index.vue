@@ -82,7 +82,12 @@ onMounted(() => {
 // 随着用户滚动页面，data会新增数据，应当watch该data，且由于data是数组，需要深度监听
 watch(
   () => props.data,
-  () => {
+  (newVal) => {
+    // 说明需要重置高度容器
+    const resetColumnHeight = newVal.every((item) => !item._style)
+    if (resetColumnHeight) {
+      initColumnHeightObj()
+    }
     nextTick(() => {
       computeItemHeight()
     })

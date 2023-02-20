@@ -2,9 +2,12 @@ import { defineStore } from 'pinia'
 import { getCategories } from '@/api/home'
 import { getItem, setItem } from '@/utils/storage'
 
+const CATEGORY_ALL_ITEM = { id: 'all', name: '全部' }
+
 export const categoryStore = defineStore('category', {
   state: () => ({
-    categories: getItem('categories') || []
+    categories: getItem('categories') || [],
+    currentCategory: CATEGORY_ALL_ITEM
   }),
   getters: {
     categoriesData(state) {
@@ -18,8 +21,11 @@ export const categoryStore = defineStore('category', {
     async fetchCategories() {
       const res = await getCategories()
       this.categories = res.categories
-      this.categories.unshift({ id: 'all', name: '全部' })
+      this.categories.unshift(CATEGORY_ALL_ITEM)
       setItem('categories', this.categories)
+    },
+    setCurrentCategory(category) {
+      this.currentCategory = category
     }
   }
 })

@@ -850,8 +850,12 @@ export default [
     url: '/mock/getPexels',
     method: 'GET',
     response: ({ query }) => {
-      const { page = 1, pageSize = 20 } = query
-      return resultPageSuccess(page, pageSize, data)
+      const { page = 1, pageSize = 20, id = 'all' } = query
+      let mydata = [...data]
+      if (id !== 'all') {
+        mydata.sort(() => Math.random() - 0.5)
+      }
+      return resultPageSuccess(page, pageSize, mydata)
     }
   }
 ]
