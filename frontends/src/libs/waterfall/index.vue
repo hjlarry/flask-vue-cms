@@ -103,7 +103,9 @@ onUnmounted(() => {
 let itemHeights: any[] = []
 const computeItemHeight = () => {
   itemHeights = []
-  let itemElements = [...document.getElementsByClassName('m-waterfall-item')]
+  let itemElements = Array.from(
+    document.getElementsByClassName('m-waterfall-item')
+  )
   const allImgs = itemElements.map((el: any) => {
     return el.getElementsByTagName('img')[0].src
   })
