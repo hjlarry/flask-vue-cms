@@ -8,6 +8,12 @@
         v-for="(item, index) in cStore.categoriesData"
         :key="item.id"
         class="hover:bg-zinc-200 rounded-sm p-1 mx-1 cursor-pointer"
+        :class="
+          currentCategoryIndex === index
+            ? 'text-zinc-900 dark:text-zinc-300 bg-zinc-200 dark:bg-zinc-900'
+            : ''
+        "
+        @click="onItemClick(item, index)"
       >
         {{ item.name }}
       </li>
@@ -33,6 +39,11 @@ import { categoryStore } from '@/stores/category'
 
 const isOpenCategories = ref(false)
 const cStore = categoryStore()
+const currentCategoryIndex = ref(0)
+const onItemClick = (item: any, index: number) => {
+  currentCategoryIndex.value = index
+  cStore.setCurrentCategory(item)
+}
 </script>
 
 <style scoped></style>
