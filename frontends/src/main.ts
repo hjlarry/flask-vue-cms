@@ -5,7 +5,7 @@ import 'virtual:svg-icons-register'
 import App from './App.vue'
 import router from './router'
 import mLibs from './libs'
-import useDirectives from './directives'
+import mDirectives from './directives'
 import { useREM } from './utils/flexiable'
 import { useTheme } from './utils/theme'
 
@@ -18,7 +18,7 @@ useREM()
 app.use(createPinia())
 app.use(router)
 app.use(mLibs)
-useDirectives(app)
+app.use(mDirectives)
 useTheme()
 
 app.mount('#app')
