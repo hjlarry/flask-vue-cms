@@ -79,17 +79,10 @@ onMounted(() => {
 })
 
 // picturePreload为false时，应当在onMounted时渲染各个组件后，再去计算每个item的高度，否则item的高度计算不准确，会重叠起来
-// picturePreload为true时，则可以不需要watch，直接在onMounted时computeItemHeight()即可
+// 随着用户滚动页面，data会新增数据，应当watch该data，且由于data是数组，需要深度监听
 watch(
   () => props.data,
-  (newVal) => {
-    console.log(newVal, 21321)
-    // 重置数据源
-    const resetColumnHeight = newVal.every((item) => !item._style)
-    if (resetColumnHeight) {
-      // 构建高度记录容器
-      initColumnHeightObj()
-    }
+  () => {
     nextTick(() => {
       computeItemHeight()
     })

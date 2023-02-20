@@ -26,27 +26,21 @@ import { getPexels } from '@/api/home'
 import { isMobileDevice } from '@/utils/flexiable'
 import itemVue from './item.vue'
 
-const pexelsList = ref([])
+const pexelsList = ref<any>([])
 const isLoading = ref(false)
 const isFinished = ref(false)
 let query = {
-  page: 1,
+  page: 0,
   pageSize: 15
 }
 
 const loadMore = async () => {
   if (isFinished.value) return
-  if (pexelsList.value.length) {
-    query.page += 1
-  }
+  query.page += 1
 
   const res = await getPexels(query)
-  if (query.page === 1) {
-    pexelsList.value = res.list
-  } else {
-    pexelsList.value.push(...res.list)
-  }
-  console.log(pexelsList.value.length, 12321)
+  pexelsList.value.push(...res.list)
+
   if (pexelsList.value.length === res.total) {
     isFinished.value = true
   }
