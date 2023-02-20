@@ -761,7 +761,7 @@ const data = [
       'https://images.pexels.com/photos/9518952/pexels-photo-9518952.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
     authorLike: 'https://www.pexels.com/zh-cn/@anna-rye-70977670',
     avatar:
-      'https://images.pexels.com/users/avatars/70977670/anna-rye-490.jpeg?auto=compress&fit=crop&h=60&w=60',
+      'https://images.pexels.com/users/avatars/75708967/vika-kirillova-826.jpeg?auto=compress&fit=crop&h=60&w=60',
     author: 'Anna Rye',
     photoDownLink: 'https://www.pexels.com/photo/9518952/download/',
     id: '9518952',

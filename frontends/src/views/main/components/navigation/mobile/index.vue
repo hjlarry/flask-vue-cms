@@ -1,5 +1,5 @@
 <template>
-  <div class="sticky top-0 left-0 dark:bg-zinc-900">
+  <div class="sticky top-0 left-0 bg-white z-20 dark:bg-zinc-900">
     <ul
       class="relative flex overflow-x-auto text-xs overflow-hidden p-1 text-zinc-600"
       ref="ulTarget"

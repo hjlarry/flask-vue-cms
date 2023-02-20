@@ -18,7 +18,6 @@
         <slot :item="item" :width="columnWidth" :index="index" />
       </div>
     </template>
-    <div v-else>loading...</div>
   </div>
 </template>
 
