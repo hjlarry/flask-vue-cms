@@ -2,21 +2,28 @@
   <div>
     <searchPanel v-model="searchValue">
       <template #dropdown>
-        <div class="p-2">dropdown</div>
+        <div>
+          <hintVue
+            v-show="searchValue"
+            :userInput="searchValue"
+            @click="onHintClickHandler"
+          ></hintVue>
+        </div>
       </template>
     </searchPanel>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 
 import searchPanel from './search-panel.vue'
+import hintVue from './hint.vue'
 
 const searchValue = ref('')
-watch(searchValue, (val) => {
-  console.log(val)
-})
+const onHintClickHandler = (item: string) => {
+  searchValue.value = item
+}
 </script>
 
 <style scoped></style>

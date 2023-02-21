@@ -14,3 +14,10 @@ type PexelsResult = {
 export const getPexels = (params): PexelsResult => {
   return request.get('/getPexels', { params: params })
 }
+
+type HintResult = {
+  result: Array<any>
+}
+export const getHint = (params): HintResult => {
+  return request.get('/hint', { params: params })
+}
