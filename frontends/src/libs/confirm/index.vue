@@ -31,21 +31,19 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import mButton from '@/libs/button/index.vue'
 
 interface Props {
   title?: string
   content?: string
-  okText?: string
-  cancelText?: string
+  okText: string
+  cancelText: string
   okHandler?: () => void
   cancelHandler?: () => void
   closeHandler?: () => void
 }
 
-const props = withDefaults(defineProps<Props>(), {
-  okText: '确定',
-  cancelText: '取消'
-})
+const props = defineProps<Props>()
 
 const isOpen = ref(false)
 

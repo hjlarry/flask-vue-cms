@@ -28,7 +28,9 @@
 </template>
 
 <script setup lang="ts">
+import { confirm } from '@/libs/confirm'
 import { searchStore } from '@/stores/search'
+
 const sStore = searchStore()
 
 const onItemClick = (item: string) => {
@@ -40,7 +42,11 @@ const onItemDeleteClick = (index: number) => {
 }
 
 const onClearClick = () => {
-  sStore.clearHistory()
+  confirm('确定清空搜索历史吗？')
+    .then(() => {
+      sStore.clearHistory()
+    })
+    .catch(() => {})
 }
 </script>
 

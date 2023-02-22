@@ -54,6 +54,8 @@ type sizeType = keyof typeof sizeEnum
 
 <script setup lang="ts">
 import { computed } from 'vue'
+// 为了解决confirm组件中，通过函数渲染的方式调用组件，必须这样导入一下
+import mSvgIcon from '@/libs/svg-icon/index.vue'
 
 interface Prop {
   type?: 'primary' | 'main' | 'info'
