@@ -39,7 +39,7 @@ const positionStyle = ref({
 onMounted(() => {
   const targetWidth = targetRef.value?.offsetWidth
   const targetHeight = targetRef.value?.offsetHeight
-  const dropdownWidth = dropdownRef.value?.offsetWidth
+  const dropdownWidth = (dropdownRef.value?.offsetWidth as number) + 5
   switch (props.placement) {
     case 'left':
       positionStyle.value.top = '0'
