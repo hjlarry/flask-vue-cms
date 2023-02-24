@@ -9,6 +9,7 @@
             @click="onHintClickHandler"
           ></hintVue>
           <historyVue v-show="!searchValue"></historyVue>
+          <hotVue v-show="!searchValue"></hotVue>
         </div>
       </template>
     </searchPanel>
@@ -22,6 +23,7 @@ import { searchStore } from '@/stores/search'
 import searchPanel from './search-panel.vue'
 import hintVue from './hint.vue'
 import historyVue from './history.vue'
+import hotVue from './hot.vue'
 
 const sStore = searchStore()
 
