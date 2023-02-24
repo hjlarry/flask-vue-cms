@@ -32,9 +32,9 @@ import { confirm } from '@/libs/confirm'
 import { searchStore } from '@/stores/search'
 
 const sStore = searchStore()
-
+const emits = defineEmits(['click'])
 const onItemClick = (item: string) => {
-  console.log(item)
+  emits('click', item)
 }
 
 const onItemDeleteClick = (index: number) => {

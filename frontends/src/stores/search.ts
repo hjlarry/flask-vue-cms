@@ -3,7 +3,8 @@ import { getItem, setItem } from '@/utils/storage'
 
 export const searchStore = defineStore('search', {
   state: () => ({
-    searchHistory: getItem('searchHistories') || []
+    searchHistory: getItem('searchHistories') || [],
+    currentSearch: ''
   }),
   actions: {
     addHistory(word: string) {
@@ -21,6 +22,9 @@ export const searchStore = defineStore('search', {
     clearHistory() {
       this.searchHistory = []
       setItem('searchHistories', this.searchHistory)
+    },
+    changeCurrentSearch(word: string) {
+      this.currentSearch = word
     }
   }
 })

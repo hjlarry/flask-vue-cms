@@ -41,9 +41,9 @@
         <hintVue
           v-show="searchValue"
           :userInput="searchValue"
-          @click="onHintClickHandler"
+          @click="onSearchHandler"
         ></hintVue>
-        <historyVue v-show="!searchValue"></historyVue>
+        <historyVue v-show="!searchValue" @click="onSearchHandler"></historyVue>
         <hotVue v-show="!searchValue"></hotVue>
       </div>
     </Transition>
@@ -69,11 +69,14 @@ const containerTarget = ref(null)
 onClickOutside(containerTarget, () => {
   isFocus.value = false
 })
-const onHintClickHandler = (item: string) => {
-  searchValue.value = item
-  sStore.addHistory(item)
+const onSearchHandler = (item: any) => {
+  if (typeof item === 'string') {
+    searchValue.value = item
+  }
+  sStore.addHistory(searchValue.value)
+  sStore.changeCurrentSearch(searchValue.value)
+  isFocus.value = false
 }
-const onSearchHandler = () => {}
 </script>
 
 <style scoped>

@@ -25,16 +25,19 @@ import { ref, watch } from 'vue'
 import { getPexels } from '@/api/home'
 import { isMobileDevice } from '@/utils/flexiable'
 import { categoryStore } from '@/stores/category'
+import { searchStore } from '@/stores/search'
 import itemVue from './item.vue'
 
 const pexelsList = ref<any>([])
 const isLoading = ref(false)
 const isFinished = ref(false)
 const cStore = categoryStore()
+const sStore = searchStore()
 let query = {
   page: 0,
   pageSize: 15,
-  id: cStore.currentCategory.id
+  id: cStore.currentCategory.id,
+  searchText: ''
 }
 
 const loadMore = async () => {
@@ -60,7 +63,13 @@ watch(
   () => cStore.currentCategory,
   (val) => {
     resetQuery({ id: val.id, page: 0 })
-    loadMore()
+  }
+)
+
+watch(
+  () => sStore.currentSearch,
+  (val) => {
+    resetQuery({ searchText: val, page: 0 })
   }
 )
 </script>
