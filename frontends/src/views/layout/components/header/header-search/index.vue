@@ -36,7 +36,7 @@
     <Transition name="slide">
       <div
         v-show="isFocus"
-        class="absolute duration-200 w-[96%] z-20 left-0 top-[56px] max-h-[368px] ml-1 p-2 overflow-auto bg-white dark:bg-zinc-800 text-base border border-zinc-200 dark:border-zinc-600 rounded hover:shadow-2xl"
+        class="absolute duration-200 w-[96%] z-20 left-0 top-[56px] max-h-[368px] ml-1 p-2 overflow-auto bg-white dark:bg-zinc-800 text-base border border-zinc-200 dark:border-zinc-600 rounded hover:shadow-2xl scrollbar-thin scrollbar-thumb-rounded-md scrollbar-thumb-zinc-200 dark:scrollbar-thumb-zinc-500 scrollbar-track-transparent"
       >
         <hintVue
           v-show="searchValue"

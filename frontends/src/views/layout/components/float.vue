@@ -3,7 +3,7 @@
     <m-popover placement="left">
       <template #target>
         <div
-          class="flex items-center justify-center w-4 h-4 rounded-full cursor-pointer border border-zinc-200 dark:border-0 dark:bg-zinc-900 hover:shadow-lg"
+          class="flex items-center justify-center w-4 h-4 rounded-full cursor-pointer border bg-white border-zinc-200 dark:border-0 dark:bg-zinc-900 hover:shadow-lg"
         >
           <m-svg-icon
             name="feedback"
