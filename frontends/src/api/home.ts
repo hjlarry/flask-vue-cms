@@ -21,3 +21,10 @@ type HintResult = {
 export const getHint = (params): HintResult => {
   return request.get('/hint', { params: params })
 }
+
+type HotResult = {
+  result: Array<any>
+}
+export const getHot = (): HotResult => {
+  return request.get('/hot')
+}
