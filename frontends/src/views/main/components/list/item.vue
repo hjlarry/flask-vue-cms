@@ -7,6 +7,7 @@
       <img
         v-lazy
         class="w-full rounded bg-transparent"
+        ref="imgTarget"
         :src="data.photo"
         :style="{ height: (width / data.photoWidth) * data.photoHeight + 'px' }"
       />
@@ -35,6 +36,7 @@
           size="small"
           icon="full"
           iconClass="fill-zinc-900 dark:fill-zinc-200"
+          @click="onFullClick"
         ></m-button>
       </div>
     </div>
@@ -50,6 +52,8 @@
 
 <script setup lang="ts">
 import { saveAs } from 'file-saver'
+import { ref } from 'vue'
+import { useFullscreen } from '@vueuse/core'
 
 const props = defineProps<{
   data: any
@@ -67,6 +71,12 @@ const randomColor = () => {
 
 const onDownloadClick = () => {
   saveAs(props.data.photoDownLink, props.data.title)
+}
+
+const imgTarget = ref(null)
+const onFullClick = () => {
+  const { toggle } = useFullscreen(imgTarget)
+  toggle()
 }
 </script>
 
