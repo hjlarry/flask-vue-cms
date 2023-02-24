@@ -27,6 +27,7 @@
           size="small"
           icon="download"
           iconClass="fill-zinc-900 dark:fill-zinc-200"
+          @click="onDownloadClick"
         ></m-button>
         <m-button
           class="absolute bottom-1.5 right-1.5 bg-zinc-100/70"
@@ -48,7 +49,9 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{
+import { saveAs } from 'file-saver'
+
+const props = defineProps<{
   data: any
   width: number
 }>()
@@ -60,6 +63,10 @@ const randomColor = () => {
       .toString(16)
       .padEnd(6, '0')
   )
+}
+
+const onDownloadClick = () => {
+  saveAs(props.data.photoDownLink, props.data.title)
 }
 </script>
 
