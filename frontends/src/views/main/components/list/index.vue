@@ -12,10 +12,11 @@
         class="px-1"
       >
         <template v-slot="{ item, width }">
-          <itemVue :data="item" :width="width" />
+          <itemVue :data="item" :width="width" @click="onItemClick" />
         </template>
       </m-waterfall>
     </m-infinite-scroll-down>
+    <bigPictureVue v-if="isBigVisible" :data="currentPicData"></bigPictureVue>
   </div>
 </template>
 
@@ -27,6 +28,8 @@ import { isMobileDevice } from '@/utils/flexiable'
 import { categoryStore } from '@/stores/category'
 import { searchStore } from '@/stores/search'
 import itemVue from './item.vue'
+import bigPictureVue from '../../details/picture.vue'
+import { useEventListener } from '@vueuse/core'
 
 const pexelsList = ref<any>([])
 const isLoading = ref(false)
@@ -58,6 +61,19 @@ const resetQuery = (newQuery: any) => {
   isFinished.value = false
   pexelsList.value = []
 }
+
+const currentPicData = ref({})
+const isBigVisible = ref(false)
+const onItemClick = (item: any) => {
+  console.log(item, 121)
+  history.pushState(null, '', `/pins/${item.id}`)
+  currentPicData.value = item
+  isBigVisible.value = true
+}
+
+useEventListener('popstate', () => {
+  isBigVisible.value = false
+})
 
 watch(
   () => cStore.currentCategory,

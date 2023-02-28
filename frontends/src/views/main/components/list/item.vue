@@ -3,6 +3,7 @@
     <div
       class="relative w-full rounded cursor-zoom-in group"
       :style="{ 'background-color': randomColor() }"
+      @click="onItemClick"
     >
       <img
         v-lazy
@@ -62,6 +63,8 @@ const props = defineProps<{
   width: number
 }>()
 
+const emits = defineEmits(['click'])
+
 const randomColor = () => {
   return (
     '#' +
@@ -69,6 +72,10 @@ const randomColor = () => {
       .toString(16)
       .padEnd(6, '0')
   )
+}
+
+const onItemClick = () => {
+  emits('click', props.data)
 }
 
 const onDownloadClick = () => {
