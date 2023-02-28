@@ -55,6 +55,8 @@ import { saveAs } from 'file-saver'
 import { ref } from 'vue'
 import { useFullscreen } from '@vueuse/core'
 
+import { message } from '@/libs/message/index'
+
 const props = defineProps<{
   data: any
   width: number
@@ -70,6 +72,7 @@ const randomColor = () => {
 }
 
 const onDownloadClick = () => {
+  message('success', '下载成功')
   saveAs(props.data.photoDownLink, props.data.title)
 }
 
