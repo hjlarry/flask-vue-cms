@@ -72,8 +72,10 @@ const randomColor = () => {
 }
 
 const onDownloadClick = () => {
-  message('success', '下载成功')
-  saveAs(props.data.photoDownLink, props.data.title)
+  message('success', '图片开始下载')
+  setTimeout(() => {
+    saveAs(props.data.photoDownLink, props.data.title)
+  }, 1000)
 }
 
 const imgTarget = ref(null)
