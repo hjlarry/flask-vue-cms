@@ -22,6 +22,9 @@ module.exports = {
       colors: {
         main: '#f44c58',
         'hover-main': '#f32836'
+      },
+      backdropBlur: {
+        '4xl': '240px'
       }
     }
   },
