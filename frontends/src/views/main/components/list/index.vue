@@ -16,12 +16,21 @@
         </template>
       </m-waterfall>
     </m-infinite-scroll-down>
-    <bigPictureVue v-if="isBigVisible" :data="currentPicData"></bigPictureVue>
+    <Transition
+      :css="false"
+      @before-enter="beforeEnter"
+      @enter="enter"
+      @leave="leave"
+    >
+      <bigPictureVue v-if="isBigVisible" :data="currentPicData" />
+    </Transition>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, watch } from 'vue'
+import { useEventListener } from '@vueuse/core'
+import { gsap } from 'gsap'
 
 import { getPexels } from '@/api/home'
 import { isMobileDevice } from '@/utils/flexiable'
@@ -29,7 +38,6 @@ import { categoryStore } from '@/stores/category'
 import { searchStore } from '@/stores/search'
 import itemVue from './item.vue'
 import bigPictureVue from '../../details/picture.vue'
-import { useEventListener } from '@vueuse/core'
 
 const pexelsList = ref<any>([])
 const isLoading = ref(false)
@@ -63,17 +71,50 @@ const resetQuery = (newQuery: any) => {
 }
 
 const currentPicData = ref({})
+const currentPicPos = ref({ left: 0, top: 0 })
 const isBigVisible = ref(false)
 const onItemClick = (item: any) => {
-  console.log(item, 121)
-  history.pushState(null, '', `/pins/${item.id}`)
-  currentPicData.value = item
+  history.pushState(null, '', `/pins/${item.data.id}`)
+  currentPicData.value = item.data
+  currentPicPos.value = item.location
   isBigVisible.value = true
 }
 
 useEventListener('popstate', () => {
   isBigVisible.value = false
 })
+
+const beforeEnter = (el: HTMLElement) => {
+  gsap.set(el, {
+    translateX: currentPicPos.value.left,
+    translateY: currentPicPos.value.top,
+    scaleX: 0,
+    scaleY: 0,
+    transformOrigin: '0 0',
+    opacity: 0
+  })
+}
+const enter = (el: HTMLElement, done: any) => {
+  gsap.to(el, {
+    duration: 0.5,
+    scaleX: 1,
+    scaleY: 1,
+    opacity: 1,
+    translateX: 0,
+    translateY: 0,
+    onComplete: done
+  })
+}
+const leave = (el: HTMLElement, done: any) => {
+  gsap.to(el, {
+    duration: 0.5,
+    scaleX: 0,
+    scaleY: 0,
+    opacity: 0,
+    translateX: currentPicPos.value.left,
+    translateY: currentPicPos.value.top
+  })
+}
 
 watch(
   () => cStore.currentCategory,

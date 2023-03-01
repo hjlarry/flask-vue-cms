@@ -74,8 +74,18 @@ const randomColor = () => {
   )
 }
 
+const imgTarget = ref<HTMLElement>()
+const getImgCenterPos = () => {
+  if (!imgTarget.value) return
+  const { top, left, width, height } = imgTarget.value.getBoundingClientRect()
+  return {
+    top: top + height / 2,
+    left: left + width / 2
+  }
+}
+
 const onItemClick = () => {
-  emits('click', props.data)
+  emits('click', { data: props.data, location: getImgCenterPos() })
 }
 
 const onDownloadClick = () => {
@@ -85,7 +95,6 @@ const onDownloadClick = () => {
   }, 1000)
 }
 
-const imgTarget = ref(null)
 const onFullClick = () => {
   const { toggle } = useFullscreen(imgTarget)
   toggle()
