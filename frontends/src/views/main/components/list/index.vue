@@ -74,7 +74,7 @@ const currentPicData = ref({})
 const currentPicPos = ref({ left: 0, top: 0 })
 const isBigVisible = ref(false)
 const onItemClick = (item: any) => {
-  history.pushState(null, '', `/pins/${item.data.id}`)
+  history.pushState(null, '', `/pictures/${item.data.id}`)
   currentPicData.value = item.data
   currentPicPos.value = item.location
   isBigVisible.value = true

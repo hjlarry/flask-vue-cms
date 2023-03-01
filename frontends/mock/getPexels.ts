@@ -1,4 +1,4 @@
-import { resultPageSuccess } from './_util'
+import { resultPageSuccess, resultSuccess } from './_util'
 
 const data = [
   {
@@ -856,6 +856,13 @@ export default [
         mydata.sort(() => Math.random() - 0.5)
       }
       return resultPageSuccess(page, pageSize, mydata)
+    }
+  },
+  {
+    url: '/mock/getPexel',
+    method: 'GET',
+    response: () => {
+      return resultSuccess(data[5])
     }
   }
 ]
