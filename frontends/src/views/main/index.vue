@@ -13,3 +13,9 @@
 import navigationVue from './components/navigation/index.vue'
 import listVue from './components/list/index.vue'
 </script>
+
+<style scoped>
+.scrollbar-thin {
+  overflow: auto;
+}
+</style>

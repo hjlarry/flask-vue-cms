@@ -1,6 +1,6 @@
 <template>
   <div
-    class="fixed top-0 left-0 z-50 w-screen h-screen overflow-y-auto bg-white backdrop-blur-4xl xl:bg-transparent xl:p-2"
+    class="fixed top-0 left-0 z-50 w-screen h-screen scrollbar-thin scrollbar-thumb-rounded-md scrollbar-thumb-zinc-200 dark:scrollbar-thumb-zinc-500 scrollbar-track-transparent bg-white backdrop-blur-4xl xl:bg-transparent xl:p-2"
   >
     <m-navbar v-if="isMobileDevice" sticky
       >{{ data.title }}
