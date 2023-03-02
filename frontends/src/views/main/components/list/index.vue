@@ -37,7 +37,7 @@ import { isMobileDevice } from '@/utils/flexiable'
 import { categoryStore } from '@/stores/category'
 import { searchStore } from '@/stores/search'
 import itemVue from './item.vue'
-import bigPictureVue from '../../details/picture.vue'
+import bigPictureVue from '../../../details/picture.vue'
 
 const pexelsList = ref<any>([])
 const isLoading = ref(false)

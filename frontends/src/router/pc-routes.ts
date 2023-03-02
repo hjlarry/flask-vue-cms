@@ -2,7 +2,7 @@ export default [
   {
     path: '/',
     name: 'main',
-    component: () => import('@/views/layout/index.vue'),
+    component: () => import('@/views/pc-layout/index.vue'),
     children: [
       {
         path: '',
@@ -12,7 +12,7 @@ export default [
       {
         path: '/pictures/:id',
         name: 'picture',
-        component: () => import('@/views/main/details/index.vue')
+        component: () => import('@/views/details/index.vue')
       }
     ]
   }

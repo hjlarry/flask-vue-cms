@@ -40,7 +40,8 @@
 <script setup lang="ts">
 import { useScroll } from '@vueuse/core'
 import { ref, watch } from 'vue'
-import popMenus from '@/views/main/components/menu/index.vue'
+
+import popMenus from './popMenu.vue'
 import { categoryStore } from '@/stores/category'
 
 const cStore = categoryStore()

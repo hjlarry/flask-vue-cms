@@ -7,6 +7,6 @@ export default [
   {
     path: '/pictures/:id',
     name: 'picture',
-    component: () => import('@/views/main/details/index.vue')
+    component: () => import('@/views/details/index.vue')
   }
 ]
