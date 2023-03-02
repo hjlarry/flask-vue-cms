@@ -8,5 +8,10 @@ export default [
     path: '/pictures/:id',
     name: 'picture',
     component: () => import('@/views/details/index.vue')
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('@/views/login/login.vue')
   }
 ]
