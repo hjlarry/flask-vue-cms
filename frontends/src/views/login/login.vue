@@ -64,10 +64,10 @@
 <script setup lang="ts">
 import { Form as VeeForm, Field as VeeField, ErrorMessage } from 'vee-validate'
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 import './rules'
-import { login } from '@/api/login'
-import { useRouter } from 'vue-router'
+import { userStore } from '@/stores/user'
 
 const loginForm = ref({
   username: 'admin',
@@ -75,9 +75,11 @@ const loginForm = ref({
 })
 
 const router = useRouter()
+const uStore = userStore()
 const onLoginHandler = () => {
-  login(loginForm.value)
-  router.push('/')
+  uStore.login(loginForm.value).then(() => {
+    router.push('/')
+  })
 }
 </script>
 

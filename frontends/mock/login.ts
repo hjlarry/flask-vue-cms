@@ -6,7 +6,7 @@ export default [
     method: 'POST',
     response: ({ body }) => {
       if (body.data.username === 'admin' && body.data.password === 'admin') {
-        return resultSuccess()
+        return resultSuccess({ token: 'randomgentoken' })
       }
       return resultError('password missmatch', { code: 5001 })
     }

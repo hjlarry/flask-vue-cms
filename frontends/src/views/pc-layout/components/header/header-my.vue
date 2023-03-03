@@ -2,6 +2,7 @@
   <m-popover>
     <template #target>
       <div
+        v-if="uStore.token"
         class="flex items-center relative p-0.5 cursor-pointer rounded-sm hover:bg-zinc-100 dark:hover:bg-zinc-400"
       >
         <img
@@ -18,8 +19,15 @@
           class="absolute bottom-[2px] right-[16px] w-1 h-1"
         />
       </div>
+      <div v-else>
+        <m-button
+          icon="profile"
+          iconColor="#fff"
+          @click="router.push('/login')"
+        ></m-button>
+      </div>
     </template>
-    <template #dropdown>
+    <template #dropdown v-if="uStore.token">
       <div class="flex flex-col w-[140px]">
         <div
           class="flex items-center space-x-1 p-1 rounded-sm cursor-pointer hover:bg-zinc-100/60 dark:hover:bg-zinc-700"
@@ -41,6 +49,9 @@
 </template>
 
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
+import { userStore } from '@/stores/user'
+
 const dropdownMenu = [
   {
     id: 0,
@@ -61,6 +72,9 @@ const dropdownMenu = [
     path: ''
   }
 ]
+
+const uStore = userStore()
+const router = useRouter()
 </script>
 
 <style scoped></style>

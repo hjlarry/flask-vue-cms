@@ -1,6 +1,8 @@
 import axios from 'axios'
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 
+import { message as msg } from '@/libs/message'
+
 type Result<T> = {
   code: number
   message: string
@@ -29,12 +31,12 @@ export class Request {
         if (code === 0) {
           return data
         } else {
-          console.log('err:' + message)
+          msg('error', message)
           return Promise.reject(new Error(message || 'Error'))
         }
       },
       (error: any) => {
-        console.log('err' + error)
+        msg('error', error.response)
         return Promise.reject(error.response)
       }
     )
