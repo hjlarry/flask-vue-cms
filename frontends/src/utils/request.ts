@@ -2,6 +2,7 @@ import axios from 'axios'
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 
 import { message as msg } from '@/libs/message'
+import { userStore } from '@/stores/user'
 
 type Result<T> = {
   code: number
@@ -19,6 +20,10 @@ export class Request {
     this.instance = axios.create(Object.assign(this.baseConfig, config))
     this.instance.interceptors.request.use(
       (config: AxiosRequestConfig) => {
+        const uStore = userStore()
+        if (uStore.token) {
+          config.headers.Authorization = `Bearer ${uStore.token}`
+        }
         return config
       },
       (error: any) => {
