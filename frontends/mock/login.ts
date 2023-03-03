@@ -25,13 +25,23 @@ export default [
     }
   },
   {
+    url: '/mock/register',
+    method: 'POST',
+    response: ({ body }) => {
+      if (body.data.username === 'admin') {
+        return resultSuccess()
+      }
+      return resultError('reg error', { code: 5002 })
+    }
+  },
+  {
     url: '/mock/info',
     method: 'get',
     response: ({ headers }) => {
       if (headers.authorization === 'Bearer randomgentoken') {
         return resultSuccess(profileData)
       }
-      return resultError('token incorrect', { code: 5002 })
+      return resultError('token incorrect', { code: 5003 })
     }
   }
 ]

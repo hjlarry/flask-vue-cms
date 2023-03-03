@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { getItem, setItem } from '@/utils/storage'
-import { toLogin, getInfo } from '@/api/login'
+import { toLogin, toReg, getInfo } from '@/api/login'
 import { message } from '@/libs/message'
 
 export const userStore = defineStore('user', {
@@ -21,6 +21,10 @@ export const userStore = defineStore('user', {
       const res = await toLogin(data)
       this.setToken(res.token)
       this.getInfo()
+    },
+    async reg(data) {
+      const res = await toReg(data)
+      this.login(data)
     },
     async getInfo() {
       const res = await getInfo()
