@@ -15,7 +15,7 @@
         账户登录
       </h3>
 
-      <VeeForm>
+      <VeeForm @submit="onLoginHandler">
         <VeeField
           class="w-full text-base outline-0 border-b border-b-zinc-400 pb-1 px-1 focus:border-b-main dark:bg-zinc-800 dark:text-zinc-400 dark:focus:border-b-zinc-200 xl:dark:bg-zinc-900"
           placeholder="用户名"
@@ -23,6 +23,7 @@
           name="username"
           autocomplete="on"
           rules="required|minLength:3|maxLength:8"
+          v-model="loginForm.username"
         />
         <ErrorMessage
           name="username"
@@ -36,6 +37,7 @@
           name="password"
           autocomplete="on"
           rules="required|minLength:3|maxLength:8"
+          v-model="loginForm.password"
         />
         <ErrorMessage
           name="password"
@@ -61,7 +63,22 @@
 
 <script setup lang="ts">
 import { Form as VeeForm, Field as VeeField, ErrorMessage } from 'vee-validate'
+import { ref } from 'vue'
+
 import './rules'
+import { login } from '@/api/login'
+import { useRouter } from 'vue-router'
+
+const loginForm = ref({
+  username: 'admin',
+  password: 'admin'
+})
+
+const router = useRouter()
+const onLoginHandler = () => {
+  login(loginForm.value)
+  router.push('/')
+}
 </script>
 
 <style scoped></style>
