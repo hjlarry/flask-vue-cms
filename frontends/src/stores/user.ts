@@ -9,16 +9,22 @@ export const userStore = defineStore('user', {
     userInfo: getItem('userInfo') || {}
   }),
   actions: {
+    setToken(token) {
+      this.token = token
+      setItem('token', token)
+    },
+    setUserInfo(info) {
+      this.userInfo = info
+      setItem('userInfo', info)
+    },
     async login(data) {
       const res = await toLogin(data)
-      this.token = res.token
-      setItem('token', this.token)
+      this.setToken(res.token)
       this.getInfo()
     },
     async getInfo() {
       const res = await getInfo()
-      this.userInfo = res
-      setItem('userInfo', this.userInfo)
+      this.setUserInfo(res)
       message(
         'success',
         `欢迎您 ${
@@ -28,6 +34,10 @@ export const userStore = defineStore('user', {
         } `,
         3000
       )
+    },
+    logOut() {
+      this.setToken('')
+      this.setUserInfo({})
     }
   }
 })

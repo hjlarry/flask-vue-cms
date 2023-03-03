@@ -31,6 +31,7 @@
           class="flex items-center space-x-1 p-1 rounded-sm cursor-pointer hover:bg-zinc-100/60 dark:hover:bg-zinc-700"
           v-for="item in dropdownMenu"
           :key="item.id"
+          @click="onItemClick(item)"
         >
           <m-svg-icon
             :name="item.icon"
@@ -49,6 +50,8 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 import { userStore } from '@/stores/user'
+
+import { confirm } from '@/libs/confirm'
 
 const dropdownMenu = [
   {
@@ -73,6 +76,14 @@ const dropdownMenu = [
 
 const uStore = userStore()
 const router = useRouter()
+
+const onItemClick = (item: any) => {
+  if (item.id === 2) {
+    confirm('确定退出登录吗？').then(() => {
+      uStore.logOut()
+    })
+  }
+}
 </script>
 
 <style scoped></style>

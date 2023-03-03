@@ -4,12 +4,13 @@
     <div ref="targetRef">
       <slot name="target"></slot>
     </div>
-    <!-- 浮层 -->
+    <!-- 浮层, 判断dropdown插槽中有内容再展示该div, 否则会有一个显示bug -->
     <Transition name="slide">
       <div
         class="absolute z-20 p-1 rounded border text-base bg-white dark:bg-zinc-900 dark:border-zinc-700"
         :style="positionStyle"
         v-show="isOpen"
+        v-if="$slots.dropdown"
         ref="dropdownRef"
       >
         <slot name="dropdown"></slot>
