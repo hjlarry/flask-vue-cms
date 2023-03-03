@@ -17,6 +17,7 @@
     "gsap": "^3.11.4",
     "mockjs": "^1.1.0",
     "pinia": "^2.0.28",
+    "vee-validate": "^4.7.4",
     "vite-plugin-svg-icons": "^2.0.1",
     "vue": "^3.2.45",
     "vue-router": "^4.1.6"

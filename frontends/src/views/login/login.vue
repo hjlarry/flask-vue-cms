@@ -15,22 +15,32 @@
         账户登录
       </h3>
 
-      <form>
-        <input
+      <VeeForm>
+        <VeeField
           class="w-full text-base outline-0 border-b border-b-zinc-400 pb-1 px-1 focus:border-b-main dark:bg-zinc-800 dark:text-zinc-400 dark:focus:border-b-zinc-200 xl:dark:bg-zinc-900"
           placeholder="用户名"
           type="text"
           name="username"
           autocomplete="on"
+          rules="required|minLength:3|maxLength:8"
         />
+        <ErrorMessage
+          name="username"
+          class="text-sm text-red-600 block mt-0.5 text-left"
+        ></ErrorMessage>
 
-        <input
+        <VeeField
           class="w-full text-base outline-0 border-b border-b-zinc-400 pb-1 px-1 focus:border-b-main dark:bg-zinc-800 dark:text-zinc-400 dark:focus:border-b-zinc-200 xl:dark:bg-zinc-900"
           placeholder="密码"
           type="password"
           name="password"
           autocomplete="on"
+          rules="required|minLength:3|maxLength:8"
         />
+        <ErrorMessage
+          name="password"
+          class="text-sm text-red-600 block mt-0.5 text-left"
+        ></ErrorMessage>
 
         <div class="pt-1 pb-3 text-right leading-[1px]">
           <a
@@ -44,11 +54,14 @@
           :isActiveAnim="false"
           >登录</m-button
         >
-      </form>
+      </VeeForm>
     </div>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { Form as VeeForm, Field as VeeField, ErrorMessage } from 'vee-validate'
+import './rules'
+</script>
 
 <style scoped></style>
