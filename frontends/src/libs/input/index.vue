@@ -4,7 +4,7 @@
       v-if="type === 'text'"
       v-model="inputValue"
       :maxlength="maxlength"
-      class="border-gray-200 border-[1px] text-sm rounded-sm w-full p-1 outline-none focus:border-blue-400"
+      class="border-gray-200 border-[1px] text-sm rounded-sm w-full px-1 py-0.5 outline-none focus:border-blue-400"
       type="text"
     />
 
@@ -19,7 +19,7 @@
 
     <span
       v-if="maxlength"
-      class="absolute text-xs right-1 bottom-1 text-zinc-400"
+      class="absolute text-xs right-1 bottom-0.5 text-zinc-400"
       :class="currentLength === maxlength ? 'text-red-400' : ''"
       >{{ currentLength }} / {{ maxlength }}</span
     >

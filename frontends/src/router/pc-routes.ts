@@ -13,6 +13,11 @@ export default [
         path: '/pictures/:id',
         name: 'picture',
         component: () => import('@/views/details/index.vue')
+      },
+      {
+        path: '/profile',
+        name: 'profile',
+        component: () => import('@/views/profile/index.vue')
       }
     ]
   },

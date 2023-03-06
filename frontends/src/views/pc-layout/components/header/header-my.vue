@@ -82,6 +82,8 @@ const onItemClick = (item: any) => {
     confirm('确定退出登录吗？').then(() => {
       uStore.logOut()
     })
+  } else {
+    router.push(item.path)
   }
 }
 </script>
