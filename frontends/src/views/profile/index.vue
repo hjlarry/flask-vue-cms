@@ -1,7 +1,7 @@
 <template>
   <div class="bg-zinc-200 h-full xl:py-2">
     <m-navbar :sticky="true" v-if="isMobileDevice">个人资料</m-navbar>
-    <form class="max-w-sm bg-white h-full mx-auto text-sm p-1 xl:rounded-sm">
+    <div class="max-w-sm bg-white h-full mx-auto text-sm p-1 xl:rounded-sm">
       <h1 v-if="!isMobileDevice" class="text-center text-lg font-bold">
         个人资料
       </h1>
@@ -50,14 +50,16 @@
             ></m-input>
           </div>
           <div class="mt-4">
-            <m-button class="w-full xl:w-1/3 mx-auto">保存修改</m-button>
+            <m-button class="w-full xl:w-1/3 mx-auto" @click="onSubmitClick"
+              >保存修改</m-button
+            >
           </div>
           <div class="my-2" v-if="isMobileDevice">
             <m-button class="w-full" type="info">退出登录</m-button>
           </div>
         </div>
       </div>
-    </form>
+    </div>
   </div>
 </template>
 
@@ -66,9 +68,17 @@ import { ref } from 'vue'
 
 import { isMobileDevice } from '@/utils/flexiable'
 import { userStore } from '@/stores/user'
+import { setInfo } from '@/api/login'
+import { message } from '@/libs/message/index'
 
 const uStore = userStore()
 const userInfo = ref({ ...uStore.userInfo })
+const onSubmitClick = () => {
+  setInfo(userInfo.value).then(() => {
+    message('success', '用户信息修改成功')
+    uStore.setUserInfo(userInfo.value)
+  })
+}
 </script>
 
 <style scoped></style>

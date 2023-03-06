@@ -11,3 +11,7 @@ export const toReg = (data) => {
 export const getInfo = () => {
   return request.get('/info')
 }
+
+export const setInfo = (data) => {
+  return request.post('/info', { data: data })
+}

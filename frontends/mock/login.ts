@@ -2,7 +2,6 @@ import { resultSuccess, resultError } from './_util'
 
 const profileData = {
   nickname: '非法操作',
-  title: '',
   company: '',
   homePage: '',
   introduction: '',
@@ -36,12 +35,19 @@ export default [
   },
   {
     url: '/mock/info',
-    method: 'get',
+    method: 'GET',
     response: ({ headers }) => {
       if (headers.authorization === 'Bearer randomgentoken') {
         return resultSuccess(profileData)
       }
       return resultError('token incorrect', { code: 5003 })
+    }
+  },
+  {
+    url: '/mock/info',
+    method: 'POST',
+    response: () => {
+      return resultSuccess()
     }
   }
 ]
