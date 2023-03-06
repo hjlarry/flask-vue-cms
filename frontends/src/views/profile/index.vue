@@ -11,10 +11,18 @@
             <img
               class="w-10 h-10 bg-gray-200 rounded-full"
               :src="userInfo.avatar"
+              @click="onAvatarClick"
             />
             <span class="text-xs text-zinc-400 mt-0.5 w-[80%] text-center"
               >支持 jpg、png、gif 格式大小 5M 以内的图片</span
             >
+            <input
+              type="file"
+              ref="fileInput"
+              class="hidden"
+              accept=".png,.jpeg"
+              @change="onSelectImgHandler"
+            />
           </div>
         </div>
         <div id="pc-left" class="flex-1">
@@ -59,17 +67,25 @@
           </div>
         </div>
       </div>
+
+      <m-popup v-model="isVisiable">
+        <changeAvatar
+          :blob="currentBlob"
+          @close="isVisiable = false"
+        ></changeAvatar>
+      </m-popup>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
 import { isMobileDevice } from '@/utils/flexiable'
 import { userStore } from '@/stores/user'
 import { setInfo } from '@/api/login'
 import { message } from '@/libs/message/index'
+import changeAvatar from './change-avatar.vue'
 
 const uStore = userStore()
 const userInfo = ref({ ...uStore.userInfo })
@@ -79,6 +95,23 @@ const onSubmitClick = () => {
     uStore.setUserInfo(userInfo.value)
   })
 }
+
+const fileInput = ref<HTMLInputElement>()
+const isVisiable = ref(false)
+const currentBlob = ref()
+const onAvatarClick = () => {
+  fileInput.value?.click()
+}
+const onSelectImgHandler = () => {
+  const file = fileInput.value?.files?.[0]
+  currentBlob.value = URL.createObjectURL(file as File)
+  isVisiable.value = true
+}
+watch(isVisiable, (val) => {
+  if (!val) {
+    ;(fileInput.value as HTMLInputElement).value = ''
+  }
+})
 </script>
 
 <style scoped></style>
