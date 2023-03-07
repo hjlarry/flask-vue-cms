@@ -1,6 +1,7 @@
 <template>
   <div class="flex flex-col items-center">
     <m-svg-icon
+      v-if="isMobileDevice"
       name="close"
       class="w-3 h-3 ml-auto p-0.5 m-1"
       @click="onCloseClick"
@@ -17,23 +18,9 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { userStore } from '@/stores/user'
-import Cropper from 'cropperjs'
-import { ref, onMounted } from 'vue'
-
-defineProps<{
-  blob: string
-}>()
-const emits = defineEmits(['close'])
-
-const onCloseClick = () => {
-  emits('close')
-}
-const imgTarget = ref<HTMLImageElement | null>(null)
-
+<script lang="ts">
 const pc_template = `
-<cropper-canvas background style="min-height:300px;min-width:300px">
+<cropper-canvas background style="min-height:500px;min-width:500px">
   <cropper-image></cropper-image>
   <cropper-shade hidden></cropper-shade>
   <cropper-handle action="select" plain></cropper-handle>
@@ -53,7 +40,7 @@ const pc_template = `
 </cropper-canvas>
 `
 const mobile_template = `
-<cropper-canvas background style="min-height:300px;min-width:300px">
+<cropper-canvas background style="min-height:60vh;min-width:60vh">
   <cropper-image></cropper-image>
   <cropper-shade hidden></cropper-shade>
   <cropper-handle action="select" plain></cropper-handle>
@@ -62,13 +49,30 @@ const mobile_template = `
   </cropper-selection>
 </cropper-canvas>
 `
+</script>
+
+<script setup lang="ts">
+import { userStore } from '@/stores/user'
+import { isMobileDevice } from '@/utils/flexiable'
+import Cropper from 'cropperjs'
+import { ref, onMounted } from 'vue'
+
+defineProps<{
+  blob: string
+}>()
+const emits = defineEmits(['close'])
+
+const onCloseClick = () => {
+  emits('close')
+}
+const imgTarget = ref<HTMLImageElement | null>(null)
 
 const uStore = userStore()
 
 let cropper: Cropper
 onMounted(() => {
   cropper = new Cropper(imgTarget.value!, {
-    template: mobile_template
+    template: isMobileDevice.value ? mobile_template : pc_template
   })
 })
 

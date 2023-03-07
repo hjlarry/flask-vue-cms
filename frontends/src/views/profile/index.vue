@@ -68,12 +68,18 @@
         </div>
       </div>
 
-      <m-popup v-model="isVisiable">
+      <m-popup v-model="isVisiable" v-if="isMobileDevice">
         <changeAvatar
           :blob="currentBlob"
           @close="isVisiable = false"
         ></changeAvatar>
       </m-popup>
+      <m-dialog v-model="isVisiable" v-else>
+        <changeAvatar
+          :blob="currentBlob"
+          @close="isVisiable = false"
+        ></changeAvatar>
+      </m-dialog>
     </div>
   </div>
 </template>
