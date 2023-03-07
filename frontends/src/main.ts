@@ -8,7 +8,7 @@ import mLibs from './libs'
 import mDirectives from './directives'
 import { useREM } from './utils/flexiable'
 import { useTheme } from './utils/theme'
-
+import './permission'
 import './assets/main.css'
 
 const app = createApp(App)
