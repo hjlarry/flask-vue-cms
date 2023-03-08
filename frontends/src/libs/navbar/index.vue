@@ -23,11 +23,14 @@
 </template>
 
 <script setup lang="ts">
+import { appStore } from '@/stores/app'
 import { useRouter } from 'vue-router'
 
 const props = defineProps<{ sticky?: boolean; clickRight?: Function }>()
 const router = useRouter()
+const aStore = appStore()
 const onBackClick = () => {
+  aStore.changeRouterType('back')
   router.back()
 }
 const onRightClick = () => {
