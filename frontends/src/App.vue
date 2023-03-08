@@ -1,6 +1,9 @@
 <template>
   <!-- 一级路由出口 -->
-  <m-transition-router-view :routerType="aStore.routerType" />
+  <m-transition-router-view
+    :routerType="aStore.routerType"
+    mainRouterName="home"
+  />
 </template>
 
 <script setup lang="ts">

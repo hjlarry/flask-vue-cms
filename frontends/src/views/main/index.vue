@@ -1,6 +1,7 @@
 <template>
   <div
     class="h-full dark:bg-zinc-800 overflow-auto top-0 left-0 w-screen fixed md:static scrollbar-thin scrollbar-thumb-rounded-md scrollbar-thumb-zinc-200 dark:scrollbar-thumb-zinc-500 scrollbar-track-transparent"
+    ref="containerTarget"
   >
     <navigationVue />
     <div class="max-w-screen-xl mx-auto relative bg-white m-1 xl:mt-4">
@@ -26,8 +27,16 @@
   </div>
 </template>
 
+<script lang="ts">
+export default {
+  name: 'home'
+}
+</script>
+
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
+import { ref, onActivated } from 'vue'
+import { useScroll } from '@vueuse/core'
 
 import { isMobileDevice } from '@/utils/flexiable'
 import { userStore } from '@/stores/user'
@@ -46,6 +55,13 @@ const onMyClick = () => {
     router.push('/login')
   }
 }
+
+const containerTarget = ref()
+const { y: containerScrollTop } = useScroll(containerTarget)
+onActivated(() => {
+  if (!containerScrollTop.value) return
+  containerTarget.value.scrollTop = containerScrollTop.value
+})
 </script>
 
 <style scoped>

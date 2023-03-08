@@ -1,7 +1,9 @@
 <template>
   <RouterView v-slot="{ Component }">
     <Transition :name="transitionName">
-      <component :is="Component" />
+      <KeepAlive :include="virtualRouterStack">
+        <component :is="Component"
+      /></KeepAlive>
     </Transition>
   </RouterView>
 </template>
@@ -12,12 +14,28 @@ import { useRouter } from 'vue-router'
 
 const props = defineProps<{
   routerType: 'push' | 'back' | 'none'
+  mainRouterName: string
 }>()
 
 const transitionName = ref('')
+const virtualRouterStack = ref<string[]>([props.mainRouterName])
+
 const router = useRouter()
 router.beforeEach((to, form) => {
   transitionName.value = props.routerType
+  if (props.routerType === 'push') {
+    virtualRouterStack.value.push(to.name as string)
+  } else if (props.routerType === 'back') {
+    virtualRouterStack.value.pop()
+  }
+
+  // 进入首页时清空栈
+  if (to.name === props.mainRouterName) {
+    virtualRouterStack.value = [props.mainRouterName]
+  }
+
+  console.log(virtualRouterStack.value, 12321)
+  console.log(virtualRouterStack.value, 12321)
 })
 </script>
 
