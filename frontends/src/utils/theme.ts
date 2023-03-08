@@ -1,6 +1,6 @@
 import { watch } from 'vue'
 
-import { themeStore } from '@/stores/theme'
+import { appStore } from '@/stores/app'
 import { THEME_LIGHT, THEME_DARK, THEME_SYSTEM } from '@/constants'
 
 const changeTheme = (theme: string) => {
@@ -32,6 +32,6 @@ const watchSystemThemeChange = () => {
 }
 
 export function useTheme() {
-  const tStore = themeStore()
-  watch(() => tStore.theme, changeTheme, { immediate: true })
+  const aStore = appStore()
+  watch(() => aStore.theme, changeTheme, { immediate: true })
 }

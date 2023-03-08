@@ -32,7 +32,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import { themeStore } from '@/stores/theme'
+import { appStore } from '@/stores/app'
 import { THEME_LIGHT, THEME_DARK, THEME_SYSTEM } from '@/constants'
 
 const dropdownMenu = [
@@ -56,12 +56,12 @@ const dropdownMenu = [
   }
 ]
 
-const tStore = themeStore()
+const aStore = appStore()
 const itemClick = (item: any) => {
-  tStore.setTheme(item.type)
+  aStore.setTheme(item.type)
 }
 const currentThemeIcon = computed(() => {
-  return dropdownMenu.find((item) => item.type === tStore.theme)?.icon
+  return dropdownMenu.find((item) => item.type === aStore.theme)?.icon
 })
 </script>
 
