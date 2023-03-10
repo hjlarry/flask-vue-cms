@@ -64,7 +64,7 @@ const dropdownMenu = [
     id: 1,
     title: '升级 VIP',
     icon: 'vip-profile',
-    path: '/member'
+    path: '/vip'
   },
   {
     id: 2,

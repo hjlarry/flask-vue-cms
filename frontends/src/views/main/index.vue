@@ -15,7 +15,11 @@
         <m-svg-icon name="home" class="w-2 h-2" fillClass="fill-zinc-900" />
         <span class="text-sm mt-0.5">首页</span>
       </div>
-      <div class="flex flex-col items-center w-5" v-if="uStore.token">
+      <div
+        class="flex flex-col items-center w-5"
+        v-if="uStore.token"
+        @click="onVipClick"
+      >
         <m-svg-icon name="vip" class="w-2 h-2" fillClass="fill-zinc-400" />
         <span class="text-sm mt-0.5">VIP</span>
       </div>
@@ -54,6 +58,11 @@ const onMyClick = () => {
   } else {
     router.push('/login')
   }
+}
+
+const onVipClick = () => {
+  aStore.changeRouterType('push')
+  router.push('/vip')
 }
 
 const containerTarget = ref()

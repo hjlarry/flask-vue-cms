@@ -26,5 +26,13 @@ export default [
     meta: {
       needLogin: true
     }
+  },
+  {
+    path: '/vip',
+    name: 'vip',
+    component: () => import('@/views/vip/index.vue'),
+    meta: {
+      needLogin: true
+    }
   }
 ]
