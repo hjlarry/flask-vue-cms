@@ -2,13 +2,13 @@
   <div class="bg-zinc-200 fixed h-screen w-screen">
     <m-navbar :sticky="true" v-if="isMobileDevice">精选会员</m-navbar>
 
-    <div class="bg-white px-1">
+    <div class="bg-white px-1 mx-auto xl:w-5/6">
       <h1 class="text-center text-yellow-500 font-bold pt-2">精选VIP</h1>
       <h4 class="text-center text-lg text-yellow-400 mt-0.5">
         升级精选VIP，畅想所有内容
       </h4>
       <div
-        class="flex overflow-x-auto mt-5 space-x-2 py-2 scrollbar-thin scrollbar-thumb-rounded-md scrollbar-thumb-zinc-200 scrollbar-track-transparent"
+        class="flex overflow-x-auto mt-5 space-x-2 py-2 xl:space-x-8 scrollbar-thin scrollbar-thumb-rounded-md scrollbar-thumb-zinc-200 scrollbar-track-transparent"
       >
         <div
           class="flex-none relative flex flex-col items-center cursor-pointer border rounded-md w-[100px] py-3 bg-orange-50 border-orange-300"
@@ -22,7 +22,7 @@
         </div>
 
         <div
-          class="flex-none relative flex flex-col items-center cursor-pointer border rounded-md w-[100px] py-3"
+          class="flex-none relative flex flex-col items-center cursor-pointer border rounded-md w-[100px] py-3 hover:bg-orange-50"
         >
           <span class="text-base text-yellow-800">连续包月</span>
           <span
@@ -57,9 +57,34 @@
       <div class="text-sm text-zinc-400 mt-1 pb-5">
         次月￥19续费，可随时取消
       </div>
+
+      <div v-if="!isMobileDevice" class="py-1">
+        <div
+          class="bg-orange-100 text-red-500 font-bold text-xs text-center py-0.5 flex items-center justify-center border-t border-orange-600"
+        >
+          <m-svg-icon
+            name="countdown"
+            class="w-1.5 h-1.5 mr-1"
+            fillClass="fill-red-600"
+          ></m-svg-icon>
+          <span>限时特惠 | 距离优惠结束仅剩 00:40:31</span>
+        </div>
+
+        <div class="mt-1 rounded-md border text-center py-3">
+          <p class="text-base">
+            支付金额: <span class="text-xl text-red-500">￥19</span>
+          </p>
+          <div
+            class="w-20 border rounded-sm px-2 py-1 flex items-center mx-auto mt-2 cursor-pointer hover:bg-zinc-100"
+          >
+            <img src="@/assets/images/alipay.png" class="w-4 h-4" />
+            <span class="text-xl ml-2">支付宝</span>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="fixed bottom-0 w-full">
+    <div class="fixed bottom-0 w-full" v-if="isMobileDevice">
       <div
         class="bg-orange-100 text-red-500 font-bold text-xs text-center py-0.5 flex items-center justify-center"
       >
