@@ -42,17 +42,7 @@
       </div>
 
       <div v-if="!isMobileDevice" class="py-1">
-        <div
-          class="bg-orange-100 text-red-500 font-bold text-xs text-center py-0.5 flex items-center justify-center border-t border-orange-600"
-        >
-          <m-svg-icon
-            name="countdown"
-            class="w-1.5 h-1.5 mr-1"
-            fillClass="fill-red-600"
-          ></m-svg-icon>
-          <span>限时特惠 | 距离优惠结束仅剩 00:40:31</span>
-        </div>
-
+        <Discount />
         <div class="mt-1 rounded-md border text-center py-3">
           <p class="text-base">
             支付金额:
@@ -71,16 +61,7 @@
     </div>
 
     <div class="fixed bottom-0 w-full" v-if="isMobileDevice">
-      <div
-        class="bg-orange-100 text-red-500 font-bold text-xs text-center py-0.5 flex items-center justify-center"
-      >
-        <m-svg-icon
-          name="countdown"
-          class="w-1.5 h-1.5 mr-1"
-          fillClass="fill-red-600"
-        ></m-svg-icon>
-        <span>限时特惠 | 距离优惠结束仅剩 00:40:31</span>
-      </div>
+      <Discount />
       <div class="flex items-center justify-between bg-white p-1">
         <div class="text-sm flex flex-col">
           <span>卷后合计: <span class="text-lg text-red-500">￥9</span></span>
@@ -97,6 +78,7 @@ import { ref } from 'vue'
 
 import { isMobileDevice } from '@/utils/flexiable'
 import { getVipPayList } from '@/api/home'
+import Discount from './discount.vue'
 
 const vipPayListData = ref<any>([])
 const currentPayItem = ref<any>({})
