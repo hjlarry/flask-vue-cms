@@ -42,5 +42,15 @@ export default [
     meta: {
       needLogin: true
     }
+  },
+  {
+    path: '/404',
+    name: '404',
+    component: () => import('@/views/errors/404.vue')
+  },
+  {
+    path: '/:catchAll(.*)',
+    name: 'error',
+    redirect: '/404'
   }
 ]
