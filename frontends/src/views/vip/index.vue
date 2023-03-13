@@ -52,6 +52,7 @@
           </p>
           <div
             class="w-20 border rounded-sm px-2 py-1 flex items-center mx-auto mt-2 cursor-pointer hover:bg-zinc-100"
+            @click="toPay"
           >
             <img src="@/assets/images/alipay.png" class="w-4 h-4" />
             <span class="text-xl ml-2">支付宝</span>
@@ -67,17 +68,25 @@
           <span>卷后合计: <span class="text-lg text-red-500">￥9</span></span>
           <span class="text-red-500">优惠券: 限时立减￥10</span>
         </div>
-        <m-button class="w-1/3" type="main">立即开通</m-button>
+        <m-button class="w-1/3" type="main" @click="toPay">立即开通</m-button>
       </div>
     </div>
   </div>
 </template>
 
+<script lang="ts">
+export default {
+  name: 'vip'
+}
+</script>
+
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 import { isMobileDevice } from '@/utils/flexiable'
 import { getVipPayList } from '@/api/home'
+import { appStore } from '@/stores/app'
 import Discount from './discount.vue'
 
 const vipPayListData = ref<any>([])
@@ -91,6 +100,13 @@ getVipPayListData()
 
 const selectPayItem = (index: number) => {
   currentPayItem.value = vipPayListData.value[index]
+}
+
+const router = useRouter()
+const aStore = appStore()
+const toPay = () => {
+  aStore.changeRouterType('push')
+  router.push('/pay/result')
 }
 </script>
 

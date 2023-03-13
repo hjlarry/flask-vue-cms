@@ -34,5 +34,13 @@ export default [
     meta: {
       needLogin: true
     }
+  },
+  {
+    path: '/pay/result',
+    name: 'payResult',
+    component: () => import('@/views/vip/result.vue'),
+    meta: {
+      needLogin: true
+    }
   }
 ]

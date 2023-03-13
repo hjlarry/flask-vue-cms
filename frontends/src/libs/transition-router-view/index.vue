@@ -33,9 +33,6 @@ router.beforeEach((to, form) => {
   if (to.name === props.mainRouterName) {
     virtualRouterStack.value = [props.mainRouterName]
   }
-
-  console.log(virtualRouterStack.value, 12321)
-  console.log(virtualRouterStack.value, 12321)
 })
 </script>
 
