@@ -18,16 +18,17 @@ export const getPexel = (params) => {
   return request.get('/getPexel', { params: params })
 }
 
-type HintResult = {
+type CommonResult = {
   result: Array<any>
 }
-export const getHint = (params): HintResult => {
+export const getHint = (params): CommonResult => {
   return request.get('/hint', { params: params })
 }
 
-type HotResult = {
-  result: Array<any>
-}
-export const getHot = (): HotResult => {
+export const getHot = (): CommonResult => {
   return request.get('/hot')
+}
+
+export const getVipPayList = (): CommonResult => {
+  return request.get('/getVipPayList')
 }
